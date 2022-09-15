@@ -14,3 +14,6 @@ source $cur_path/aliases/git
 
 # terraform
 source $cur_path/aliases/tform
+
+# openshift
+source $cur_path/aliases/openshift

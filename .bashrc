@@ -12,3 +12,5 @@ source $cur_path/aliases/general
 # git
 source $cur_path/aliases/git
 
+# terraform
+source $cur_path/aliases/tform

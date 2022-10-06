@@ -1,22 +1,38 @@
 cur_path="$(cd "$(dirname "$0")" && pwd)"
 
-# Docker
-source $cur_path/aliases/docker.sh
-
-# K8s
-source $cur_path/aliases/k8s.sh
-
 # General
 source $cur_path/aliases/general.sh
 
+# Docker
+if ! [[ -x $(docker --version) ]]; then
+    source $cur_path/aliases/docker.sh
+fi
+
+# K8s
+if ! [[ -x $(kubectl version) ]]; then
+    source $cur_path/aliases/k8s.sh
+fi
+
 # git
-source $cur_path/aliases/git.sh
+if ! [[ -x $(git --version) ]]; then
+    source $cur_path/aliases/git.sh
+fi
 
 # terraform
-source $cur_path/aliases/tform.sh
-
+if ! [[ -x $(terraform --version) ]]; then
+    source $cur_path/aliases/tform.sh
+fi
 # openshift
-source $cur_path/aliases/openshift.sh
+if ! [[ -x $(oc --version) ]]; then
+    source $cur_path/aliases/openshift.sh
+fi
 
 # aws
-source $cur_path/aliases/aws.sh
+if ! [[ -x $(aws --version) ]]; then
+    source $cur_path/aliases/aws.sh
+fi
+
+# podman
+if ! [[ -x $(podman --version) ]]; then
+    source $cur_path/aliases/podman.sh
+fi

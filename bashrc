@@ -36,3 +36,8 @@ fi
 if ! [[ -x $(podman --version) ]]; then
     source $cur_path/aliases/podman.sh
 fi
+
+# GCP
+if cmd_loc="$(type -p "gcloud")" || [[ -z ${cmd_loc} ]]; then
+    source $cur_path/aliases/gcp.sh
+fi

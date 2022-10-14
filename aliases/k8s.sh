@@ -57,8 +57,6 @@ alias kdess='kubectl describe service'
 alias kdesi='kubectl describe ingress'
 alias kdesj='kubectl describe job'
 alias kdesc='kubectl describe cm'
-#alias kevents='_() { kubectl describe pod $1 | sed "1,/Events:/d"; }; _'
-alias kevents='_() { kubectl describe pod $1 | sed -n "/Events:/, $p" ; }; _'
 alias kdel='kubectl delete'
 alias kexec='_() { kubectl exec $1 -- ${@:2}; }; _'
 alias kbash='_() { kubectl exec -it $1 -- sh; }; _'
@@ -68,6 +66,23 @@ alias kscale='kubectl scale --replicas='
 alias kscaleup='kubectl scale --replicas=1'
 alias kscaledown='kubectl scale --replicas=0'
 alias ksupport="kubectl support-bundle support-bundle.yaml"
+
+function kevents() {
+  for res in ${@:1}; do
+    echo "Events from $1 $res:"
+    kubectl describe $1 $res | sed -n '/Events:/, $p'
+    echo ""
+  done
+}
+
+function knpod() {
+  echo
+  for res in ${@}; do
+    echo "Events from Node: $res"
+    kubectl describe node $res | sed -n '/Namespace/,/Events:/p'
+    echo ""
+  done
+}
 
 function ksetctx() {
     echo "Setting Namespce $2 in context $1"

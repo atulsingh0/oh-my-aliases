@@ -13,6 +13,11 @@ if ! [[ -x $(kubectl version) ]]; then
     source $cur_path/aliases/k8s.sh
 fi
 
+# K3d
+if ! [[ -x $(k3d version) ]]; then
+    source $cur_path/aliases/k3d.sh
+fi
+
 # git
 if ! [[ -x $(git --version) ]]; then
     source $cur_path/aliases/git.sh

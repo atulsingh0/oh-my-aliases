@@ -57,7 +57,7 @@ alias kdess='kubectl describe service'
 alias kdesi='kubectl describe ingress'
 alias kdesj='kubectl describe job'
 alias kdesc='kubectl describe cm'
-alias kdel='kubectl delete'
+#alias kdel='kubectl delete'
 alias kexec='_() { kubectl exec $1 -- ${@:2}; }; _'
 alias kbash='_() { kubectl exec -it $1 -- sh; }; _'
 alias kexp='kubectl get --dry-run=client -o yaml'
@@ -67,21 +67,36 @@ alias kscaleup='kubectl scale --replicas=1'
 alias kscaledown='kubectl scale --replicas=0'
 alias ksupport="kubectl support-bundle support-bundle.yaml"
 
+function kdel() {
+    printf "You are going to delete \033[31m $1 \033[0m from \033[31m %s \033[0m\n" "$(kubectx -c)/$(kubens -c)"
+    printf >&2 '%s ' 'Continue  ? (y/n)'
+    read ans
+    case $ans in
+    [yY])
+        kubectl delete $*
+        ;;
+    [nN])
+        echo "Do nothing and Exiting"
+        ;;
+    *) printf " \033[31m %s \n\033[0m" "invalid input" ;;
+    esac
+}
+
 function kevents() {
-  for res in ${@:1}; do
-    echo "Events from $1 $res:"
-    kubectl describe $1 $res | sed -n '/Events:/, $p'
-    echo ""
-  done
+    for res in ${@:1}; do
+        echo "Events from $1 $res:"
+        kubectl describe $1 $res | sed -n '/Events:/, $p'
+        echo ""
+    done
 }
 
 function knpod() {
-  echo
-  for res in ${@}; do
-    echo "Events from Node: $res"
-    kubectl describe node $res | sed -n '/Namespace/,/Events:/p'
-    echo ""
-  done
+    echo
+    for res in ${@}; do
+        echo "Events from Node: $res"
+        kubectl describe node $res | sed -n '/Namespace/,/Events:/p'
+        echo ""
+    done
 }
 
 function ksetctx() {

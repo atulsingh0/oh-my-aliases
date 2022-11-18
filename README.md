@@ -7,5 +7,8 @@ This repository is my collection of aliases which I find useful in day to day wo
 
 ## Installation
 ```
+git clone https://github.com/atulsingh0/oh-my-aliases.git ~/.ohmyaliases
 
+# Add below line in your bashrc/zshrs/kshrc file
+source ~/.ohmyaliases/source_aliases.sh
 ```

@@ -39,4 +39,6 @@ Thumbs.db
 
 # Personal
 ######################
-aliases/personal.sh
+aliases/personal*.sh
+
+

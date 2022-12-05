@@ -1,6 +1,6 @@
 alias ll="ls -lrt"
 if command -v batcat >/dev/null 2>&1; then
-  alias cat=batcat
+  alias bat=batcat
 fi
 
 if command -v nvim >/dev/null 2>&1; then

@@ -4,8 +4,12 @@
 
 cur_path="$(cd "$(dirname "$0")" && pwd)"
 
-git config --global core.excludesfile $cur_path/gitignore_global
-[[ ! -f $cur_path/personal_gitignore_global ]] || git config --global core.excludesfile $cur_path/personal_gitignore_global
+if [[ -f $cur_path/personal_gitignore_global ]]; then
+  cat $cur_path/gitignore_global $cur_path/personal_gitignore_global >~/gitignore_global
+  git config --global core.excludesfile ~/gitignore_global
+else
+  git config --global core.excludesfile $cur_path/gitignore_global
+fi
 
 alias gs='git status'
 alias gp1='git pull'

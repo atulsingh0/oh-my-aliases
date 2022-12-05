@@ -8,6 +8,11 @@ function command_exists() {
 # General
 source $cur_path/aliases/general.sh
 
+# Personal
+for f in $cur_path/aliases/personal*.sh; do
+  source $f
+done
+
 # Docker
 if command_exists docker; then
   [ -f $cur_path/aliases/docker.sh ] && source $cur_path/aliases/docker.sh

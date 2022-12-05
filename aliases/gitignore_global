@@ -40,5 +40,5 @@ Thumbs.db
 # Personal
 ######################
 aliases/personal*.sh
-
+aliases/personal_gitignore_global
 

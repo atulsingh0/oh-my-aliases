@@ -65,7 +65,6 @@ alias kpog='kubectl get pods | egrep '
 alias kscale='kubectl scale --replicas='
 alias kscaleup='kubectl scale --replicas=1'
 alias kscaledown='kubectl scale --replicas=0'
-alias ksupport="kubectl support-bundle support-bundle.yaml"
 
 function kdel() {
   printf "You are going to delete \033[31m $1 \033[0m from \033[31m %s \033[0m\n" "$(kubectx -c)/$(kubens -c)"
@@ -128,16 +127,6 @@ alias kdelpi="kubectl get pods | egrep -v 'Running|Completed|Pending' |grep -v N
 #       kubectl delete pod $name
 #     done
 # }
-
-function kaddctx() {
-  if [[ $# -eq 2 ]]; then
-    echo "using Region - $2"
-    aws eks update-kubeconfig --name=$1 --region=$2 --alias=$1
-  else
-    echo "Using Region - us-east-1"
-    aws eks update-kubeconfig --name=$1 --region="us-east-1" --alias=$1
-  fi
-}
 
 function kbackup() {
   K8S_NS=$(helm list -o yaml | yq '.[].namespace')

@@ -60,7 +60,7 @@ alias kdesc='kubectl describe cm'
 #alias kdel='kubectl delete'
 alias kexec='_() { kubectl exec $1 -- ${@:2}; }; _'
 alias kbash='_() { kubectl exec -it $1 -- sh; }; _'
-alias kexp='kubectl get --dry-run=client -o yaml'
+alias kexp='kubectl --dry=run=client -o yaml get'
 alias kpog='kubectl get pods | egrep '
 alias kscale='kubectl scale --replicas='
 alias kscaleup='kubectl scale --replicas=1'
@@ -68,57 +68,57 @@ alias kscaledown='kubectl scale --replicas=0'
 alias ksupport="kubectl support-bundle support-bundle.yaml"
 
 function kdel() {
-    printf "You are going to delete \033[31m $1 \033[0m from \033[31m %s \033[0m\n" "$(kubectx -c)/$(kubens -c)"
-    printf >&2 '%s ' 'Continue  ? (y/n)'
-    read ans
-    case $ans in
-    [yY])
-        kubectl delete $*
-        ;;
-    [nN])
-        echo "Do nothing and Exiting"
-        ;;
-    *) printf " \033[31m %s \n\033[0m" "invalid input" ;;
-    esac
+  printf "You are going to delete \033[31m $1 \033[0m from \033[31m %s \033[0m\n" "$(kubectx -c)/$(kubens -c)"
+  printf >&2 '%s ' 'Continue  ? (y/n)'
+  read ans
+  case $ans in
+  [yY])
+    kubectl delete $*
+    ;;
+  [nN])
+    echo "Do nothing and Exiting"
+    ;;
+  *) printf " \033[31m %s \n\033[0m" "invalid input" ;;
+  esac
 }
 
 function kevents() {
-    for res in ${@:1}; do
-        echo "Events from $1 $res:"
-        kubectl describe $1 $res | sed -n '/Events:/, $p'
-        echo ""
-    done
+  for res in ${@:1}; do
+    echo "Events from $1 $res:"
+    kubectl describe $1 $res | sed -n '/Events:/, $p'
+    echo ""
+  done
 }
 
 function knpod() {
-    echo
-    for res in ${@}; do
-        echo "Events from Node: $res"
-        kubectl describe node $res | sed -n '/Namespace/,/Events:/p'
-        echo ""
-    done
+  echo
+  for res in ${@}; do
+    echo "Events from Node: $res"
+    kubectl describe node $res | sed -n '/Namespace/,/Events:/p'
+    echo ""
+  done
 }
 
 function ksetctx() {
-    echo "Setting Namespce $2 in context $1"
-    kubectl config set-context $1 --namespace=$2
-    echo "Using Context $1"
-    kubectl config use-context $1
+  echo "Setting Namespce $2 in context $1"
+  kubectl config set-context $1 --namespace=$2
+  echo "Using Context $1"
+  kubectl config use-context $1
 }
 
 function kenv() {
-    #kubectl get pod/$1 -o json | jq '.spec.containers[].name + " " + .spec.containers[].env[].name' | column -t
-    kubectl describe pod/$1 | sed -n '/Environment:/,/Mounts:/p'
+  #kubectl get pod/$1 -o json | jq '.spec.containers[].name + " " + .spec.containers[].env[].name' | column -t
+  kubectl describe pod/$1 | sed -n '/Environment:/,/Mounts:/p'
 }
 
 function kenva() {
-    kubectl get pods -o json | jq '.items[].metadata.name + " " + .items[].spec.containers[].name + " " + .items[].spec.containers[].env[].name + " " + .items[].spec.containers[].env[].value' | column -t
+  kubectl get pods -o json | jq '.items[].metadata.name + " " + .items[].spec.containers[].name + " " + .items[].spec.containers[].env[].name + " " + .items[].spec.containers[].env[].value' | column -t
 }
 
 function kdelp() {
-    for name in $*; do
-        kubectl delete pod $name
-    done
+  for name in $*; do
+    kubectl delete pod $name
+  done
 }
 
 alias kdelpi="kubectl get pods | egrep -v 'Running|Completed|Pending' |grep -v NAME| cut -d' ' -f1 | xargs kubectl delete pod"
@@ -130,29 +130,29 @@ alias kdelpi="kubectl get pods | egrep -v 'Running|Completed|Pending' |grep -v N
 # }
 
 function kaddctx() {
-    if [[ $# -eq 2 ]]; then
-        echo "using Region - $2"
-        aws eks update-kubeconfig --name=$1 --region=$2 --alias=$1
-    else
-        echo "Using Region - us-east-1"
-        aws eks update-kubeconfig --name=$1 --region="us-east-1" --alias=$1
-    fi
+  if [[ $# -eq 2 ]]; then
+    echo "using Region - $2"
+    aws eks update-kubeconfig --name=$1 --region=$2 --alias=$1
+  else
+    echo "Using Region - us-east-1"
+    aws eks update-kubeconfig --name=$1 --region="us-east-1" --alias=$1
+  fi
 }
 
 function kbackup() {
-    K8S_NS=$(helm list -o yaml | yq '.[].namespace')
-    CHART=$(helm list -o yaml | yq '.[].chart')
-    VER=$(helm list -o yaml | yq '.[].revision')
-    RANDOM_STR=$(cat /dev/urandom | env LC_ALL=C tr -dc 'a-z0-9' | head -c 8)
-    velero backup create ${K8S_NS}-${RANDOM_STR} --include-namespaces ${K8S_NS} -n velero -l "${CHART}--${VER}"
+  K8S_NS=$(helm list -o yaml | yq '.[].namespace')
+  CHART=$(helm list -o yaml | yq '.[].chart')
+  VER=$(helm list -o yaml | yq '.[].revision')
+  RANDOM_STR=$(cat /dev/urandom | env LC_ALL=C tr -dc 'a-z0-9' | head -c 8)
+  velero backup create ${K8S_NS}-${RANDOM_STR} --include-namespaces ${K8S_NS} -n velero -l "${CHART}--${VER}"
 }
 
 function krestore() {
-    BACKUP=$1
-    if [ -z $2 ]; then
-        K8S_NS=$(helm list -o yaml | yq '.[].namespace')
-    else
-        K8S_NS=$2
-    fi
-    velero restore create --include-namespaces ${K8S_NS} --from-backup $BACKUP
+  BACKUP=$1
+  if [ -z $2 ]; then
+    K8S_NS=$(helm list -o yaml | yq '.[].namespace')
+  else
+    K8S_NS=$2
+  fi
+  velero restore create --include-namespaces ${K8S_NS} --from-backup $BACKUP
 }

@@ -4,49 +4,48 @@
 
 alias tf='terraform'
 
-function tfaa(){
-    if [ -z $1 ]; then
+function tfaa() {
+  if [ -z $1 ]; then
     terraform apply --auto-approve
-    else
+  else
     terraform apply --auto-approve -var-file=$1
-    fi
+  fi
 }
 
-function tfda(){
-    if [ -z $1 ]; then
+function tfda() {
+  if [ -z $1 ]; then
     terraform destroy --auto-approve
-    else
+  else
     terraform destroy --auto-approve -var-file=$1
-    fi
+  fi
 }
 
-function tfd(){
-    if [ -z $1 ]; then
+function tfd() {
+  if [ -z $1 ]; then
     terraform destroy
-    else
+  else
     terraform destroy -var-file=$1
-    fi
+  fi
 }
 
-function tfp(){
-    if [ -z $1 ]; then
+function tfp() {
+  if [ -z $1 ]; then
     terraform plan
-    else
+  else
     terraform plan -var-file=$1
-    fi
+  fi
 }
 
-function tfa(){
-    if [ -z $1 ]; then
+function tfa() {
+  if [ -z $1 ]; then
     terraform apply
-    else
+  else
     terraform apply -var-file=$1
-    fi
+  fi
 }
 
-function tf-taint(){
-    for res in "$@"
-    do
+function tf-taint() {
+  for res in "$@"; do
     terraform taint $res
-    done
+  done
 }

@@ -24,18 +24,18 @@ alias gcme='git commit --allow-empty -m "Trigger Build, Empty commit"'
 alias gtst='_() { git add . && git commit --amend && git push -f; };_'
 
 function ga() {
-    egrep '<<<<<<< HEAD|>>>>>>>' $@
-    count=$(egrep -c '<<<<<<< HEAD|>>>>>>>' $@ | grep -vc "0$")
-    # echo $count
-    if [[ $count > 0 ]]; then
-        echo "Fix the merge in "
-    else
-        git add $@
-    fi
+  egrep '<<<<<<< HEAD|>>>>>>>' $@
+  count=$(egrep -c '<<<<<<< HEAD|>>>>>>>' $@ | grep -vc "0$")
+  # echo $count
+  if [[ $count > 0 ]]; then
+    echo "Fix the merge in "
+  else
+    git add $@
+  fi
 }
 
 function gcm() {
-    BR=$(git branch --show-current | sed "s_integration/__")
-    echo "current branch: $BR"
-    git commit -m "$BR | $*"
+  BR=$(git branch --show-current | sed "s_integration/__")
+  echo "current branch: $BR"
+  git commit -m "$BR | $*"
 }

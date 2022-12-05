@@ -2,7 +2,6 @@
 # Openshift Command aliases
 ##############################
 
-
 OCP_USERNAME=''
 OCP_DEV_URL=''
 OCP_QA_URL=''
@@ -71,9 +70,11 @@ alias opclean='for p in $(oc get pods | grep Terminating | awk ''{print $1}''); 
 alias opodr='oc get pods -o jsonpath=''{.items[?(@.status.phase=="Running")].metadata.name}'''
 alias opodt='oc get pods -o jsonpath=''{.items[?(@.status.phase=="Terminating")].metadata.name}'''
 
-pod()
-{ local selector=$1; local query='?(@.status.phase=="Running")';
-oc get pods -l $selector -o jsonpath="{.items[$query].metadata.name}"; }
+pod() {
+  local selector=$1
+  local query='?(@.status.phase=="Running")'
+  oc get pods -l $selector -o jsonpath="{.items[$query].metadata.name}"
+}
 
 alias obackup='\
  oc get -o yaml --export all > project.yaml;
@@ -83,30 +84,26 @@ do
 done ; \'
 
 # Scale by 1
-oincs()
-{
-rep=$(oc get statefulset $1 -o jsonpath='{.spec.replicas}{"\n"}')
-replica=`echo $(($rep+1))`
-oc scale --replicas=$replica statefulsets $1
+oincs() {
+  rep=$(oc get statefulset $1 -o jsonpath='{.spec.replicas}{"\n"}')
+  replica=$(echo $(($rep + 1)))
+  oc scale --replicas=$replica statefulsets $1
 }
 
-oincd()
-{
-rep=$(oc get dc $1 -o jsonpath='{.spec.replicas}{"\n"}')
-replica=`echo $(($rep+1))`
-oc scale --replicas=$replica dc $1
+oincd() {
+  rep=$(oc get dc $1 -o jsonpath='{.spec.replicas}{"\n"}')
+  replica=$(echo $(($rep + 1)))
+  oc scale --replicas=$replica dc $1
 }
 
-odecs()
-{
-rep=$(oc get statefulset $1 -o jsonpath='{.spec.replicas}{"\n"}')
-replica=`echo $(($rep-1))`
-oc scale --replicas=$replica statefulsets $1
+odecs() {
+  rep=$(oc get statefulset $1 -o jsonpath='{.spec.replicas}{"\n"}')
+  replica=$(echo $(($rep - 1)))
+  oc scale --replicas=$replica statefulsets $1
 }
 
-odecd()
-{
-rep=$(oc get dc $1 -o jsonpath='{.spec.replicas}{"\n"}')
-replica=`echo $(($rep-1))`
-oc scale --replicas=$replica dc $1
+odecd() {
+  rep=$(oc get dc $1 -o jsonpath='{.spec.replicas}{"\n"}')
+  replica=$(echo $(($rep - 1)))
+  oc scale --replicas=$replica dc $1
 }

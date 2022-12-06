@@ -9,8 +9,8 @@ function command_exists() {
 source $cur_path/aliases/general.sh
 
 # Personal
-for f in $cur_path/aliases/personal*.sh; do
-  source $f
+find $cur_path/aliases -maxdepth 1 -type f -name "personal*.sh" 2>/dev/null | while read -r file; do
+  source $file
 done
 
 # Docker

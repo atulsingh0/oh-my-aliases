@@ -2,13 +2,11 @@
 #        git
 #################################
 
-cur_path="$(cd "$(dirname "$0")" && pwd)"
-
-if [[ -f $cur_path/personal_gitignore_global ]]; then
-  cat $cur_path/gitignore_global $cur_path/personal_gitignore_global >~/gitignore_global
+if [[ -f ${PWD}/personal_gitignore_global ]]; then
+  cat ${PWD}/gitignore_global ${PWD}/personal_gitignore_global >~/gitignore_global
   git config --global core.excludesfile ~/gitignore_global
 else
-  git config --global core.excludesfile $cur_path/gitignore_global
+  git config --global core.excludesfile ${PWD}/gitignore_global
 fi
 
 alias gs='git status'

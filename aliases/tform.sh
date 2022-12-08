@@ -44,7 +44,7 @@ function tfa() {
   fi
 }
 
-function tf-taint() {
+function tftaint() {
   for res in "$@"; do
     terraform taint $res
   done

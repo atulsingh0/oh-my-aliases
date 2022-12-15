@@ -24,7 +24,13 @@ alias gstsl='git stash list'
 alias gchange='git show --pretty="" -r'
 alias gfile='git diff-tree --no-commit-id --name-only -r'
 alias gcme='git commit --allow-empty -m "Trigger Build, Empty commit"'
-alias gtst='_() { git add . && git commit --amend && git push -f; };_'
+alias gaa='git add --all'
+
+function gtst() {
+	git add .
+	git commit --amend
+	git push -f
+}
 
 function ga() {
   egrep '<<<<<<< HEAD|>>>>>>>' $@
@@ -38,7 +44,7 @@ function ga() {
 }
 
 function gcm() {
-  BR=$(git branch --show-current | sed "s_integration/__")
+  BR=$(git branch --show-current | sed "s_integration/__" | sed -e "s/\(.*[0-9]\).*/\1/g" | tr 'a-z' 'A-Z')
   echo "current branch: $BR"
   git commit -m "$BR | $*"
 }

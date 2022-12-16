@@ -27,9 +27,9 @@ alias gcme='git commit --allow-empty -m "Trigger Build, Empty commit"'
 alias gaa='git add --all'
 
 function gtst() {
-	git add .
-	git commit --amend
-	git push -f
+  git add .
+  git commit --amend
+  git push -f
 }
 
 function ga() {
@@ -44,7 +44,14 @@ function ga() {
 }
 
 function gcm() {
-  BR=$(git branch --show-current | sed "s_integration/__" | sed -e "s/\(.*[0-9]\).*/\1/g" | tr 'a-z' 'A-Z')
+  BR1=$(git branch --show-current | sed "s_integration/__")
+  BR2=$(echo $BR1 | sed -e "s/\(.*[0-9]\).*/\1/g" | tr 'a-z' 'A-Z')
+
+  if [ -z $BR2 ]; then
+    BR = $BR1
+  else
+    BR = $BR2
+  fi
   echo "current branch: $BR"
   git commit -m "$BR | $*"
 }

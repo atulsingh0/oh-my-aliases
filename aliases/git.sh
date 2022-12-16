@@ -44,14 +44,7 @@ function ga() {
 }
 
 function gcm() {
-  BR1=$(git branch --show-current | sed "s_integration/__")
-  BR2=$(echo $BR1 | sed -e "s/\(.*[0-9]\).*/\1/g" | tr 'a-z' 'A-Z')
-
-  if [ -z $BR2 ]; then
-    BR = $BR1
-  else
-    BR = $BR2
-  fi
+  BR=$(git branch --show-current | sed "s_integration/__" | sed -e "s/\(.*[0-9]\).*/\1/g")
   echo "current branch: $BR"
   git commit -m "$BR | $*"
 }

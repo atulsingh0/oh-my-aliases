@@ -46,6 +46,14 @@ fi
 if command_exists git; then
   log -ne "Sourcing git aliases"
   [ -f $cur_path/aliases/git.sh ] && source $cur_path/aliases/git.sh && log " - done"
+
+  # Enabling Git Ignore
+  if [[ -f ${cur_path}/aliases/personal_gitignore_global ]]; then
+    cat ${cur_path}/aliases/gitignore_global ${cur_path}/aliases/personal_gitignore_global >${HOME}/gitignore_global
+    git config --global core.excludesfile ${HOME}/gitignore_global
+  else
+    git config --global core.excludesfile ${cur_path}/aliases/gitignore_global
+  fi
 fi
 
 # terraform

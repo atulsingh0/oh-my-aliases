@@ -85,3 +85,9 @@ if cmd_loc="$(type -p "gcloud")" || [[ -z ${cmd_loc} ]]; then
   log -ne "Sourcing gcloud aliases"
   [ -f $cur_path/aliases/gcp.sh ] && source $cur_path/aliases/gcp.sh && log " - done"
 fi
+
+# ansible
+if command_exists ansible; then
+  log -ne "Sourcing ansible aliases"
+  [ -f $cur_path/aliases/ansible.sh ] && source $cur_path/aliases/ansible.sh && log " - done"
+fi

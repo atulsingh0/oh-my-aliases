@@ -91,3 +91,9 @@ if command_exists ansible; then
   log -ne "Sourcing ansible aliases"
   [ -f $cur_path/aliases/ansible.sh ] && source $cur_path/aliases/ansible.sh && log " - done"
 fi
+
+# vagrant
+if command_exists vagrant; then
+  log -ne "Sourcing vagrant aliases"
+  [ -f $cur_path/aliases/vagrant.sh ] && source $cur_path/aliases/vagrant.sh && log " - done"
+fi

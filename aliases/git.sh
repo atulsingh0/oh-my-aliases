@@ -2,6 +2,9 @@
 #        git
 #################################
 
+git config --global pull.rebase true
+git config --global pull.ff true
+
 alias gs='git status'
 alias gp1='git pull'
 alias gp2='git push'

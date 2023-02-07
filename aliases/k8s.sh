@@ -60,7 +60,7 @@ alias kdesc='kubectl describe cm'
 #alias kdel='kubectl delete'
 alias kexec='_() { kubectl exec $1 -- ${@:2}; }; _'
 alias kbash='_() { kubectl exec -it $1 -- sh; }; _'
-alias kexp='kubectl get -o yaml' 
+alias kexp='kubectl get -o yaml'
 alias kpog='kubectl get pods | egrep '
 alias kscale='kubectl scale --replicas='
 alias kscaleup='kubectl scale --replicas=1'
@@ -144,4 +144,8 @@ function krestore() {
     K8S_NS=$2
   fi
   velero restore create --include-namespaces ${K8S_NS} --from-backup $BACKUP
+}
+
+function kgsecret() {
+  kubectl get secret $1 -o "jsonpath={.data['${2/./\\.}']}" | base64 -d
 }

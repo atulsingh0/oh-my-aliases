@@ -44,3 +44,13 @@ function gcm() {
   echo "current branch: $BR"
   git commit -m "$BR | $*"
 }
+
+function gfix() {
+  commit=$1
+  files=${@:2}
+
+  git add $files
+  git commit --fixup=$commit
+  git rebase -i --autosquash $commit~
+  echo "Use 'git push -f' to force push the changes."
+}

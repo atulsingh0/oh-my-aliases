@@ -6,16 +6,18 @@ git config --global pull.rebase true
 git config --global pull.ff true
 
 alias gs='git status'
+alias gss='git status --short'
 alias gp1='git pull'
 alias gp2='git push'
 alias gb="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
+alias gbc='git branch --show-current'
 alias gco='git checkout'
 alias gacm='git commit -am'
 alias gcma='git commit --amend'
 alias gdiff='git diff'
 alias glog='git log --oneline --abbrev-commit -30'
 alias gsave='git add -A && git commit -m "chores: save checkpoint"'
-alias gsts='git stash'
+alias gsts='git stash -m'
 alias gstsl='git stash list'
 alias gchange='git show --pretty="" -r'
 alias gfile='git diff-tree --no-commit-id --name-only -r'

@@ -54,3 +54,12 @@ function gfix() {
   git rebase -i --autosquash $commit~
   echo "Use 'git push -f' to force push the changes."
 }
+
+function gbren() {
+  cur=$(git branch --show-current)
+  new=$1
+  git branch -m $cur $new
+  git branch --unset-upstream
+  git branch --set-upstream-to origin/$new
+  git push origin :$cur $new
+}

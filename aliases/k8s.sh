@@ -37,19 +37,8 @@ alias kcm='kubectl get cm'
 alias kds='kubectl get ds'
 alias ksvcl='kubectl get services | { head -1 ; grep "Load" ; }'
 alias kg='kubectl get'
-alias kgp='_() { kubectl get pod/$1; }; _'
-alias kgd='_() { kubectl get deploy/$1; }; _'
-alias kgs='_() { kubectl get svc/$1; }; _'
 alias kedit='kubectl edit'
-alias keditp='_() { kubectl edit pod/$1; }; _'
-alias keditd='_() { kubectl edit deploy/$1; }; _'
-alias kedits='_() { kubectl edit service/$1; }; _'
-alias keditc='_() { kubectl edit cm/$1; }; _'
-alias keditds='_() { kubectl edit ds/$1; }; _'
 alias klog='kubectl logs -f'
-#alias klogp='_() { kubectl logs -f pod/$1; }; _'
-#alias klogd='_() { kubectl logs -f deployment/$1; }; _'
-alias klogj='_() { kubectl logs -f job/$1; }; _'
 alias kdes='kubectl describe'
 alias kdesp='kubectl describe pod'
 alias kdesd='kubectl describe deployment'
@@ -58,8 +47,6 @@ alias kdesi='kubectl describe ingress'
 alias kdesj='kubectl describe job'
 alias kdesc='kubectl describe cm'
 #alias kdel='kubectl delete'
-alias kexec='_() { kubectl exec $1 -- ${@:2}; }; _'
-alias kbash='_() { kubectl exec -it $1 -- sh; }; _'
 alias kexp='kubectl get -o yaml'
 alias kpog='kubectl get pods | egrep '
 alias kscale='kubectl scale --replicas='
@@ -148,4 +135,12 @@ function krestore() {
 
 function kgsecret() {
   kubectl get secret $1 -o "jsonpath={.data['${2/./\\.}']}" | base64 -d
+}
+
+function kexec() {
+  kubectl exec $1 -- ${@:2}
+}
+
+function kbash() {
+  kubectl exec -it $1 -- sh
 }

@@ -62,6 +62,5 @@ function gbren() {
   new=$1
   git branch -m $cur $new
   git branch --unset-upstream
-  git branch --set-upstream-to origin/$new
-  git push origin :$cur $new
+  git push --set-upstream origin :$cur $new
 }

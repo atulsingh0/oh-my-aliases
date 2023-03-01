@@ -44,8 +44,8 @@ if command_exists git; then
   [ -f $cur_path/aliases/git.sh ] && source $cur_path/aliases/git.sh && log " - done"
 
   # Enabling Git Ignore
-  if [[ -f ${cur_path}/aliases/personal_gitignore_global ]]; then
-    cat ${cur_path}/aliases/gitignore_global ${cur_path}/aliases/personal_gitignore_global >${HOME}/gitignore_global
+  if [[ -f ${cur_path}/aliases/private_gitignore_global ]]; then
+    cat ${cur_path}/aliases/gitignore_global ${cur_path}/aliases/private_gitignore_global >${HOME}/gitignore_global
     git config --global core.excludesfile ${HOME}/gitignore_global
   else
     git config --global core.excludesfile ${cur_path}/aliases/gitignore_global
@@ -99,14 +99,17 @@ fi
 # General
 source $cur_path/aliases/general.sh
 
-# Personal
-find $cur_path/aliases -maxdepth 1 -type f -name "personal*.sh" 2>/dev/null | while read -r file; do
+# private aliases
+find $cur_path/aliases -maxdepth 1 -type f -name "private*.sh" 2>/dev/null | while read -r file; do
   log "Sourcing $(basename $file) aliases"
   source $file && log " - done "
 done
 
 ########################################################
 ########################################################
+
+# Update the aliases
+source $cur_path/check-for-update.sh
 
 # Unsetting
 unset log_enable

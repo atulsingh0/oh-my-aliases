@@ -1,0 +1,11 @@
+# temp files directories
+cache/
+*.swp
+.DS_Store
+
+# editor configs
+.vscode
+.idea
+
+# private files
+**/private*

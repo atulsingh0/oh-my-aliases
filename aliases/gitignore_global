@@ -37,7 +37,7 @@ ehthumbs.db
 Thumbs.db
 
 
-# Personal
+# Private
 ######################
-**/aliases/personal_*.sh
-**/aliases/personal_gitignore_global
+**/aliases/private_*.sh
+**/aliases/private_gitignore_global

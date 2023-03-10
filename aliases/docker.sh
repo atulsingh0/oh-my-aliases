@@ -1,9 +1,10 @@
+#!/bin/sh
+
 ########################################################
 #            Docker Alias
 ########################################################
 
 alias dc='docker ps'
-alias dclean=$' \\\n  docker ps --no-trunc -aqf "status=exited" | xargs docker rm ; \\\n  docker images --no-trunc -aqf "dangling=true" | xargs docker rmi ; \\\n  docker volume ls -qf "dangling=true" | xargs docker volume rm'
 alias dcommit='docker commit'
 alias dcopy='docker cp'
 alias dcs='docker ps -as'
@@ -27,43 +28,49 @@ alias dclean=' \
   docker images --no-trunc -aqf "dangling=true" | xargs docker rmi ; \
   docker volume ls -qf "dangling=true" | xargs docker volume rm'
 
-function dhist() {
+dclean() {
+  docker ps --no-trunc -aqf "status=exited" | xargs docker rm
+  docker images --no-trunc -aqf "dangling=true" | xargs docker rmi
+  docker volume ls -qf "dangling=true" | xargs docker volume rm
+}
+
+dhist() {
   docker history "$1" --format "{{.ID}}: {{.CreatedBy}}" --no-trunc
 }
 
-function dlogin() {
+dlogin() {
   docker exec -it "$1" /bin/sh
 }
 
-function dloginu() {
+dloginu() {
   docker exec -it -u "$1" "$2" /bin/sh
 }
 
-function dlogn() {
-  docker logs -f $(docker ps | grep $1 | awk "{print $1}")
+dlogn() {
+  docker logs -f "$(docker ps | grep "$1" | awk "{print $1}")"
 }
 
-function dpush() {
+dpush() {
   docker push "$1"
 }
 
-function drmc() {
+drmc() {
   docker rm "$@"
 }
 
-function drmi() {
+drmi() {
   docker rmi "$@"
 }
 
-function drun() {
+drun() {
   docker run -d --name "$1" -it --detach "$1" /bin/sh
 }
 
-function dstop() {
+dstop() {
   docker stop "$@"
 }
 
-function dtag() {
+dtag() {
   docker tag "$1" "$2"
 }
 #################################

@@ -20,6 +20,9 @@ log() {
   fi
 }
 
+# Sourcing Environment Variable
+[ -f "$cur_path"/env.sh ] && . "$cur_path"/env.sh && log "Sourced environment variables"
+
 # Docker
 if command_exists docker; then
   log "Sourcing docker aliases"
@@ -49,6 +52,16 @@ if command_exists git; then
     git config --global core.excludesfile "${HOME}"/gitignore_global
   else
     git config --global core.excludesfile "$cur_path"/aliases/gitignore_global
+  fi
+fi
+
+# gh github cli
+if command_exists gh; then
+  if [ -n "$GITHUB_TOKEN" ] && [ -n "$GH_HOST" ]; then
+    log "Sourcing gh (github) aliases"
+    [ -f "$cur_path"/aliases/gh.sh ] && . "$cur_path"/aliases/gh.sh && log " - done"
+  else
+    echo "env variable GH_HOST or GITHUB_TOKEN is not set."
   fi
 fi
 

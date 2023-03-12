@@ -1,8 +1,8 @@
+#!/bin/sh
+
 ##############################
 # K8s Command aliases
 ##############################
-
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 alias k='kubectl'
 alias ksys='kubectl --namespace=kube-system'
@@ -53,13 +53,13 @@ alias kscale='kubectl scale --replicas='
 alias kscaleup='kubectl scale --replicas=1'
 alias kscaledown='kubectl scale --replicas=0'
 
-function kdel() {
+ kdel() {
   printf "You are going to delete \033[31m $1 \033[0m from \033[31m %s \033[0m\n" "$(kubectx -c)/$(kubens -c)"
   printf >&2 '%s ' 'Continue  ? (y/n)'
-  read ans
+  read -r ans
   case $ans in
   [yY])
-    kubectl delete $*
+    kubectl delete "$*"
     ;;
   [nN])
     echo "Do nothing and Exiting"
@@ -68,79 +68,79 @@ function kdel() {
   esac
 }
 
-function kevents() {
-  for res in ${@:1}; do
+ kevents() {
+  for res in "${@:1}"; do
     echo "Events from $1 $res:"
-    kubectl describe $1 $res | sed -n '/Events:/, $p'
+    kubectl describe "$1" "$res" | sed -n '/Events:/, $p'
     echo ""
   done
 }
 
-function knpod() {
+ knpod() {
   echo
-  for res in ${@}; do
-    echo "Events from Node: $res"
-    kubectl describe node $res | sed -n '/Namespace/,/Events:/p'
+  for res in "${@}"; do
+    echo "Events from Node: ${res}"
+    kubectl describe node "${res}" | sed -n '/Namespace/,/Events:/p'
     echo ""
   done
 }
 
-function ksetctx() {
+ ksetctx() {
   echo "Setting Namespce $2 in context $1"
-  kubectl config set-context $1 --namespace=$2
+  kubectl config set-context "$1" --namespace="$2"
   echo "Using Context $1"
-  kubectl config use-context $1
+  kubectl config use-context "$1"
 }
 
-function kenv() {
+ kenv() {
   #kubectl get pod/$1 -o json | jq '.spec.containers[].name + " " + .spec.containers[].env[].name' | column -t
-  kubectl describe pod/$1 | sed -n '/Environment:/,/Mounts:/p'
+  kubectl describe pod/"$1" | sed -n '/Environment:/,/Mounts:/p'
 }
 
-function kenva() {
+ kenva() {
   kubectl get pods -o json | jq '.items[].metadata.name + " " + .items[].spec.containers[].name + " " + .items[].spec.containers[].env[].name + " " + .items[].spec.containers[].env[].value' | column -t
 }
 
-function kdelp() {
-  for name in $*; do
-    kubectl delete pod $name
+ kdelp() {
+  for name in "$*"; do
+    kubectl delete pod "${name}"
   done
 }
 
 alias kdelpi="kubectl get pods | egrep -v 'Running|Completed|Pending' |grep -v NAME| cut -d' ' -f1 | xargs kubectl delete pod"
 
-# function kdelpi(){
+#  kdelpi(){
 #     for name in $(kubectl get pods | egrep -v 'Running|Completed|Pending' |grep -v NAME| cut -d' ' -f1 | tr "\n" " ");do
 #       kubectl delete pod $name
 #     done
 # }
 
-function kbackup() {
+ kbackup() {
   K8S_NS=$(helm list -o yaml | yq '.[].namespace')
   CHART=$(helm list -o yaml | yq '.[].chart')
   VER=$(helm list -o yaml | yq '.[].revision')
-  RANDOM_STR=$(cat /dev/urandom | env LC_ALL=C tr -dc 'a-z0-9' | head -c 8)
-  velero backup create ${K8S_NS}-${RANDOM_STR} --include-namespaces ${K8S_NS} -n velero -l "${CHART}--${VER}"
+  RANDOM_STR=$(env LC_ALL=C tr -dc 'a-z0-9' /dev/urandom | head -c 8)
+  velero backup create "${K8S_NS}-${RANDOM_STR}" --include-namespaces "${K8S_NS}" -n velero -l "${CHART}--${VER}"
 }
 
-function krestore() {
-  BACKUP=$1
-  if [ -z $2 ]; then
+ krestore() {
+  BACKUP="$1"
+  if [ -z "$2" ]; then
     K8S_NS=$(helm list -o yaml | yq '.[].namespace')
   else
     K8S_NS=$2
   fi
-  velero restore create --include-namespaces ${K8S_NS} --from-backup $BACKUP
+  velero restore create --include-namespaces "${K8S_NS}" --from-backup "${BACKUP}"
 }
 
-function kgsecret() {
-  kubectl get secret $1 -o "jsonpath={.data['${2/./\\.}']}" | base64 -d
+ kgsecret() {
+  kubectl get secret "$1" -o "jsonpath={.data['${2/./\\.}']}" | base64 -d
 }
 
-function kexec() {
-  kubectl exec $1 -- ${@:2}
+ kexec() {
+  kubectl exec "$1" -- "${@:2}"
 }
 
-function kbash() {
-  kubectl exec -it $1 -- sh
+ kbash() {
+  kubectl exec -it "$1" -- sh
 }

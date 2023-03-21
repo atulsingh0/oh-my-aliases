@@ -1,21 +1,22 @@
 #!/bin/sh
 
-if [ "$log_enable" = true ]; then
-  log_enable=true
+if [ "$DEBUG" = true ]; then
+  DEBUG=true
+  set -x
 else
-  log_enable=false
+  DEBUG=false
 fi
 
 cur_path="$(cd "$(dirname "$0")" && pwd)"
 echo "Loading Aliases from : ${cur_path}"
-echo "Log Enabled: $log_enable"
+echo "Log Enabled: $DEBUG"
 
 command_exists() {
   command -v "$@" >/dev/null 2>&1
 }
 
 log() {
-  if $log_enable; then
+  if $DEBUG; then
     printf "\n%s" "$*"
   fi
 }
@@ -108,6 +109,12 @@ if command_exists vagrant; then
   [ -f "${cur_path}"/aliases/vagrant.sh ] && . "${cur_path}"/aliases/vagrant.sh && log " - done"
 fi
 
+# vagrant
+if command_exists delta; then
+  log "Sourcing delta aliases"
+  [ -f "${cur_path}"/aliases/delta.sh ] && . "${cur_path}"/aliases/delta.sh && log " - done"
+fi
+
 ########################################################
 ########################################################
 # General
@@ -126,4 +133,5 @@ done
 #. "${cur_path}"/check-for-update.sh
 
 # Unsetting
-unset log_enable
+set +x
+unset DEBUG

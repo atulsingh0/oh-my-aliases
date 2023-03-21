@@ -13,7 +13,7 @@ fi
 # if command -v most >/dev/null 2>&1; then
 #   export PAGER=most
 # fi
-
+alias c='clear'
 alias ls='ls -GFh --color'
 alias ll='ls -GFhlrt --color'
 alias egrep='egrep --color=auto'

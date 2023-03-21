@@ -9,7 +9,7 @@ fi
 
 cur_path="$(cd "$(dirname "$0")" && pwd)"
 echo "Loading Aliases from : ${cur_path}"
-echo "Log Enabled: $DEBUG"
+echo "Debug: $DEBUG"
 
 command_exists() {
   command -v "$@" >/dev/null 2>&1
@@ -24,6 +24,22 @@ log() {
 # Sourcing Environment Variable
 [ -f "${cur_path}"/env.sh ] && . "${cur_path}"/env.sh && log "Sourced environment variables"
 [ -f "${cur_path}"/private_env.sh ] && . "${cur_path}"/private_env.sh && log "Sourced private environment variables"
+
+########################################################
+########################################################
+## Loading aliases from a folder
+if [ -n "${CUSTOM_ALIAS_FOLDER}" ]; then
+  echo "CUSTOM_ALIAS_FOLDER is set: $CUSTOM_ALIAS_FOLDER"
+  find "${CUSTOM_ALIAS_FOLDER}" -maxdepth 1 -type f -name "*.sh" 2>/dev/null | while read file; do
+    log "Sourcing $(basename "${file}") aliases"
+    # shellcheck source=/dev/null
+    . "${file}" && log " - done "
+  done
+else
+  echo "env variable CUSTOM_ALIAS_FOLDER is not set."
+fi
+########################################################
+########################################################
 
 # Docker
 if command_exists docker; then
@@ -60,6 +76,7 @@ fi
 # gh github cli
 if command_exists gh; then
   if [ -n "$GITHUB_TOKEN" ] && [ -n "$GH_HOST" ]; then
+    echo "GH_HOST is set: $GH_HOST"
     log "Sourcing gh (github) aliases"
     [ -f "${cur_path}"/aliases/gh.sh ] && . "${cur_path}"/aliases/gh.sh && log " - done"
   else

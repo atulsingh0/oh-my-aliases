@@ -34,11 +34,11 @@ dhist() {
   docker history "$1" --format "{{.ID}}: {{.CreatedBy}}" --no-trunc
 }
 
-dlogin() {
+dsh() {
   docker exec -it "$1" /bin/sh
 }
 
-dloginu() {
+dshu() {
   docker exec -it -u "$1" "$2" /bin/sh
 }
 

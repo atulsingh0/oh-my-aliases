@@ -69,6 +69,7 @@ alias kscaledown='kubectl scale --replicas=0'
 }
 
  kevents() {
+  res=""
   for res in "${@:1}"; do
     echo "Events from $1 $res:"
     kubectl describe "$1" "$res" | sed -n '/Events:/, $p'
@@ -102,7 +103,7 @@ alias kscaledown='kubectl scale --replicas=0'
 }
 
  kdelp() {
-  for name in "$*"; do
+  for name in "$@"; do
     kubectl delete pod "${name}"
   done
 }

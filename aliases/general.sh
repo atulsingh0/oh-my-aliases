@@ -1,3 +1,4 @@
+#!/bin/sh
 if command -v batcat >/dev/null 2>&1; then
   alias bat=batcat
 fi
@@ -30,5 +31,5 @@ alias randstr="cat /dev/urandom | env LC_ALL=C tr -dc 'A-Za-z0-9' | head -c"
 alias sshkey='ssh-keygen -b 4096 -t ed25519'
 
 selfcert() {
-  openssl req -newkey rsa:4096 -x509 -sha256 -nodes -keyout $1.key.pem -days 365 -out $1.pem
+  openssl req -newkey rsa:4096 -x509 -sha256 -nodes -keyout "$1".key.pem -days 365 -out "$1".pem
 }

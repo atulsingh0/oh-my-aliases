@@ -65,12 +65,16 @@ if command_exists git; then
   [ -f "${cur_path}"/aliases/git.sh ] && . "${cur_path}"/aliases/git.sh && log " - done"
 
   # Enabling Git Ignore
+  cat "${cur_path}"/aliases/gitignore_global >"${HOME}"/.oma_gitignore_global
   if [ -f "${cur_path}"/aliases/private_gitignore_global ]; then
-    cat "${cur_path}"/aliases/gitignore_global "${cur_path}"/aliases/private_gitignore_global >"${HOME}"/gitignore_global
-    git config --global core.excludesfile "${HOME}"/gitignore_global
-  else
-    git config --global core.excludesfile "${cur_path}"/aliases/gitignore_global
+    cat "${cur_path}"/aliases/private_gitignore_global >>"${HOME}"/.oma_gitignore_global
   fi
+
+  if [ -f "${CUSTOM_ALIAS_FOLDER}/gitignore" ]; then
+    cat "${CUSTOM_ALIAS_FOLDER}/gitignore" >>"${HOME}"/.oma_gitignore_global
+  fi
+
+  git config --global core.excludesfile "${HOME}"/.oma_gitignore_global
 fi
 
 # gh github cli

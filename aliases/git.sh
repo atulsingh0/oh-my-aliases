@@ -44,7 +44,7 @@ ga() {
 }
 
 gcm() {
-  BR=$(git branch --show-current | sed "s_integration/__" | sed -e "s/\(.*[0-9]\).*/\1/g" | sed "s_server_SERVER")
+  BR=$(git branch --show-current | sed "s_integration/__" | sed -e "s/\(.*[0-9]\).*/\1/g" | sed "s_server_SERVER_")
   echo "current branch: $BR"
   git commit -m "$BR | $*"
 }

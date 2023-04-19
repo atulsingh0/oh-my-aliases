@@ -17,16 +17,20 @@ alias gcma='git commit --amend'
 alias gcf='git commit --fixup'
 alias gdif='git diff'
 alias glg='git log --oneline --abbrev-commit'
-alias glog='git log --oneline --abbrev-commit -40'
+alias glog='git log --oneline --abbrev-commit -30'
+alias glog1='git log --oneline --decorate --graph --all -30'
+
 alias gsave='git add -A && git commit -m "chores: save checkpoint"'
 alias gstm='git stash -m'
 alias gstl='git stash list'
-alias gst1='git stash'
+alias gst1='git stash -u'
 alias gst2='git stash pop'
 alias gchange='git show --pretty="" -r'
 alias gfile='git diff-tree --no-commit-id --name-only -r'
 alias gcme='git commit --allow-empty -m "Trigger Build, Empty commit"'
 alias gaa='git add --all'
+alias gpatch='git format-patch'
+alias gclean='git remote prune origin && git repack && git prune-packed && git reflog expire --expire=1.month.ago && git gc --aggressive && git fetch -p'
 
 gtst() {
   git add .

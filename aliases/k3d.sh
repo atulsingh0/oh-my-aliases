@@ -11,3 +11,4 @@ k3dc() {
 alias k3dd="k3d cluster delete"
 alias k3dstop="k3d cluster stop"
 alias k3dstart="k3d clusrer start"
+alias k3dlist="k3d cluster list"

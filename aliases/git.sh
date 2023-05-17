@@ -5,8 +5,11 @@
 
 git config --global pull.rebase true
 git config --global pull.ff true
+git config --global push.autoSetupRemote true
 
 alias gs='git status'
+alias grs='git restore'
+alias grv='git revert'
 alias gss='git status --short'
 alias gp1='git pull'
 alias gp2='git push'
@@ -20,7 +23,7 @@ alias glg='git log --oneline --abbrev-commit'
 alias glog='git log --oneline --abbrev-commit -30'
 alias glog1='git log --oneline --decorate --graph --all -30'
 
-alias gsave='git add -A && git commit -m "chores: save checkpoint"'
+alias gsavea='git add -A && git commit -m "chores: save checkpoint at $(date -Iseconds)"'
 alias gstm='git stash -m'
 alias gstl='git stash list'
 alias gst1='git stash -u'
@@ -30,7 +33,23 @@ alias gfile='git diff-tree --no-commit-id --name-only -r'
 alias gcme='git commit --allow-empty -m "Trigger Build, Empty commit"'
 alias gaa='git add --all'
 alias gpatch='git format-patch'
-alias gclean='git remote prune origin && git repack && git prune-packed && git reflog expire --expire=1.month.ago && git gc --aggressive && git fetch -p'
+
+gsave() {
+  git add $@ &&
+    git commit -m "chores: save checkpoint at $(date -Iseconds)"
+}
+
+gclean() {
+  git remote prune origin &&
+    git repack &&
+    git prune-packed &&
+    git reflog expire --expire=1.month.ago &&
+    git gc --aggressive &&
+    git fetch -p
+
+  echo "Now .git size"
+  du -sh .git
+}
 
 gtst() {
   git add .
@@ -65,9 +84,15 @@ gfix() {
 }
 
 gbren() {
-  cur=$(git branch --show-current)
-  new="$1"
-  git branch -m "${cur}" "${new}"
-  git branch --unset-upstream
-  git push --set-upstream origin :"${cur}" "${new}"
+	cur=$(git branch --show-current)
+	new="$1"
+	git branch -m "${cur}" "${new}"
+	git branch --unset-upstream || echo "No upstreme"
+	git branch -D "${cur}" || echo "No upstream deletion"
+	git push --set-upstream origin "${new}"
+}
+
+gcopy() {
+  echo "Copying ${@:2} from branch $1"
+  git checkout "$1" -- "${@:2}"
 }

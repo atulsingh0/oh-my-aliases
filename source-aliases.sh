@@ -136,6 +136,10 @@ if command_exists delta; then
   [ -f "${cur_path}"/aliases/delta.sh ] && . "${cur_path}"/aliases/delta.sh && log " - done"
 fi
 
+# Letsencrypt
+log "Sourcing letsencrypt aliases"
+[ -f "${cur_path}"/aliases/letsencrypt.sh ] && . "${cur_path}"/aliases/letsencrypt.sh && log " - done"
+
 ########################################################
 ########################################################
 # General

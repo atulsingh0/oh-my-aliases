@@ -86,10 +86,10 @@ gfix() {
 gbren() {
 	cur=$(git branch --show-current)
 	new="$1"
-	git branch -m "${cur}" "${new}"
-	git branch --unset-upstream || echo "No upstreme"
-	git branch -D "${cur}" || echo "No upstream deletion"
-	git push --set-upstream origin "${new}"
+  echo "Renaming git branch from $cur to $new"
+  git branch -m "${cur}" "${new}"
+  git push origin ":${cur}" "${new}"
+  git push origin –u "${new}"
 }
 
 gcopy() {

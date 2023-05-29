@@ -30,7 +30,7 @@ log() {
 ## Loading aliases from a folder
 if [ -n "${CUSTOM_ALIAS_FOLDER}" ]; then
   echo "CUSTOM_ALIAS_FOLDER is set: $CUSTOM_ALIAS_FOLDER"
-  find "${CUSTOM_ALIAS_FOLDER}" -maxdepth 1 -type f -name "*.sh" 2>/dev/null | while read file; do
+  find "${CUSTOM_ALIAS_FOLDER}" -maxdepth 1 -type f -name "*.sh" 2>/dev/null | while read -r file; do
     log "Sourcing $(basename "${file}") aliases"
     # shellcheck source=/dev/null
     . "${file}" && log " - done "
@@ -97,7 +97,7 @@ fi
 # aws
 if command_exists aws; then
   log "Sourcing aws aliases"
-  [ -f "${cur_path}"/aliases/aws.sh ] && . "${cur_path}"/aliases/aws.sh && log " - done"
+  [ -f "${cur_path}"/aliases/aws.sh ] && . "${cur_path}/aliases/aws.sh" && log " - done"
 fi
 
 # openshift
@@ -130,10 +130,16 @@ if command_exists vagrant; then
   [ -f "${cur_path}"/aliases/vagrant.sh ] && . "${cur_path}"/aliases/vagrant.sh && log " - done"
 fi
 
-# vagrant
+# delta
 if command_exists delta; then
   log "Sourcing delta aliases"
   [ -f "${cur_path}"/aliases/delta.sh ] && . "${cur_path}"/aliases/delta.sh && log " - done"
+fi
+
+# asciinema
+if command_exists asciinema; then
+  log "Sourcing asciinema aliases"
+  [ -f "${cur_path}"/aliases/asciinema.sh ] && . "${cur_path}"/aliases/asciinema.sh && log " - done"
 fi
 
 # Letsencrypt

@@ -22,7 +22,11 @@ log() {
 }
 
 # Sourcing Environment Variable
+
+# shellcheck disable=SC1019
 [ -f "${cur_path}"/env.sh ] && . "${cur_path}"/env.sh && log "Sourced environment variables"
+
+# shellcheck disable=SC1019
 [ -f "${cur_path}"/private_env.sh ] && . "${cur_path}"/private_env.sh && log "Sourced private environment variables"
 
 ########################################################

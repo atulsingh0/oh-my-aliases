@@ -1,10 +1,14 @@
 #!/bin/sh
 
-trec() {
-  asciinema rec
+arec() {
+  asciinema rec $1
 }
 
-tup() {
+aup() {
   asciinema auth &&
-    asciinema $*
+    asciinema upload $*
+}
+
+aplay() {
+  asciinema play $*
 }

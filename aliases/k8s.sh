@@ -145,3 +145,12 @@ alias kdelpi="kubectl get pods | egrep -v 'Running|Completed|Pending' |grep -v N
  kbash() {
   kubectl exec -it "$1" -- sh
 }
+
+aws_kaddctx() {
+  name="$1"
+  if [ -z "$2" ]; then
+    aws eks update-kubeconfig --name "$name" --region "$(aws configure get region)"
+  else
+    aws eks update-kubeconfig --name "$name" --region "$2"
+  fi
+}

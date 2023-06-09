@@ -12,7 +12,7 @@
 ## - The result of running AWS CLI.
 ## Example:
 ##   aws-shortcut "prof1" ecr get-login
-function aws_shortcut() {
+aws_shortcut() {
   [ $# -lt 2 ] && echo "Usage: aws-shortcut profile cmd+" && return 1
   local profile="${1}"
   shift
@@ -42,13 +42,14 @@ function aws_shortcut() {
 ##       echo "AWS Profile found: ${profile}";
 ##     done
 ##   fi
-function list_aws_profiles() {
+list_aws_profiles() {
   local -i rescode
   local result="$(cat ${HOME}/.aws/config | grep '\[profile ' | sed 's|\[profile ||g' | tr -d ']')"
   rescode=$?
 
   if [ ${rescode} -eq 0 ]; then
     export RESULT="${result}"
+    echo $RESULT
   fi
 
   return ${rescode}
@@ -63,7 +64,7 @@ function list_aws_profiles() {
 ##   if generate-aws-profile-aliases ${HOME}/my-aliases; then
 ##     echo "AWS profile aliases generated successfully in ${HOME}/my-aliases.";
 ##   fi
-function generate_aws_profile_aliases() {
+generate_aws_profile_aliases() {
   local -i rescode=1
   local file="${1}"
 
@@ -110,7 +111,7 @@ function generate_aws_profile_aliases() {
 ##     done
 ##     IFS="${oldIFS}";
 ##   fi
-function list_ec2_instances() {
+list_ec2_instances() {
   local -i rescode=1
   local profile="${1}"
 
@@ -137,7 +138,7 @@ function list_ec2_instances() {
 ##   if retrieve-ec2-ip nginx prof1; then
 ##     echo "IP of nginx in prof1: ${RESULT}";
 ##   fi
-function retrieve_ec2_ip() {
+retrieve_ec2_ip() {
   local -i rescode=1
   local resource="${1}"
   local profile="${2}"
@@ -167,7 +168,7 @@ function retrieve_ec2_ip() {
 ##   if add-route-to-host tun0 8.8.8.8; then
 ##     echo "Route created successfully";
 ##   fi
-function add_route_to_host() {
+add_route_to_host() {
   local vpnInterface="${1}"
   local ip="${2}"
   local -i rescode=1
@@ -205,7 +206,7 @@ function add_route_to_host() {
 ##   if update-ec2-ssh nginx clientX; then
 ##     echo "SSH configuration for nginx (pre) in clientX account updated successfully";
 ##   fi
-function update_ec2_ssh() {
+update_ec2_ssh() {
   local -i rescode=1
   local resource="${1}"
   local profile="${2}"
@@ -275,7 +276,7 @@ EOF
 ##   if generate-ec2-ssh-aliases-for-profile "prof1" ${HOME}/my-aliases; then
 ##     echo "SSH aliases generated for your EC2 instances in prof1, in ${HOME}/my-aliases.";
 ##   fi
-function generate_ec2_ssh_aliases_for_profile() {
+generate_ec2_ssh_aliases_for_profile() {
   local -i rescode=1
   local profile="${1}"
   local file="${2}"
@@ -324,7 +325,7 @@ function generate_ec2_ssh_aliases_for_profile() {
 ##   if generate-all-ec2-ssh-aliases ${HOME}/my-aliases; then
 ##     echo "Shell aliases generated for all AWS profiles in ${HOME}/my-aliases."
 ##   fi
-function generate_all_ec2_ssh_aliases() {
+generate_all_ec2_ssh_aliases() {
   local -i rescode=1
   local file="${1}"
   local awsProfiles

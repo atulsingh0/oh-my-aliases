@@ -6,6 +6,10 @@
 git config --global pull.rebase true
 git config --global pull.ff true
 git config --global push.autoSetupRemote true
+git config --global init.defaultBranch main
+git config --global status.showUntrackedFiles all
+git config --global url."git@github.com:".insteadOf "https://github.com/"
+git config --global url."git@github.com:".insteadOf "github.com/"
 
 alias gs='git status'
 alias grs='git restore'
@@ -33,6 +37,7 @@ alias gfile='git diff-tree --no-commit-id --name-only -r'
 alias gcme='git commit --allow-empty -m "Trigger Build, Empty commit"'
 alias gaa='git add --all'
 alias gpatch='git format-patch'
+alias gremote='git remote set-url origin'
 
 gsave() {
   git add $@ &&
@@ -58,14 +63,22 @@ gtst() {
 }
 
 ga() {
-  grep -Er '<<<<<<< HEAD|>>>>>>>' "$@"
-  count=$(grep -Er '<<<<<<< HEAD|>>>>>>>' "$@" | grep -vc "0$")
-  # echo $count
-  if [ "${count}" -gt 0 ]; then
-    echo "Fix the conflicts."
+  # --exclude=*.{tar,tar.gz} --exclude-dir={.terraform}
+  if [ "$1" = "." ]; then
+    files=$(git status --short | cut -d " " -f 3)
   else
-    git add "$@"
+    files="$*"
   fi
+  echo "$files" | while read -r file; do
+    grep -Erl '<<<<<<< HEAD|>>>>>>>' "$file"
+    count=$(grep -Erl '<<<<<<< HEAD|>>>>>>>' "$file" | grep -vc "0$")
+    # echo $count
+    if [ "${count}" -gt 0 ]; then
+      echo "Fix the conflicts."
+    else
+      git add "$file"
+  fi
+  done
 }
 
 gcm() {
@@ -96,3 +109,5 @@ gcopy() {
   echo "Copying ${@:2} from branch $1"
   git checkout "$1" -- "${@:2}"
 }
+
+

@@ -23,6 +23,8 @@ alias drmv='docker rm volume'
 alias dstats='docker stats'
 alias dvol='docker volume ls'
 alias dvoli='docker volume inspect'
+alias dpkg='docker sbom'
+alias dscan='docker scout cves'
 
 dclean() {
   docker ps --no-trunc -aqf "status=exited" | xargs docker rm

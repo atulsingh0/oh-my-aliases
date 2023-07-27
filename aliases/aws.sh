@@ -13,7 +13,7 @@
 ## Example:
 ##   aws-shortcut "prof1" ecr get-login
 aws_shortcut() {
-  [ $# -lt 2 ] && echo "Usage: aws-shortcut profile cmd+" && return 1
+  [ $# -lt 2 ] && echo "Usage: aws_shortcut profile cmd+" && return 1
   local profile="${1}"
   shift
   local first="${1}"
@@ -76,14 +76,14 @@ generate_aws_profile_aliases() {
   local p
 
   echo -n "Generating AWS profile aliases ... "
-  if list-aws-profiles; then
+  if list_aws_profiles; then
     local oldIFS="${IFS}"
     IFS=$' \t\n'
     if [ ${ZSH_VERSION} ]; then
       setopt sh_word_split
     fi
     for p in ${RESULT}; do
-      echo "alias aws-${p}=\"aws-shortcut ${p}\";" >>${file}
+      echo "alias aws_${p}=\"aws_shortcut ${p}\";" >>${file}
       rescode=0
     done
     IFS="${oldIFS}"

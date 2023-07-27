@@ -39,6 +39,35 @@ alias gaa='git add --all'
 alias gpatch='git format-patch'
 alias gremote='git remote set-url origin'
 
+gs1() {
+  awk -vOFS='' '
+    NR==FNR {
+        all[i++] = $0;
+        difffiles[$1] = $0;
+        next;
+    }
+    ! ($2 in difffiles) {
+        print; next;
+    }
+    {
+        gsub($2, difffiles[$2]);
+        print;
+    }
+    END {
+        if (NR != FNR) {
+            # Had diff output
+            exit;
+        }
+        # Had no diff output, just print lines from git status -sb
+        for (i in all) {
+            print all[i];
+        }
+    }
+' \
+    <(git diff --color --stat=$(($(tput cols) - 3)) HEAD | sed '$d; s/^ //')\
+    <(git -c color.status=always status -sb)
+}
+
 gsave() {
   git add $@ &&
     git commit -m "chores: save checkpoint at $(date -Iseconds)"
@@ -64,25 +93,27 @@ gtst() {
 
 ga() {
   # --exclude=*.{tar,tar.gz} --exclude-dir={.terraform}
-  if [ "$1" = "." ]; then
-    files=$(git status --short | cut -d " " -f 3)
+  if [ "$1" != "." ]; then
+    files=$(echo $* | tr " " "\n")
+    echo "$files" | while read -r file; do
+      grep -Erl '<<<<<<< HEAD|>>>>>>>' "$file"
+      count=$(grep -Erl '<<<<<<< HEAD|>>>>>>>' "$file" | grep -vc "0$")
+      # echo $count
+      if [ "${count}" -gt 0 ]; then
+        echo "Fix the conflicts."
+      else
+        git add "$file"
+      fi
+      done
   else
-    files="$*"
+    git add .
   fi
-  echo "$files" | while read -r file; do
-    grep -Erl '<<<<<<< HEAD|>>>>>>>' "$file"
-    count=$(grep -Erl '<<<<<<< HEAD|>>>>>>>' "$file" | grep -vc "0$")
-    # echo $count
-    if [ "${count}" -gt 0 ]; then
-      echo "Fix the conflicts."
-    else
-      git add "$file"
-  fi
-  done
+
 }
 
 gcm() {
-  BR=$(git branch --show-current | sed "s_integration/__" | sed -e "s/\(.*[0-9]\).*/\1/g" | sed "s_server_SERVER_")
+  BR=$(git branch --show-current | sed "s_integration/__" | cut -d'-' -f1,2 | sed "s_server_SERVER_")
+  #BR=$(git branch --show-current | sed "s_integration/__" | sed -e "s/\(.*[0-9]\).*/\1/g" | sed "s_server_SERVER_")
   echo "current branch: $BR"
   git commit -m "$BR | $*"
 }
@@ -110,4 +141,12 @@ gcopy() {
   git checkout "$1" -- "${@:2}"
 }
 
+fix_gitignore(){
+  git rm -r --cached .
+  git add .
+git commit -m ".fixing gitignore"
+}
 
+get_commit() {
+  git rev-list HEAD -n 5 -- "$@"
+}

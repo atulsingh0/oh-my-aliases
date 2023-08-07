@@ -34,3 +34,11 @@ alias sshkey='ssh-keygen -b 4096 -t ed25519'
 selfcert() {
   openssl req -newkey rsa:4096 -x509 -sha256 -nodes -keyout "$1".key.pem -days 365 -out "$1".pem
 }
+
+reload() {
+case $(basename $SHELL) in
+    zsh)  source ~/.zshrc ;;
+    bash) source ~/.bashrc ;;
+    *)    echo "Unrecognized shell $SHELL" ;;
+esac 
+}

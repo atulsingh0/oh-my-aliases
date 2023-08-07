@@ -9,7 +9,7 @@ git config --global push.autoSetupRemote true
 git config --global init.defaultBranch main
 git config --global status.showUntrackedFiles all
 git config --global url."git@github.com:".insteadOf "https://github.com/"
-git config --global url."git@github.com:".insteadOf "github.com/"
+git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 
 alias gs='git status'
 alias grs='git restore'

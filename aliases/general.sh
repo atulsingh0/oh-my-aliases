@@ -36,9 +36,27 @@ selfcert() {
 }
 
 reload() {
-case $(basename $SHELL) in
-    zsh)  source ~/.zshrc ;;
-    bash) source ~/.bashrc ;;
-    *)    echo "Unrecognized shell $SHELL" ;;
-esac 
+  case $(basename $SHELL) in
+  zsh) [ -f ". ${HOME}/.zshrc" ] && ". ${HOME}/.zshrc" ;;
+  bash) [ -f ". ${HOME}/.bashrc" ] && ". ${HOME}/.bashrc" ;;
+  *) echo "Unrecognized shell $SHELL" ;;
+  esac
+}
+
+kill_port() {
+  lsof -i :$1 -sTCP:LISTEN | awk 'NR > 1 {print $2}' | xargs kill -15
+}
+
+# Reload go program
+go_kill_and_rerun() {
+  fswatch -o "$PWD/$2" | xargs -n1 -I{} kill "$1" && go run "$PWD/$2"
+}
+
+go_reload() {
+  while true; do
+    go run "$PWD/$1" &
+    PID=$!
+    fswatch -o "$PWD"
+    kill -15 $PID echo "Killed process - $PID"
+  done
 }

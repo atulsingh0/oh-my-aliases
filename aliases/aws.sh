@@ -2,6 +2,10 @@
 #        AWS
 #################################
 
+aws_who() {
+  aws sts get-caller-identity
+}
+
 # https://osoco.es/thoughts/2018/04/shell-aliases-for-accessing-your-aws-ec2-instances-via-ssh/
 
 ## Runs AWS CLI using given profile, and uses "--no-include-email" if we try to
@@ -11,9 +15,9 @@
 ## Returns:
 ## - The result of running AWS CLI.
 ## Example:
-##   aws-shortcut "prof1" ecr get-login
-aws_shortcut() {
-  [ $# -lt 2 ] && echo "Usage: aws_shortcut profile cmd+" && return 1
+##   awss "prof1" ecr get-login
+awss() {
+  [ $# -lt 2 ] && echo "Usage: awss profile cmd+" && return 1
   local profile="${1}"
   shift
   local first="${1}"
@@ -37,12 +41,12 @@ aws_shortcut() {
 ## Returns:
 ## - 0 If the profiles were found; 1 otherwise.
 ## Example:
-##   if list-aws-profiles; do
+##   if awsp; do
 ##     for profile in ${RESULT}; do
 ##       echo "AWS Profile found: ${profile}";
 ##     done
 ##   fi
-list_aws_profiles() {
+awsp() {
   local -i rescode
   local result="$(cat ${HOME}/.aws/config | grep '\[profile ' | sed 's|\[profile ||g' | tr -d ']')"
   rescode=$?
@@ -55,7 +59,19 @@ list_aws_profiles() {
   return ${rescode}
 }
 
-## Declares shell aliases to run aws-shortcut for each AWS profile found.
+## Set AWS profile
+aws_profile() {
+  export AWS_PROFILE="$1"
+  echo "Setting AWS profile = ${AWS_PROFILE}"
+}
+
+## Set AWS region
+aws_region() {
+  export AWS_DEFAULT_REGION="$1"
+  echo "Setting AWS REGION - ${AWS_DEFAULT_REGION}"
+}
+
+## Declares shell aliases to run awss for each AWS profile found.
 ## Parameters:
 ## - 1: The file to write the aliases to.
 ## Returns:
@@ -76,14 +92,14 @@ generate_aws_profile_aliases() {
   local p
 
   echo -n "Generating AWS profile aliases ... "
-  if list_aws_profiles; then
+  if awsp; then
     local oldIFS="${IFS}"
     IFS=$' \t\n'
     if [ ${ZSH_VERSION} ]; then
       setopt sh_word_split
     fi
     for p in ${RESULT}; do
-      echo "alias aws_${p}=\"aws_shortcut ${p}\";" >>${file}
+      echo "alias aws_${p}=\"awss ${p}\";" >>${file}
       rescode=0
     done
     IFS="${oldIFS}"
@@ -342,7 +358,7 @@ generate_all_ec2_ssh_aliases() {
   fi
 
   echo -n "Retrieving AWS profiles ... "
-  if list-aws-profiles; then
+  if awsp; then
     echo "done"
     local oldIFS="${IFS}"
     IFS=$' \t\n'

@@ -96,8 +96,8 @@ ga() {
   if [ "$1" != "." ]; then
     files=$(echo $* | tr " " "\n")
     echo "$files" | while read -r file; do
-      grep -Erl '<<<<<<< HEAD|>>>>>>>' "$file"
-      count=$(grep -Erl '<<<<<<< HEAD|>>>>>>>' "$file" | grep -vc "0$")
+      grep -ERl --exclude-dir=".terraform" '<<<<<<< HEAD|>>>>>>>' "$file"
+      count=$(grep -ERl --exclude-dir=".terraform" '<<<<<<< HEAD|>>>>>>>' "$file" | grep -vc "0$")
       # echo $count
       if [ "${count}" -gt 0 ]; then
         echo "Fix the conflicts."

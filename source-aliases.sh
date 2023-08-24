@@ -58,6 +58,11 @@ if command_exists kubectl; then
   [ -f "${cur_path}"/aliases/k8s-plugin.sh ] && . "${cur_path}"/aliases/k8s-plugin.sh && log " - done"
 fi
 
+if command_exists helm; then
+  log "Sourcing helm aliases"
+  [ -f "${cur_path}"/aliases/helm.sh ] && . "${cur_path}"/aliases/helm.sh && log " - done"
+fi
+
 # K3d
 if command_exists k3d; then
   log "Sourcing k3d aliases"

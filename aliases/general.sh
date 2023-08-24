@@ -1,13 +1,22 @@
 #!/bin/sh
-if command -v batcat >/dev/null 2>&1; then
-  alias bat=batcat
+
+cur_path="$(cd "$(dirname "$0")" && pwd)"
+
+if command_exists batcat; then
+  alias ccat=cat
+  alias cat=batcat
 fi
 
-if command -v nvim >/dev/null 2>&1; then
+if command_exists bat; then
+  alias ccat=cat
+  alias cat=bat
+fi
+
+if command_exists nvim; then
   alias vi=nvim
 fi
 
-if command -v python3 >/dev/null 2>&1; then
+if command_exists python3; then
   alias python=python3
 fi
 
@@ -42,7 +51,7 @@ selfcert() {
 
 reload() {
   case $(basename $SHELL) in
-  zsh) [ -f "${HOME}/.zshrc" ] && source ${HOME}/.zshrc ;;
+  zsh) [ -f "${HOME}/.zshrc" ] && source ${HOME}/.zshrc ;; #&& source ${cur_path}/../source-aliases.sh;;
   bash) [ -f "${HOME}/.bashrc" ] && source ${HOME}/.bashrc ;;
   *) echo "Unrecognized shell $SHELL" ;;
   esac

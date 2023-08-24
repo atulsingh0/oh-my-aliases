@@ -3,6 +3,8 @@
 #        git
 #################################
 
+GIT_COMMIT_BRANCH=${GIT_COMMIT_BRANCH:-true}
+
 git config --global pull.rebase true
 git config --global pull.ff true
 git config --global push.autoSetupRemote true
@@ -112,10 +114,14 @@ ga() {
 }
 
 gcm() {
+if ${GIT_COMMIT_BRANCH}; then
   BR=$(git branch --show-current | sed "s_integration/__" | cut -d'-' -f1,2 | sed "s_server_SERVER_")
   #BR=$(git branch --show-current | sed "s_integration/__" | sed -e "s/\(.*[0-9]\).*/\1/g" | sed "s_server_SERVER_")
   echo "current branch: $BR"
   git commit -m "$BR | $*"
+else
+  git commit -m "$*"
+fi 
 }
 
 gfix() {

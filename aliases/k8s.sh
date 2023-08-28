@@ -59,7 +59,7 @@ alias kscaledown='kubectl scale --replicas=0'
   read -r ans
   case $ans in
   [yY])
-    kubectl delete "$*"
+    kubectl delete $*
     ;;
   [nN])
     echo "Do nothing and Exiting"

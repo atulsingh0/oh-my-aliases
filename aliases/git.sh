@@ -121,7 +121,7 @@ if ${GIT_COMMIT_BRANCH}; then
   git commit -m "$BR | $*"
 else
   git commit -m "$*"
-fi 
+fi
 }
 
 gfix() {
@@ -139,7 +139,6 @@ gbren() {
   echo "Renaming git branch from $cur to $new"
   git branch -m "${cur}" "${new}"
   git push origin ":${cur}" "${new}"
-  git push origin –u "${new}"
 }
 
 gcopy() {
@@ -150,7 +149,7 @@ gcopy() {
 fix_gitignore(){
   git rm -r --cached .
   git add .
-git commit -m ".fixing gitignore"
+  git commit -m ".fixing gitignore"
 }
 
 get_commit() {

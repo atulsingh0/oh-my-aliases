@@ -12,3 +12,25 @@ aup() {
 aplay() {
   asciinema play $*
 }
+
+agif() {
+
+  curpath=$PWD 
+  dir=$(dirname $1)
+  file=$(basename $1)
+  outfile="${file%.cast}.gif"
+
+  cd $dir 
+  
+  if command_exists docker; then 
+    docker run --rm -it -u $(id -u):$(id -g) -v $PWD:/data datagenx/agg:latest $file $outfile \
+    && echo "asciinema: asciicast saved to $dir/$outfile"
+  elif command_exists podman; then 
+    podman run --rm -it -v $PWD:/data datagenx/agg:latest $file $outfile \
+    && echo "asciinema: asciicast saved to $dir/$outfile"
+  else 
+    echo "Either docker or podman is required."
+  fi
+
+  cd $curpath
+}

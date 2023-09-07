@@ -21,7 +21,7 @@ alias gp1='git pull'
 alias gp2='git push'
 alias gb="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 alias gbc='git branch --show-current'
-alias gco='git checkout'
+alias gco='git fetch origin && git checkout'
 alias gcma='git commit --amend'
 alias gcf='git commit --fixup'
 alias gdif='git diff'

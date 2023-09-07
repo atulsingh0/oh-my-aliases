@@ -3,13 +3,11 @@
 cur_path="$(cd "$(dirname "$0")" && pwd)"
 
 if command_exists batcat; then
-  alias ccat=cat
-  alias cat=batcat
+  alias ccat=batcat
 fi
 
 if command_exists bat; then
-  alias ccat=cat
-  alias cat=bat
+  alias ccat=bat
 fi
 
 if command_exists nvim; then
@@ -40,6 +38,7 @@ alias yml2json='python3 -c "import sys, yml, json; print(json.safe_dump(yaml.loa
 alias randstr="cat /dev/urandom | env LC_ALL=C tr -dc 'A-Za-z0-9' | head -c"
 alias sshkey='ssh-keygen -b 4096 -t ed25519'
 alias diff='diff --color'
+alias readcert='openssl x509 -noout -text -in'
 
 fonts() {
   fc-list | awk '{$1=""}1' | cut -d: -f1 | sort | uniq

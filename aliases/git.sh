@@ -25,8 +25,10 @@ alias gco='git fetch origin && git checkout'
 alias gcma='git commit --amend'
 alias gcf='git commit --fixup'
 alias gdif='git diff'
-alias glg='git log --oneline --abbrev-commit'
-alias glog='git log --oneline --abbrev-commit -30'
+alias glog="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(green)<%an>%Creset' --abbrev-commit -30"
+alias glg="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(green)<%an>%Creset' --abbrev-commit"
+#alias glg='git log --oneline --abbrev-commit'
+#alias glog='git log --oneline --abbrev-commit -30'
 alias glog1='git log --oneline --decorate --graph --all -30'
 
 alias gsavea='git add -A && git commit -m "chores: save checkpoint at $(date -Iseconds)"'

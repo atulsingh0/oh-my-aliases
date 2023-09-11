@@ -22,7 +22,7 @@ alias gp2='git push'
 alias gb="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 alias gbc='git branch --show-current'
 alias gco='git fetch origin && git checkout'
-#alias gcma='git commit --amend'
+alias gcma='git commit --amend'
 alias gcf='git commit --fixup'
 alias gdif='git diff'
 alias glog="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(green)<%an>%Creset' --abbrev-commit -30"
@@ -89,11 +89,11 @@ gclean() {
   du -sh .git
 }
 
-gcma() {
-  git add $*
-  git commit --amend
-  echo "Use 'git push -f' to force push the changes."
-}
+# gcma() {
+#   git add $*
+#   git commit --amend
+#   echo "Use 'git push -f' to force push the changes."
+# }
 
 ga() {
   # --exclude=*.{tar,tar.gz} --exclude-dir={.terraform}
@@ -112,7 +112,6 @@ ga() {
   else
     git add .
   fi
-
 }
 
 gcm() {

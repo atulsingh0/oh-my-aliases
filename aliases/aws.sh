@@ -41,12 +41,12 @@ awss() {
 ## Returns:
 ## - 0 If the profiles were found; 1 otherwise.
 ## Example:
-##   if awsp; do
+##   if aws_profile; do
 ##     for profile in ${RESULT}; do
 ##       echo "AWS Profile found: ${profile}";
 ##     done
 ##   fi
-awsp() {
+aws_profile() {
   local -i rescode
   local result="$(cat ${HOME}/.aws/config | grep '\[profile ' | sed 's|\[profile ||g' | tr -d ']')"
   rescode=$?
@@ -60,7 +60,7 @@ awsp() {
 }
 
 ## Set AWS profile
-aws_profile() {
+aws_set_profile() {
   export AWS_PROFILE="$1"
   echo "Setting AWS profile = ${AWS_PROFILE}"
 }
@@ -92,7 +92,7 @@ generate_aws_profile_aliases() {
   local p
 
   echo -n "Generating AWS profile aliases ... "
-  if awsp; then
+  if aws_profile; then
     local oldIFS="${IFS}"
     IFS=$' \t\n'
     if [ ${ZSH_VERSION} ]; then
@@ -358,7 +358,7 @@ generate_all_ec2_ssh_aliases() {
   fi
 
   echo -n "Retrieving AWS profiles ... "
-  if awsp; then
+  if aws_profile; then
     echo "done"
     local oldIFS="${IFS}"
     IFS=$' \t\n'

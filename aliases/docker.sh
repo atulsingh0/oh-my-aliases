@@ -61,7 +61,7 @@ drmi() {
 }
 
 drun() {
-  docker run -d --name "${1/\//_}" -it --detach "$1" /bin/sh
+  docker run -d  -it --detach "$1" /bin/sh
 }
 
 dstop() {

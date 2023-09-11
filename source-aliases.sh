@@ -157,8 +157,8 @@ log "Sourcing letsencrypt aliases"
 [ -f "${cur_path}"/aliases/letsencrypt.sh ] && . "${cur_path}"/aliases/letsencrypt.sh && log " - done"
 
 # GPG
-log "Sourcing GPG aliases"
-[ -f "${cur_path}"/aliases/gpg.sh ] && . "${cur_path}"/aliases/gpg.sh && log " - done"
+log "Sourcing PGP (gnupg) aliases"
+[ -f "${cur_path}"/aliases/pgp.sh ] && . "${cur_path}"/aliases/pgp.sh && log " - done"
 
 ########################################################
 ########################################################

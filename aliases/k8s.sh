@@ -15,6 +15,7 @@ alias kcw='kubectl config view'
 alias kcc='kubectl config get-contexts'
 #alias kdebugpod='kubectl run z-test-pod --image=radial/busyboxplus:curl -i --tty'
 alias kdebugpod="kubectl run z-test-pod -it --image=atulsingh0/busuboxplus:kubectl"
+alias kdebugdns='kubectl run tmp-shell --rm -i --tty --image nicolaka/netshoot'
 
 alias ksetctxc='kubectl config set-context --current --namespace' # Or use kubectx binary
 #alias kaddctx='_(){ kubectl config set-context "$1" --namespace="$2" && kubectl config use-context "$1" }; _'

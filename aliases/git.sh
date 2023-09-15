@@ -106,11 +106,11 @@ ga() {
       if [ "${count}" -gt 0 ]; then
         echo "Fix the conflicts."
       else
-        git add "$file"
+        git add -p "$file"
       fi
       done
   else
-    git add .
+    git add -p .
   fi
 }
 
@@ -126,6 +126,7 @@ fi
 }
 
 gfix() {
+  # Fix a commit
   commit="$1"
   git commit --fixup="${commit}"
   git stash
@@ -135,6 +136,7 @@ gfix() {
 }
 
 gbren() {
+  # Branch Rename
 	cur=$(git branch --show-current)
 	new="$1"
   echo "Renaming git branch from $cur to $new"
@@ -143,6 +145,7 @@ gbren() {
 }
 
 gcopy() {
+  # Copy File from one branch to another
   echo "Copying ${@:2} from branch $1"
   git checkout "$1" -- "${@:2}"
 }
@@ -154,5 +157,11 @@ fix_gitignore(){
 }
 
 gfilec() {
+  # Commit on a file
   git rev-list HEAD -- "$@"
+}
+
+gdifc() {
+  # Changes done in a commit 
+  git diff "$1"~ "$1"
 }

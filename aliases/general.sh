@@ -18,6 +18,10 @@ if command_exists python3; then
   alias python=python3
 fi
 
+if command_exists rsync; then
+  alias cp=rsync
+fi
+
 # if command -v most >/dev/null 2>&1; then
 #   export PAGER=most
 # fi

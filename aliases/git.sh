@@ -15,6 +15,7 @@ git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 
 alias gs='git status'
 alias grs='git restore'
+alias grss='git restore --staged'
 alias grv='git revert'
 alias gss='git status --short'
 alias gp1='git pull'
@@ -105,12 +106,12 @@ ga() {
       # echo $count
       if [ "${count}" -gt 0 ]; then
         echo "Fix the conflicts."
-      else
-        git add -p "$file"
+        exit;
       fi
+        git add "$file"
       done
   else
-    git add -p .
+    git add .
   fi
 }
 

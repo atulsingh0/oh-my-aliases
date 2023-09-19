@@ -53,6 +53,7 @@ alias yml2json='python3 -c "import sys, yml, json; print(json.safe_dump(yaml.loa
 # Crypto
 alias sshkey='ssh-keygen -b 4096 -t ed25519'
 alias readcert='openssl x509 -noout -text -in'
+alias readcertdata='openssl x509 -noout -text'
 selfcert() {
   openssl req -newkey rsa:4096 -x509 -sha256 -nodes -keyout "$1".key.pem -days 365 -out "$1".pem
 }

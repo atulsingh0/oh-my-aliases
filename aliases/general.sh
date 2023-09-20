@@ -41,8 +41,13 @@ alias randstr="cat /dev/urandom | env LC_ALL=C tr -dc 'A-Za-z0-9' | head -c"
 alias diff='diff --color'
 alias mkdir='mkdir -p'
 alias df='df -kTh'
+alias tarxz='tar -xzf'
+alias tarx='tar -xf'
+alias tarcz='tar -cvzf'
+alias tarc='tar -cvf'
 alias ..='cd ..'
 alias ...='cd ../..'
+alias ....='cd ../../..'
 
 # Conversion
 alias urldecode='python3 -c "import sys, urllib as ul; print(ul.unquote_plus(sys.argv[1]))"'

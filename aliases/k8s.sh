@@ -96,7 +96,7 @@ alias kscaledown='kubectl scale --replicas=0'
 
  kenv() {
   #kubectl get pod/$1 -o json | jq '.spec.containers[].name + " " + .spec.containers[].env[].name' | column -t
-  kubectl describe pod/"$1" | sed -n '/Environment:/,/Mounts:/p'
+  kubectl describe pod/"$1" | sed -n '/Environment:/,/Mounts:/p' | sed "s/Mounts:/------------------------------------------/"
 }
 
  kenva() {
@@ -146,6 +146,7 @@ alias kdelpi="kubectl get pods | egrep -v 'Running|Completed|Pending' |grep -v N
  kbash() {
   kubectl exec -it "$1" -- sh
 }
+
 
 aws_kaddctx() {
   name="$1"

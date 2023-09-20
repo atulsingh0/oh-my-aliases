@@ -31,6 +31,7 @@ alias glg="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C
 #alias glg='git log --oneline --abbrev-commit'
 #alias glog='git log --oneline --abbrev-commit -30'
 alias glog1='git log --oneline --decorate --graph --all -30'
+alias gtree='git log --graph --abbrev-commit --decorate --date=relative --format=format:'\''%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'\'' --all'
 
 alias gsavea='git add -A && git commit -m "chores: save checkpoint at $(date -Iseconds)"'
 alias gstm='git stash -m'
@@ -43,6 +44,10 @@ alias gcme='git commit --allow-empty -m "Trigger Build, Empty commit"'
 alias gaa='git add --all'
 alias gpatch='git format-patch'
 alias gremote='git remote set-url origin'
+
+gsend () {
+    git commit -am "$1" && git push
+}
 
 gs1() {
   awk -vOFS='' '
@@ -105,8 +110,7 @@ ga() {
       count=$(grep -ERl --exclude-dir=".terraform" '<<<<<<< HEAD|>>>>>>>' "$file" | grep -vc "0$")
       # echo $count
       if [ "${count}" -gt 0 ]; then
-        echo "Fix the conflicts."
-        exit;
+        echo "Fix the conflicts in $file" && break
       fi
         git add "$file"
       done

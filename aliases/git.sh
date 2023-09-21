@@ -18,8 +18,8 @@ alias grs='git restore'
 alias grss='git restore --staged'
 alias grv='git revert'
 alias gss='git status --short'
-alias gp1='git pull'
-alias gp2='git push'
+alias gp1='git fetch origin && git pull'
+alias gp2='git push origin $(git branch --show-current)'
 alias gb="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 alias gbc='git branch --show-current'
 alias gco='git fetch origin && git checkout'
@@ -147,6 +147,8 @@ gbren() {
   echo "Renaming git branch from $cur to $new"
   git branch -m "${cur}" "${new}"
   git push origin ":${cur}" "${new}"
+  git branch --unset-upstream
+  git branch --set-upstream-to=origin/$new $new
 }
 
 gcopy() {

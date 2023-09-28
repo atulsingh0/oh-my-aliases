@@ -160,6 +160,11 @@ log "Sourcing letsencrypt aliases"
 log "Sourcing PGP (gnupg) aliases"
 [ -f "${cur_path}"/aliases/pgp.sh ] && . "${cur_path}"/aliases/pgp.sh && log " - done"
 
+# Pass - Password Stpre
+log "Sourcing pass aliases"
+[ -f "${cur_path}"/aliases/pass.sh ] && . "${cur_path}"/aliases/pass.sh && log " - done"
+
+
 ########################################################
 ########################################################
 # General

@@ -18,7 +18,22 @@ alias grs='git restore'
 alias grss='git restore --staged'
 alias grv='git revert'
 alias gss='git status --short'
-alias gp1='git fetch origin && git pull'
+gp1() {
+  git update-index -q --ignore-submodules --refresh
+  sts=0
+  if ! git diff-files --quiet --ignore-submodules --; then
+     echo "Stashing files.."
+     git stash
+     sts=1
+  fi
+  git fetch origin
+  git pull origin
+
+  if [ $sts -gt 0 ]; then 
+     echo "Un-stashing files..."
+     git stash pop
+  fi
+}
 alias gp2='git push origin $(git branch --show-current)'
 alias gb="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 alias gbc='git branch --show-current'
@@ -32,7 +47,6 @@ alias glg="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C
 #alias glog='git log --oneline --abbrev-commit -30'
 alias glog1='git log --oneline --decorate --graph --all -30'
 alias gtree='git log --graph --abbrev-commit --decorate --date=relative --format=format:'\''%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'\'' --all'
-
 alias gsavea='git add -A && git commit -m "chores: save checkpoint at $(date -Iseconds)"'
 alias gstm='git stash -m'
 alias gstl='git stash list'
@@ -45,7 +59,7 @@ alias gaa='git add --all'
 alias gpatch='git format-patch'
 alias gremote='git remote set-url origin'
 
-gsend () {
+gsend() {
     git commit -am "$1" && git push
 }
 

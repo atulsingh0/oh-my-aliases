@@ -19,21 +19,34 @@ alias grss='git restore --staged'
 alias grv='git revert'
 alias gss='git status --short'
 gp1() {
-  git update-index -q --ignore-submodules --refresh
   sts=0
-  if ! git diff-files --quiet --ignore-submodules --; then
-     echo "Stashing files.."
-     git stash
-     sts=1
+  if [ -n "$(git status -s)" ]; then
+    git stash
+    sts=1
   fi
   git fetch origin
   git pull origin
-
   if [ $sts -gt 0 ]; then 
      echo "Un-stashing files..."
      git stash pop
   fi
 }
+# gp1() {
+#   git update-index -q --ignore-submodules --refresh
+#   sts=0
+#   if ! git diff-files --quiet --ignore-submodules --; then
+#      echo "Stashing files.."
+#      git stash
+#      sts=1
+#   fi
+#   git fetch origin
+#   git pull origin
+
+#   if [ $sts -gt 0 ]; then 
+#      echo "Un-stashing files..."
+#      git stash pop
+#   fi
+# }
 alias gp2='git push origin $(git branch --show-current)'
 alias gb="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 alias gbc='git branch --show-current'

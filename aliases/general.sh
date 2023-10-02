@@ -26,9 +26,9 @@ fi
 #   export PAGER=most
 # fi
 alias c='clear'
-alias ls='ls -GFh --color'
-alias ll='ls -GFhlrt --color'
-alias lla='ls -GFhlrta --color'
+alias ls='ls -GFh --color=auto'
+alias ll='ls -GFhlrt --color=auto'
+alias lla='ls -GFhlrta --color=auto'
 alias cp='cp -R'
 alias scp='scp -r'
 alias egrep='egrep --color=auto'

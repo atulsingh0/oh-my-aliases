@@ -25,7 +25,7 @@ gp1() {
     sts=1
   fi
   git fetch origin
-  git pull origin
+  git pull 
   if [ $sts -gt 0 ]; then 
      echo "Un-stashing files..."
      git stash pop

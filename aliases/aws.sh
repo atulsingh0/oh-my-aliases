@@ -379,3 +379,7 @@ generate_all_ec2_ssh_aliases() {
 
   return ${rescode}
 }
+
+aws_decode_msg() {
+  aws sts decode-authorization-message --encoded-message "$1"  | jq -r '.DecodedMessage' | jq
+}

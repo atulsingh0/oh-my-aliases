@@ -45,6 +45,7 @@ alias tarxz='tar -xzf'
 alias tarx='tar -xf'
 alias tarcz='tar -cvzf'
 alias tarc='tar -cvf'
+alias dateu='date -u'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -80,7 +81,6 @@ alias -g S='| sort'
 alias -g T='tail -f'
 alias -g W='| wc -l'
 
-
 # Port
 list_port() {
   lsof -i :$1 -sTCP:LISTEN
@@ -89,7 +89,6 @@ list_port() {
 kill_port() {
   list_port $1 | awk 'NR > 1 {print $2}' | xargs kill -15
 }
-
 
 # List font
 fonts() {

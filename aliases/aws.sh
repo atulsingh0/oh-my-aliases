@@ -383,3 +383,11 @@ generate_all_ec2_ssh_aliases() {
 aws_decode_msg() {
   aws sts decode-authorization-message --encoded-message "$1"  | jq -r '.DecodedMessage' | jq
 }
+
+aws_instances_key() {
+  aws ec2 describe-instances --query "Reservations[].Instances[].[KeyName,InstanceId]" --output text | grep -v None | column -t
+}
+
+aws_keys_instance() {
+  aws ec2 describe-key-pairs --query "KeyPairs[].[KeyName]" --output text |xargs -I {} aws ec2 describe-instances --filters Name=key-name,Values={} --query "Reservations[].Instances[].[KeyName,InstanceId]" --output text
+}

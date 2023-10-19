@@ -95,6 +95,13 @@ fonts() {
   fc-list | awk '{$1=""}1' | cut -d: -f1 | sort | uniq
 }
 
+mask() {
+    local n=5                        # number of chars to leave
+    local a="${1:0:${#1}-n}"         # take all but the last n chars
+    local b="${1:${#1}-n}"           # take the final n chars
+    printf "%s%s\n" "${a//?/*}" "$b" # substitute a with asterisks
+}
+
 # Reload Aliases
 reload() {
   case $(basename $SHELL) in

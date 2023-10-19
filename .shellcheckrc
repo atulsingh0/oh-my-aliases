@@ -1,1 +1,2 @@
 disable=SC1091
+disable=SC3000-SC4000

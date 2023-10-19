@@ -53,6 +53,9 @@ alias kpog='kubectl get pods | egrep '
 alias kscale='kubectl scale --replicas='
 alias kscaleup='kubectl scale --replicas=1'
 alias kscaledown='kubectl scale --replicas=0'
+alias krs='kubectl get po -o custom-columns="Name:metadata.name,CPU-limit:spec.containers[*].resources.limits.cpu, CPU-request:spec.containers[*].resources.requests.cpu, memory-limits:spec.containers[*].resources.limits.memory, memory-request:spec.containers[*].resources.requests.memory"'
+alias kcpu='kubectl get po -o custom-columns="Name:metadata.name,CPU-limit:spec.containers[*].resources.limits.cpu, CPU-Request:spec.containers[*].resources.requests.cpu"'
+alias kmem='kubectl get po -o custom-columns="Name:metadata.name,Memory-limit:spec.containers[*].resources.limits.memory, Memory-Request:spec.containers[*].resources.requests.memory"'
 
  kdel() {
   printf "You are going to delete \033[31m $1 \033[0m from \033[31m %s \033[0m\n" "$(kubectx -c)/$(kubens -c)"
@@ -154,5 +157,16 @@ aws_kaddctx() {
     aws eks update-kubeconfig --name "$name" --region "$(aws configure get region)"
   else
     aws eks update-kubeconfig --name "$name" --region "$2"
+  fi
+}
+
+gcp_kaddctx() {
+  name="$1"
+  if [ "#$" == 1 ]; then 
+    gcloud container clusters get-credentials "$name" --region "$(gcloud config get compute/region)" --project "$(gcloud config get project)"
+  elif [ "#$" == 2 ]; then
+      gcloud container clusters get-credentials "$name" --region "$2" --project "$(gcloud config get project)"
+  else 
+      gcloud container clusters get-credentials "$name" --region "$2" --project "$3"
   fi
 }

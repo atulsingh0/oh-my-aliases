@@ -227,3 +227,36 @@ git_get_user() {
         echo "$MASKED_TOKEN\t|\t$USER"
     done
 }
+
+git_chk_app() {
+  APP_ID="$1"
+  APP_SECRET="$2"
+  PAT="$3"
+  HOST="$4" 
+
+  if [ [ -z "$APP_ID" ] || [ -z "$APP_SECRET" ] ]; then 
+    echo "Usgae: git_chk_app APP_ID APP_SECRET [ TOKEN HOST ]"
+    exit
+  fi
+
+  [ -z "$PAT" ] || [ -z "$HOST" ] 
+
+    # setting up hosts
+  if [ -z "$HOST" ||  -z "$PAT" ]; then
+      API_ENDPOINT="api.github.com"
+      echo "Hostname defaulted to github"
+  else
+      API_ENDPOINT="$HOST/api/v3"
+  fi
+
+  # calling Github API in loop
+  echo ""
+  echo "------------------------------------------------------------------------------"
+  USER=$(curl -sL \
+      -H "Accept: application/vnd.github+json" \
+      -H "Authorization: Bearer $PAT" \
+      -H "X-GitHub-Api-Version: 2022-11-28" \
+      https://"$API_ENDPOINT"/user | awk -F: '/login/ {print $2}' | tr -d "," | tr -d '"')
+  MASKED_TOKEN=$(mask $TOKEN)
+  echo "$MASKED_TOKEN\t|\t$USER"
+}

@@ -56,6 +56,7 @@ alias gcma='git commit --amend'
 alias gcf='git commit --fixup'
 alias gdif='git diff'
 alias glog="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(green)<%an>%Creset' --abbrev-commit -30"
+alias glogrep="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(green)<%an>%Creset' --abbrev-commit -30 --grep="
 alias glg="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(green)<%an>%Creset' --abbrev-commit"
 #alias glg='git log --oneline --abbrev-commit'
 #alias glog='git log --oneline --abbrev-commit -30'

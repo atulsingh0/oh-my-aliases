@@ -51,6 +51,7 @@ gp1() {
 alias gp2='git push origin $(git branch --show-current)'
 alias gb="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 alias gbc='git branch --show-current'
+alias gbr='git branch --remote'
 alias gco='git fetch origin && git checkout'
 alias gcma='git commit --amend'
 alias gcf='git commit --fixup'
@@ -73,6 +74,7 @@ alias gcme='git commit --allow-empty -m "Trigger Build, Empty commit"'
 alias gaa='git add --all'
 alias gpatch='git format-patch'
 alias gremote='git remote set-url origin'
+alias groot='cd $(git rev-parse --show-toplevel)'
 
 gsend() {
     git commit -am "$1" && git push

@@ -26,6 +26,7 @@ fi
 #   export PAGER=most
 # fi
 alias c='clear'
+alias cgpg='gpg-connect-agent reloadagent /bye'
 alias ls='ls -GFh --color=auto'
 alias ll='ls -GFhlrt --color=auto'
 alias lla='ls -GFhlrta --color=auto'

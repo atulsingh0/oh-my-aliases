@@ -5,3 +5,5 @@
 ## to store those details, create a file "private_env.sh"
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+setopt HIST_IGNORE_SPACE
+

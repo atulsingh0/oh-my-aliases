@@ -23,6 +23,11 @@ log() {
 
 ########################################################
 ########################################################
+
+## Setting UP Env Variable if any 
+. "${cur_path}/env.sh"
+
+
 ## Loading aliases from a folder
 if [ -n "${CUSTOM_ALIAS_FOLDER}" ]; then
   echo "CUSTOM_ALIAS_FOLDER is set: $CUSTOM_ALIAS_FOLDER"

@@ -54,6 +54,7 @@ alias gbc='git branch --show-current'
 alias gbr='git branch --remote'
 alias gco='git fetch origin && git checkout'
 alias gcma='git commit --amend'
+alias gcmaa='git commit --amend --no-edit'
 alias gcf='git commit --fixup'
 alias gdif='git diff'
 alias glog="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(green)<%an>%Creset' --abbrev-commit -30"
@@ -75,6 +76,7 @@ alias gaa='git add --all'
 alias gpatch='git format-patch'
 alias gremote='git remote set-url origin'
 alias groot='cd $(git rev-parse --show-toplevel)'
+alias gcignore='git check-ignore -v'
 
 gsend() {
     git commit -am "$1" && git push
@@ -220,46 +222,19 @@ git_get_user() {
     echo ""
     echo "------------------------------------------------------------------------------"
     echo "$TOKENS" | tr "," "\n" | while IFS=',' read -r TOKEN; do
-        OUT=$(curl -sL \
+        CODE=$(curl -sL \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$HOME/response-g.txt" -w "%{http_code}" \
             https://"$API_ENDPOINT"/user)
-        USER=$(echo $OUT | awk -F: '/login/ {print $2}' | tr -d "," | tr -d '"')
-        MASKED_TOKEN=$(mask $TOKEN)
-        echo "$MASKED_TOKEN\t|\t$USER"
+        if [ $CODE != "200" ]; then 
+          echo "Either Token Or Git Host is incorrect"
+        else
+          USER=$(awk -F: '/login/ {print $2}' $HOME/response-g.txt | tr -d "," | tr -d '"')
+          MASKED_TOKEN=$(mask $TOKEN)
+          echo "$MASKED_TOKEN\t|\t$USER"
+        fi
+        rm "$HOME/response-g.txt"
     done
-}
-
-git_chk_app() {
-  APP_ID="$1"
-  APP_SECRET="$2"
-  PAT="$3"
-  HOST="$4" 
-
-  if [ [ -z "$APP_ID" ] || [ -z "$APP_SECRET" ] ]; then 
-    echo "Usgae: git_chk_app APP_ID APP_SECRET [ TOKEN HOST ]"
-    exit
-  fi
-
-  [ -z "$PAT" ] || [ -z "$HOST" ] 
-
-    # setting up hosts
-  if [ -z "$HOST" ||  -z "$PAT" ]; then
-      API_ENDPOINT="api.github.com"
-      echo "Hostname defaulted to github"
-  else
-      API_ENDPOINT="$HOST/api/v3"
-  fi
-
-  # calling Github API in loop
-  echo ""
-  echo "------------------------------------------------------------------------------"
-  USER=$(curl -sL \
-      -H "Accept: application/vnd.github+json" \
-      -H "Authorization: Bearer $PAT" \
-      -H "X-GitHub-Api-Version: 2022-11-28" \
-      https://"$API_ENDPOINT"/user | awk -F: '/login/ {print $2}' | tr -d "," | tr -d '"')
-  MASKED_TOKEN=$(mask $TOKEN)
-  echo "$MASKED_TOKEN\t|\t$USER"
 }

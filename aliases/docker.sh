@@ -14,8 +14,6 @@ alias dlog='docker logs --follow'
 alias dlogt='docker logs --tail 100'
 alias dp='docker system prune'
 alias drmac='docker rm `docker ps -a -q`'
-alias drmcc='docker rm $(docker ps -qa --no-trunc --filter "status=created")'
-alias drmdc='docker rm $(docker ps -qa --no-trunc --filter "status=exited")'
 alias drmdi='docker rmi $(docker images --filter "dangling=true" -q --no-trunc)'
 alias drmdn='docker network rm'
 alias drmdv='docker volume rm $(docker volume ls -qf dangling=true)'
@@ -25,6 +23,11 @@ alias dvol='docker volume ls'
 alias dvoli='docker volume inspect'
 alias dpkg='docker sbom'
 alias dscan='docker scout cves'
+
+drmdc() {
+  docker rm $(docker ps -qa --no-trunc --filter "status=created")
+  docker rm $(docker ps -qa --no-trunc --filter "status=exited")
+}
 
 dclean() {
   docker ps --no-trunc -aqf "status=exited" | xargs docker rm
@@ -38,6 +41,10 @@ dhist() {
 
 dsh() {
   docker exec -it "$1" /bin/sh
+}
+
+dbash() {
+  docker exec -it "$1" bash
 }
 
 dshu() {
@@ -61,7 +68,7 @@ drmi() {
 }
 
 drun() {
-  docker run -d  -it --detach "$1" /bin/sh
+  docker run -d -it "$1" /bin/sh
 }
 
 dstop() {

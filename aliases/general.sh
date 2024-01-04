@@ -83,6 +83,11 @@ alias -g S='| sort'
 alias -g T='tail -f'
 alias -g W='| wc -l'
 
+# take 
+take() {
+  mkdir -p $1 && cd $1
+}
+
 # Port
 list_port() {
   lsof -i :$1 -sTCP:LISTEN

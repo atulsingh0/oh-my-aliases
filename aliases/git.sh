@@ -79,7 +79,7 @@ alias groot='cd $(git rev-parse --show-toplevel)'
 alias gcignore='git check-ignore -v'
 
 gsend() {
-    git commit -am "$1" && git push
+    git commit -m "$1" && git push
 }
 
 gs1() {
@@ -115,6 +115,13 @@ gsave() {
   git add $@ &&
     git commit -m "chores: save checkpoint at $(date -Iseconds)"
 }
+
+gback() {
+  git add . \
+  && git commit -m "chores: save checkpoint at $(date -Iseconds)" \
+  && git push
+}
+
 
 gclean() {
   git remote prune origin &&

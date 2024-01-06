@@ -51,6 +51,7 @@ alias dateu='date -u'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias pserver='python3 -m http.server'
 
 # Conversion
 alias urldecode='python3 -c "import sys, urllib as ul; print(ul.unquote_plus(sys.argv[1]))"'

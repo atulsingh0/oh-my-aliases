@@ -21,7 +21,7 @@ alias drmv='docker rm volume'
 alias dstats='docker stats'
 alias dvol='docker volume ls'
 alias dvoli='docker volume inspect'
-alias dpkg='docker sbom'
+alias dsbom='docker sbom'
 alias dscan='docker scout cves'
 
 drmdc() {

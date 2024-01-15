@@ -119,6 +119,9 @@ reload() {
   esac
 }
 
+list_open_sockets() {
+  find / -type s
+}
 # Reload go program
 # go_kill_and_rerun() {
 #   fswatch -o "$PWD/$2" | xargs -n1 -I{} kill "$1" && go run "$PWD/$2"

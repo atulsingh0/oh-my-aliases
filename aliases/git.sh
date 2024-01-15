@@ -214,6 +214,31 @@ gdifc() {
   git diff "$1"~ "$1"
 }
 
+git_remote() {
+  remotes=$(git remote)
+  if [[ $remotes == *"upstream"* ]]; then
+    echo "upstream"
+  else
+    echo "origin"
+  fi
+}
+
+git_default_branch() {
+  git remote show $(git_remote) | grep 'HEAD branch' | cut -d' ' -f5
+}
+
+
+gsync() {
+	cur=$(git branch --show-current)
+  git stash
+  git checkout $(git_default_branch)
+  git fetch origin --prune
+  git fetch $(git_remote) --prune
+  git pull $(git_remote) $(git_default_branch)
+  git checkout $cur
+  # git push origin $(git_default_branch)
+}
+
 git_get_user() {
     TOKENS="$1"
     HOST="$2"

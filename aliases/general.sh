@@ -52,6 +52,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias pserver='python3 -m http.server'
+alias cdtmp="cd \$(mktemp -d)"
 
 # Conversion
 alias urldecode='python3 -c "import sys, urllib as ul; print(ul.unquote_plus(sys.argv[1]))"'
@@ -122,6 +123,17 @@ reload() {
 list_open_sockets() {
   find / -type s
 }
+
+# repeat() {
+#   local n=$1
+#   local command=$2
+
+#   for ((i=1; i<=n; i++)); do
+#     eval $command &
+#   done
+#   wait
+# }
+
 # Reload go program
 # go_kill_and_rerun() {
 #   fswatch -o "$PWD/$2" | xargs -n1 -I{} kill "$1" && go run "$PWD/$2"

@@ -172,6 +172,11 @@ fi
 }
 
 gfix() {
+  if [ ${#1} -eq 0 ]; then
+		echo "Provide a commit sha which you want to fix"
+    echo "gfix <fb62b10>"
+		return 64
+	fi
   # Fix a commit
   commit="$1"
   git commit --fixup="${commit}"
@@ -182,6 +187,11 @@ gfix() {
 }
 
 gbren() {
+  if [ ${#1} -eq 0 ]; then
+		echo "Provide a target branch name"
+    echo "gbren <new-branch-name>"
+		return 64
+	fi  
   # Branch Rename
 	cur=$(git branch --show-current)
 	new="$1"
@@ -205,11 +215,21 @@ fix_gitignore(){
 }
 
 gfilec() {
+  if [ ${#1} -eq 0 ]; then
+		echo "Provide a file name for commit history"
+    echo "gfilec <file-name>"
+		return 64
+	fi   
   # Commit on a file
-  git rev-list HEAD -- "$@"
+  git rev-list HEAD -- "$1"
 }
 
 gdifc() {
+  if [ ${#1} -eq 0 ]; then
+		echo "Provide a git SHA to get diff"
+    echo "gdifc <git-sha>"
+		return 64
+	fi    
   # Changes done in a commit 
   git diff "$1"~ "$1"
 }

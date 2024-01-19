@@ -3,10 +3,12 @@
 cur_path="$(cd "$(dirname "$0")" && pwd)"
 
 if command_exists batcat; then
-  alias ccat=batcat
+  alias ccat=cat
+  alias cat=batcat
 fi
 
 if command_exists bat; then
+  alias ccat=cat
   alias ccat=bat
 fi
 
@@ -96,6 +98,12 @@ list_port() {
 }
 
 kill_port() {
+	if [[ ${#1} -eq 0 ]]; then
+		echo "Provide a port number whose PID you'd like to kill"
+    echo "kill_port 3000"
+		return 64
+	fi
+
   list_port $1 | awk 'NR > 1 {print $2}' | xargs kill -15
 }
 
@@ -123,6 +131,23 @@ reload() {
 list_open_sockets() {
   find / -type s
 }
+
+# alias rm_old="rm"
+
+# rm() {
+#   printf "You are going to delete \033[31m $* \033[0m from \033[31m %s \033[0m\n" 
+#   printf >&2 '%s ' 'Continue  ? (y/n)'
+#   read -r ans
+#   case $ans in
+#   [yY])
+#     rm_old $*
+#     ;;
+#   [nN])
+#     echo "Do nothing and Exiting"
+#     ;;
+#   *) printf " \033[31m %s \n\033[0m" "invalid input" ;;
+#   esac
+# }
 
 # repeat() {
 #   local n=$1

@@ -28,6 +28,7 @@ fi
 #   export PAGER=most
 # fi
 alias c='clear'
+alias help='man'
 alias cgpg='gpg-connect-agent reloadagent /bye'
 alias ls='ls -GFh --color=auto'
 alias ll='ls -GFhlrt --color=auto'
@@ -55,6 +56,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias pserver='python3 -m http.server'
 alias cdtmp="cd \$(mktemp -d)"
+alias epoch='date +%s'
 
 # Conversion
 alias urldecode='python3 -c "import sys, urllib as ul; print(ul.unquote_plus(sys.argv[1]))"'

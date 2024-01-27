@@ -123,6 +123,12 @@ gback() {
   && git push
 }
 
+gchkpnt() {
+  cd "$1" \
+  && git add . \
+  && git commit -m "checkpoint: $(date -Iseconds)" \
+  && git push
+}
 
 gclean() {
   git remote prune origin &&

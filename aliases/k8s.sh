@@ -55,19 +55,19 @@ alias kmem='kubectl get po -o custom-columns="Name:metadata.name,Memory-limit:sp
 
 
 kscale() {
-  kubectl scale --replicas=$*
+  kubectl scale --replicas=
 }
 
 kscaleup() {
-  kubectl scale --replicas=1 $*
+  kubectl scale --replicas=1 "$@"
 }
 
 kscaledown() {
-  kubectl scale --replicas=0 $*
+  kubectl scale --replicas=0 "$@"
 }
 
 kdebugshell() {
- kubectl debug $1 -it --image=nicolaka/netshoot
+ kubectl debug "$1" -it --image=nicolaka/netshoot
 }
 
  kdel() {

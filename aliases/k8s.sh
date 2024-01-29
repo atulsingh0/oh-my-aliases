@@ -16,11 +16,9 @@ alias kcc='kubectl config get-contexts'
 #alias kdebugpod='kubectl run z-test-pod --image=radial/busyboxplus:curl -i --tty'
 alias kdebugpod="kubectl run z-test-pod -it --image=atulsingh0/busuboxplus:kubectl"
 alias kdebugdns='kubectl run tmp-shell --rm -i --tty --image nicolaka/netshoot'
-
 alias ksetctxc='kubectl config set-context --current --namespace' # Or use kubectx binary
 #alias kaddctx='_(){ kubectl config set-context "$1" --namespace="$2" && kubectl config use-context "$1" }; _'
 alias krmctx='kubectl config unset'
-
 alias kpod='kubectl get pods'
 alias kpodi="kubectl get pods| egrep -v 'Completed' | grep '0/'"
 alias kpodiw="watch -n 2 'kubectl get pods| egrep -v Completed | grep \'0/\''"
@@ -51,12 +49,26 @@ alias kdesc='kubectl describe cm'
 #alias kdel='kubectl delete'
 alias kexp='kubectl get -o yaml'
 alias kpog='kubectl get pods | egrep '
-alias kscale='kubectl scale --replicas='
-alias kscaleup='kubectl scale --replicas=1'
-alias kscaledown='kubectl scale --replicas=0'
 alias krs='kubectl get po -o custom-columns="Name:metadata.name,CPU-limit:spec.containers[*].resources.limits.cpu, CPU-request:spec.containers[*].resources.requests.cpu, memory-limits:spec.containers[*].resources.limits.memory, memory-request:spec.containers[*].resources.requests.memory"'
 alias kcpu='kubectl get po -o custom-columns="Name:metadata.name,CPU-limit:spec.containers[*].resources.limits.cpu, CPU-Request:spec.containers[*].resources.requests.cpu"'
 alias kmem='kubectl get po -o custom-columns="Name:metadata.name,Memory-limit:spec.containers[*].resources.limits.memory, Memory-Request:spec.containers[*].resources.requests.memory"'
+
+
+kscale() {
+  kubectl scale --replicas=$*
+}
+
+kscaleup() {
+  kubectl scale --replicas=1 $*
+}
+
+kscaledown() {
+  kubectl scale --replicas=0 $*
+}
+
+kdebugshell() {
+ kubectl debug $1 -it --image=nicolaka/netshoot
+}
 
  kdel() {
   printf "You are going to delete \033[31m $1 \033[0m from \033[31m %s \033[0m\n" "$(kubectx -c)/$(kubens -c)"
@@ -114,6 +126,10 @@ alias kmem='kubectl get po -o custom-columns="Name:metadata.name,Memory-limit:sp
 }
 
 alias kdelpi="kubectl get pods | egrep -v 'Running|Completed|Pending' |grep -v NAME| cut -d' ' -f1 | xargs kubectl delete pod"
+
+kdelps() {
+  kubectl get pods | grep "$1" | grep -v NAME| cut -d' ' -f1 | xargs kubectl delete pod
+}
 
 #  kdelpi(){
 #     for name in $(kubectl get pods | egrep -v 'Running|Completed|Pending' |grep -v NAME| cut -d' ' -f1 | tr "\n" " ");do

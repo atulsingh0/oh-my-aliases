@@ -121,6 +121,13 @@ mask() {
     printf "%s%s\n" "${a//?/*}" "$b" # substitute a with asterisks
 }
 
+htpass(){
+  out=$(mktemp)
+  htpasswd -b -c ${out} $1 $2 && cat ${out}
+}
+
+
+
 # Reload Aliases
 reload() {
   case $(basename $SHELL) in

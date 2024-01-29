@@ -120,14 +120,14 @@ gsave() {
 gback() {
   git add . \
   && git commit -m "chores: save checkpoint at $(date -Iseconds)" \
-  && git push
+  && git push origin $(git branch --show-current)
 }
 
 gchkpnt() {
   cd "$1" \
   && git add . \
   && git commit -m "checkpoint: $(date -Iseconds)" \
-  && git push
+  && git push origin $(git branch --show-current)
 }
 
 gclean() {

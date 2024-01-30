@@ -11,12 +11,13 @@ cur_path="$(cd "$(dirname "$0")" && pwd)"
 echo "Loading Aliases from : ${cur_path}"
 echo "Debug: $DEBUG"
 
-_command_exists() {
+command_exists() {
   command -v "$@" >/dev/null 2>&1
 }
 
+echo "PLUGINS are: $PLUGINS"
 enable_plugin() {
-  grep -c "$1" "${PLUGINS}"
+  grep -c "$1" <<< "${PLUGINS}"
 }
 
 log() {

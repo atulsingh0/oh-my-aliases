@@ -17,7 +17,7 @@ command_exists() {
 
 echo "PLUGINS are: $PLUGINS"
 enable_plugin() {
-  grep -c "$1" <<< "${PLUGINS}"
+  grep -c "$1" <<< "${PLUGINS}" >/dev/null 2>&1
 }
 
 log() {

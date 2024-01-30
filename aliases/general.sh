@@ -2,25 +2,25 @@
 
 cur_path="$(cd "$(dirname "$0")" && pwd)"
 
-if command_exists batcat; then
+if enable_plugin batcat; then
   alias ccat=cat
   alias cat=batcat
 fi
 
-if command_exists bat; then
+if enable_plugin bat; then
   alias ccat=cat
   alias ccat=bat
 fi
 
-if command_exists nvim; then
+if enable_plugin nvim; then
   alias vi=nvim
 fi
 
-if command_exists python3; then
+if enable_plugin python3; then
   alias python=python3
 fi
 
-if command_exists rsync; then
+if enable_plugin rsync; then
   alias cp=rsync
 fi
 
@@ -33,7 +33,7 @@ alias cgpg='gpg-connect-agent reloadagent /bye'
 alias ls='ls -GFh --color=auto'
 alias ll='ls -GFhlrt --color=auto'
 alias lla='ls -GFhlrta --color=auto'
-alias cp='cp -R'
+#alias cp='cp -R'
 alias scp='scp -r'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'

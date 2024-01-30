@@ -22,10 +22,10 @@ agif() {
 
   cd $dir 
   
-  if command_exists docker; then 
+  if enable_plugin docker; then 
     docker run --rm -it -u $(id -u):$(id -g) -v $PWD:/data datagenx/agg:latest $file $outfile \
     && echo "asciinema: asciicast saved to $dir/$outfile"
-  elif command_exists podman; then 
+  elif enable_plugin podman; then 
     podman run --rm -it -v $PWD:/data datagenx/agg:latest $file $outfile \
     && echo "asciinema: asciicast saved to $dir/$outfile"
   else 

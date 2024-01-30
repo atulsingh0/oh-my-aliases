@@ -4,7 +4,7 @@
 # K8s Plugin Command aliases
 ##############################
 
-if command_exists kubecolor; then
+if enable_plugin kubecolor; then
   alias kg='kubecolor get'
   alias kno='kubecolor get nodes'
   alias kns='kubecolor get namespaces'

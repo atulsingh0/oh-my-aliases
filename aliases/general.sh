@@ -57,6 +57,7 @@ alias ....='cd ../../..'
 alias pserver='python3 -m http.server'
 alias cdtmp="cd \$(mktemp -d)"
 alias epoch='date +%s'
+alias plz='sudo'
 
 # Conversion
 alias urldecode='python3 -c "import sys, urllib as ul; print(ul.unquote_plus(sys.argv[1]))"'

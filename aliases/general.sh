@@ -9,7 +9,7 @@ fi
 
 if enable_plugin bat; then
   alias ccat=cat
-  alias ccat=bat
+  alias cat=bat
 fi
 
 if enable_plugin nvim; then

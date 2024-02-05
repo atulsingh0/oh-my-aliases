@@ -127,7 +127,7 @@ gchkpnt() {
   cd "$1" \
   && git add . \
   && git commit -m "checkpoint: $(date -Iseconds)" \
-  && git push origin $(git branch --show-current)
+  && git push origin "$(git branch --show-current)"
 }
 
 gclean() {

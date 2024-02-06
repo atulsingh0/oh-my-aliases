@@ -124,6 +124,7 @@ gback() {
 }
 
 gchkpnt() {
+  [ -z "$1" ] && echo "Usage: gchkpnt <path-to-git-repo>" && exit
   cd "$1" 
   git pull origin "$(git branch --show-current)"
   git add --all 

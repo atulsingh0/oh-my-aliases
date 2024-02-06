@@ -124,10 +124,11 @@ gback() {
 }
 
 gchkpnt() {
-  cd "$1" \
-  && git add . \
-  && git commit -m "checkpoint: $(date -Iseconds)" \
-  && git push origin "$(git branch --show-current)"
+  cd "$1" 
+  git pull origin "$(git branch --show-current)"
+  git add --all 
+  git commit -m "checkpoint: $(date -Iseconds)" 
+  git push origin "$(git branch --show-current)"
 }
 
 gclean() {

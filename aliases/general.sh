@@ -92,18 +92,23 @@ alias -g W='| wc -l'
 
 # take 
 take() {
-  mkdir -p $1 && cd $1
+  mkdir -p "$1" && cd "$1" || return
 }
 
 # Port
+# Open Port
+alias open_ports='lsof -nP -iTCP -sTCP:LISTEN'
+alias list_all_ports='lsof -i -P -n'
+
 list_port() {
+  [ -z "$1" ] && echo "Usage: list_port <PORT>" && exit
   lsof -i :$1 -sTCP:LISTEN
 }
 
 kill_port() {
 	if [[ ${#1} -eq 0 ]]; then
 		echo "Provide a port number whose PID you'd like to kill"
-    echo "kill_port 3000"
+    echo "kill_port <PORT>"
 		return 64
 	fi
 
@@ -124,7 +129,7 @@ mask() {
 
 htpass(){
   out=$(mktemp)
-  htpasswd -b -c ${out} $1 $2 && cat ${out}
+  htpasswd -b -c "${out}" "$1" "$2" && cat "${out}"
 }
 
 

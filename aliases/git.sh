@@ -126,7 +126,9 @@ gback() {
 gchkpnt() {
   [ -z "$1" ] && echo "Usage: gchkpnt <path-to-git-repo>" && exit
   cd "$1" 
+  git stash
   git pull origin "$(git branch --show-current)"
+  git pop
   git add --all 
   git commit -m "checkpoint: $(date -Iseconds)" 
   git push origin "$(git branch --show-current)"

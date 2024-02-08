@@ -125,7 +125,6 @@ gback() {
 
 gchkpnt() {
   [ -z "$1" ] && echo "Usage: gchkpnt <path-to-git-repo>" && exit
-<<<<<<< Updated upstream
   cd "$1" 
   git stash
   git pull origin "$(git branch --show-current)"
@@ -133,12 +132,6 @@ gchkpnt() {
   git add --all 
   git commit -m "checkpoint: $(date -Iseconds)" 
   git push origin "$(git branch --show-current)"
-=======
-  cd "$1" \
-  && git add --all \
-  && git commit -m "checkpoint: $(date -Iseconds)" \
-  && git push origin "$(git branch --show-current)"
->>>>>>> Stashed changes
 }
 
 gclean() {

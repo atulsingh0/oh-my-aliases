@@ -128,7 +128,7 @@ gchkpnt() {
   cd "$1" 
   git stash
   git pull origin "$(git branch --show-current)"
-  git pop
+  git stash pop
   git add --all 
   git commit -m "checkpoint: $(date -Iseconds)" 
   git push origin "$(git branch --show-current)"

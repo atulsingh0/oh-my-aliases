@@ -26,7 +26,7 @@ gp1() {
     sts=1
   fi
   git fetch origin
-  git pull 
+  git pull origin $(git branch --show-current)
   if [ $sts -gt 0 ]; then 
      echo "Un-stashing files..."
      git stash pop

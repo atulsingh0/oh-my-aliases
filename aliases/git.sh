@@ -125,20 +125,14 @@ gback() {
 
 gchkpnt() {
   [ -z "$1" ] && echo "Usage: gchkpnt <path-to-git-repo>" && exit
-<<<<<<< Updated upstream
   cd "$1" 
-  git stash
+  needStash="$(git status -s)"
+  [ -n "${needStash}" ] && git stash
   git pull origin "$(git branch --show-current)"
-  git stash pop
+  [ -n "${needStash}" ] && git stash pop
   git add --all 
   git commit -m "checkpoint: $(date -Iseconds)" 
   git push origin "$(git branch --show-current)"
-=======
-  cd "$1" \
-  && git add --all \
-  && git commit -m "checkpoint: $(date -Iseconds)" \
-  && git push origin "$(git branch --show-current)"
->>>>>>> Stashed changes
 }
 
 gclean() {
@@ -197,9 +191,10 @@ gfix() {
   # Fix a commit
   commit="$1"
   git commit --fixup="${commit}"
-  git stash
+  needStash="$(git status -s)"
+  [ -n "${needStash}" ] && git stash
   git rebase -i --autosquash "${commit}"~
-  git stash pop
+  [ -n "${needStash}" ] && git stash pop
   echo "Use 'git push -f' to force push the changes."
 }
 
@@ -266,13 +261,15 @@ git_default_branch() {
 
 
 gsync() {
-	cur=$(git branch --show-current)
-  git stash
+  cur=$(git branch --show-current)
+  needStash="$(git status -s)"
+  [ -n "${needStash}" ] && git stash
   git checkout $(git_default_branch)
   git fetch origin --prune
   git fetch $(git_remote) --prune
   git pull $(git_remote) $(git_default_branch)
   git checkout $cur
+  [ -n "${needStash}" ] && git stash pop
   # git push origin $(git_default_branch)
 }
 

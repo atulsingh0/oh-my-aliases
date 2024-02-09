@@ -120,19 +120,20 @@ gsave() {
 gback() {
   git add . \
   && git commit -m "chores: save checkpoint at $(date -Iseconds)" \
-  && git push origin $(git branch --show-current)
+  && git push origin "$(git branch --show-current)"
 }
 
 gchkpnt() {
   [ -z "$1" ] && echo "Usage: gchkpnt <path-to-git-repo>" && exit
-  cd "$1" 
+  cd "$1" || exit
   needStash="$(git status -s)"
   [ -n "${needStash}" ] && git stash
   git pull origin "$(git branch --show-current)"
-  [ -n "${needStash}" ] && git stash pop
-  git add --all 
-  git commit -m "checkpoint: $(date -Iseconds)" 
-  git push origin "$(git branch --show-current)"
+  [ -n "${needStash}" ] \
+  && git stash pop \
+  && git add --all \
+  && git commit -m "checkpoint: $(date -Iseconds)" \
+  && git push origin "$(git branch --show-current)"
 }
 
 gclean() {
@@ -256,7 +257,7 @@ git_remote() {
 }
 
 git_default_branch() {
-  git remote show $(git_remote) | grep 'HEAD branch' | cut -d' ' -f5
+  git remote show "$(git_remote)"| grep 'HEAD branch' | cut -d' ' -f5
 }
 
 
@@ -264,11 +265,11 @@ gsync() {
   cur=$(git branch --show-current)
   needStash="$(git status -s)"
   [ -n "${needStash}" ] && git stash
-  git checkout $(git_default_branch)
+  git checkout "$(git_default_branch)"
   git fetch origin --prune
-  git fetch $(git_remote) --prune
-  git pull $(git_remote) $(git_default_branch)
-  git checkout $cur
+  git fetch "$(git_remote)" --prune
+  git pull "$(git_remote)" "$(git_default_branch)"
+  git checkout "${cur}"
   [ -n "${needStash}" ] && git stash pop
   # git push origin $(git_default_branch)
 }

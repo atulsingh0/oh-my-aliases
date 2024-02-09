@@ -127,9 +127,10 @@ gchkpnt() {
   echo 1
   [ -z "$1" ] && echo "Usage: gchkpnt <path-to-git-repo>" && exit
   echo 2
-  echo $1
-  cd $1 && echo $1
+  echo $1 && pwd
+  cd $1 && pwd
   echo 3
+  pwd
   needStash="$(git status -s)"
   echo 4
   [ -n "${needStash}" ] \

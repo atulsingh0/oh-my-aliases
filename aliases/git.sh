@@ -263,6 +263,7 @@ git_default_branch() {
 
 
 gsync() {
+  [ -n "$1" ] && cd "$1"
   cur=$(git branch --show-current)
   needStash="$(git status -s)"
   [ -n "${needStash}" ] && git stash

@@ -124,17 +124,23 @@ gback() {
 }
 
 gchkpnt() {
+  echo 1
   [ -z "$1" ] && echo "Usage: gchkpnt <path-to-git-repo>" && exit
-  cd "$1" || exit
+  echo 2
+  cd "$1"
+  echo 3
   needStash="$(git status -s)"
+  echo 4
   [ -n "${needStash}" ] \
   && git stash \
   && git pull origin "$(git branch --show-current)"
+  echo 5
   [ -n "${needStash}" ] \
   && git stash pop \
   && git add --all \
   && git commit -m "checkpoint: $(date -Iseconds)" \
   && git push origin "$(git branch --show-current)"
+  echo 6
 }
 
 gclean() {

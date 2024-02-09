@@ -127,8 +127,9 @@ gchkpnt() {
   [ -z "$1" ] && echo "Usage: gchkpnt <path-to-git-repo>" && exit
   cd "$1" || exit
   needStash="$(git status -s)"
-  [ -n "${needStash}" ] && git stash
-  git pull origin "$(git branch --show-current)"
+  [ -n "${needStash}" ] \
+  && git stash \
+  && git pull origin "$(git branch --show-current)"
   [ -n "${needStash}" ] \
   && git stash pop \
   && git add --all \

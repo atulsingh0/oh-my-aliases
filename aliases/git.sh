@@ -13,6 +13,9 @@ git config --global status.showUntrackedFiles all
 git config --global url."git@github.com:".insteadOf "https://github.com/"
 git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 git config --global gc.auto 0
+git config --global rerere.enabled true
+git config --global column.ui auto
+git config --global branch.sort -committerdate
 
 alias gs='git status'
 alias grs='git restore'
@@ -49,6 +52,7 @@ gp1() {
 #   fi
 # }
 alias gp2='git push origin $(git branch --show-current)'
+alias gp3='git push origin $(git branch --show-current) --force-with-lease'
 alias gb="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
 alias gbc='git branch --show-current'
 alias gbr='git branch --remote'

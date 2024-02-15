@@ -16,6 +16,8 @@ git config --global gc.auto 0
 git config --global rerere.enabled true
 git config --global column.ui auto
 git config --global branch.sort -committerdate
+git config --global fetch.writeCommitGraph true
+
 
 alias gs='git status'
 alias grs='git restore'

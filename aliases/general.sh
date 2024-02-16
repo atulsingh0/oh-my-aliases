@@ -3,27 +3,18 @@
 cur_path="$(cd "$(dirname "$0")" && pwd)"
 
 if enable_plugin batcat; then
-  alias ccat=cat
-  alias cat=batcat
-fi
-
-if enable_plugin bat; then
-  alias ccat=cat
-  alias cat=bat
+  alias bat=batcat
 fi
 
 if enable_plugin nvim; then
   alias vi=nvim
 fi
 
-if enable_plugin python3; then
-  alias python=python3
-fi
-
 if enable_plugin rsync; then
   alias cp=rsync
 fi
 
+alias python=python3
 # if command -v most >/dev/null 2>&1; then
 #   export PAGER=most
 # fi

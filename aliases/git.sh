@@ -14,7 +14,7 @@ git config --global url."git@github.com:".insteadOf "https://github.com/"
 git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 git config --global gc.auto 0
 git config --global rerere.enabled true
-git config --global column.ui auto
+#git config --global column.ui auto
 git config --global branch.sort -committerdate
 git config --global fetch.writeCommitGraph true
 

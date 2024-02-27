@@ -163,7 +163,9 @@ gclean() {
 
 ga() {
   # --exclude=*.{tar,tar.gz} --exclude-dir={.terraform}
-  if [ "$1" != "." ]; then
+  if [ "$1" = "/" ]; then
+    echo "/ is not allowed"
+  elif [ "$1" != "." ]; then
     files=$(echo $* | tr " " "\n")
     echo "$files" | while read -r file; do
       grep -ERl --exclude-dir=".terraform" '<<<<<<< HEAD|>>>>>>>' "$file"

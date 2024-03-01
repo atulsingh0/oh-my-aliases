@@ -316,3 +316,7 @@ git_get_user() {
         rm "$HOME/response-g.txt"
     done
 }
+
+git_fetch_remote() {
+  echo "aa"
+}

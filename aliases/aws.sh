@@ -109,6 +109,21 @@ generate_aws_profile_aliases() {
   return ${rescode}
 }
 
+aws_s3_rb() {
+  for name in "$@"; do
+    aws s3 rb s3://"${name}"
+  done
+}
+
+
+aws_s3_list_empty() {
+  for name in $(aws s3 ls | cut -d' ' -f3); do
+    out=$(aws s3 ls s3://"${name}" | wc -l)
+    [ "${out}" -eq 0 ] && echo "$name"
+  done
+}
+
+
 ## Retrieves the running EC2 instances.
 ## Parameters:
 ## - 1: The AWS profile.

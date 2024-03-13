@@ -86,7 +86,7 @@ alias groot='cd $(git rev-parse --show-toplevel)'
 alias gcignore='git check-ignore -v'
 
 gsend() {
-    git commit -m "$1" && git push
+    git commit -m "$@" && git push
 }
 
 gs1() {
@@ -130,17 +130,18 @@ gback() {
 }
 
 gchkpnt() {
+  cur=$(git branch --show-current)
   [ -z "$1" ] && echo "Usage: gchkpnt <path-to-git-repo>" && exit
   cd $1 || exit
   needStash="$(git status -s)"
   [ -n "${needStash}" ] \
   && git stash \
-  && git pull origin "$(git branch --show-current)"
+  && git pull origin "${cur}"
   [ -n "${needStash}" ] \
   && git stash pop \
   && git add --all \
   && git commit -m "checkpoint: $(date -Iseconds)" \
-  && git push origin "$(git branch --show-current)"
+  && git push origin "${cur}"
 }
 
 gclean() {

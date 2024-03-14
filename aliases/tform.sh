@@ -4,6 +4,8 @@
 ################################
 
 alias tf='terraform'
+alias tfo='terraform output'
+alias tfl='terraform state list'
 
 tfaa() {
   if [ -z "$1" ]; then

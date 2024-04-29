@@ -12,7 +12,21 @@ alias gpgc="gpg --clearsign"
 alias gpgenc="gpg --encrypt"
 alias gpgdec="gpg --decrypt"
 alias gpgimp="gpg --import"
-alias gpgexp="gpg --export"
+alias gpgimps="gpg --allow-secret-key-import --import"
+alias gpgdel="gpg --delete-key"
+alias gpgdels="gpg --delete-secret-key"
+
+gpgverbose() {
+  gpg --export "$1" | gpg --list-packets --verbose
+}
+
+gpgexp() {
+  gpg -ao "$1.pub.gpg" --export "$1" 
+}
+
+gpgexps() {
+  gpg -ao "$1.secret-key.gpg" --export-secret-key "$1"
+}
 
 
 get_gpg_algorithm_name() {

@@ -20,7 +20,6 @@ alias python=python3
 # fi
 alias c='clear'
 alias help='man'
-alias cgpg='gpg-connect-agent reloadagent /bye'
 alias ls='ls -GFh --color=auto'
 alias ll='ls -GFhlrt --color=auto'
 alias lla='ls -GFhlrta --color=auto'
@@ -32,7 +31,6 @@ alias grep='egrep --color=auto'
 alias grepc='egrep --color=always'
 alias less='less -R'
 alias fs='echo FY$(date -v+11m +%Y) q$((($(date +%m|sed s/^0//)+10)%12/3+1))'
-alias pubip='dig ANY +short @resolver2.opendns.com myip.opendns.com'
 alias randstr="cat /dev/urandom | env LC_ALL=C tr -dc 'A-Za-z0-9' | head -c"
 alias diff='diff --color'
 alias mkdir='mkdir -p'
@@ -55,14 +53,6 @@ alias urldecode='python3 -c "import sys, urllib as ul; print(ul.unquote_plus(sys
 alias urlencode='python3 -c "import sys, urllib as ul; print(ul.quote_plus(sys.argv[1]))"'
 alias json2yml='python3 -c "import sys, yml, json; print(yaml.safe_dump(json.loads(sys.stdin.read())))"'
 alias yml2json='python3 -c "import sys, yml, json; print(json.safe_dump(yaml.loads(sys.stdin.read())))"'
-
-# Crypto
-alias sshkey='ssh-keygen -b 4096 -t ed25519'
-alias readcert='openssl x509 -noout -text -in'
-alias readcertdata='openssl x509 -noout -text'
-selfcert() {
-  openssl req -newkey rsa:4096 -x509 -sha256 -nodes -keyout "$1".key.pem -days 365 -out "$1".pem
-}
 
 # ping
 alias ping='ping -c 5'
@@ -124,7 +114,6 @@ htpass(){
 }
 
 
-
 # Reload Aliases
 reload() {
   case $(basename $SHELL) in
@@ -134,9 +123,6 @@ reload() {
   esac
 }
 
-list_open_sockets() {
-  find / -type s
-}
 
 # use as - sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'

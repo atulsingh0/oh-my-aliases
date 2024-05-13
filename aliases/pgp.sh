@@ -15,6 +15,7 @@ alias gpgimp="gpg --import"
 alias gpgimps="gpg --allow-secret-key-import --import"
 alias gpgdel="gpg --delete-key"
 alias gpgdels="gpg --delete-secret-key"
+alias cgpg='gpg-connect-agent reloadagent /bye'
 
 gpgverbose() {
   gpg --export "$1" | gpg --list-packets --verbose

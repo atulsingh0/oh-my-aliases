@@ -291,7 +291,7 @@ git_get_user() {
 
     # setting up hosts
     if [ -z "$HOST" ]; then
-        API_ENDPOINT="api.github.com"
+        API_ENDPOINT="https://api.github.com"
         echo "Hostname defaulted to github"
     else
         API_ENDPOINT="$HOST/api/v3"
@@ -306,7 +306,7 @@ git_get_user() {
             -H "Authorization: Bearer $TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -o "$HOME/response-g.txt" -w "%{http_code}" \
-            https://"$API_ENDPOINT"/user)
+            "$API_ENDPOINT"/user)
         if [ $CODE != "200" ]; then 
           echo "Either Token Or Git Host is incorrect"
         else

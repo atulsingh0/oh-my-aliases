@@ -306,7 +306,7 @@ git_get_user() {
             -H "Authorization: Bearer $TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -o "$HOME/response-g.txt" -w "%{http_code}" \
-            "$API_ENDPOINT"/user)
+            "$API_ENDPOINT/user")
         if [ $CODE != "200" ]; then 
           echo "Either Token Or Git Host is incorrect"
         else

@@ -48,7 +48,7 @@ fi
 ########################################################
 
 # Docker
-if enable_plugin git; then
+if enable_plugin docker; then
   log "Sourcing docker aliases"
   . "${cur_path}"/aliases/docker.sh && log " - done"
 fi
@@ -166,6 +166,9 @@ log "Sourcing PGP (gnupg) aliases"
 log "Sourcing pass aliases"
 [ -f "${cur_path}"/aliases/pass.sh ] && . "${cur_path}"/aliases/pass.sh && log " - done"
 
+# Networking
+log "Sourcing Networking aliases"
+. "${cur_path}"/aliases/networking.sh
 
 ########################################################
 ########################################################

@@ -35,3 +35,7 @@ if enable_plugin kubecolor; then
   alias kdesj='kubecolor describe job'
   alias kdesc='kubecolor describe cm'
 fi
+
+if enable_plugin kubectx; then
+  alias kctx='kubectx'
+fi

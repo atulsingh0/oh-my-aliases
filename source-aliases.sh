@@ -166,9 +166,12 @@ log "Sourcing PGP (gnupg) aliases"
 log "Sourcing pass aliases"
 [ -f "${cur_path}"/aliases/pass.sh ] && . "${cur_path}"/aliases/pass.sh && log " - done"
 
-# Networking
+# General
 log "Sourcing Networking aliases"
 . "${cur_path}"/aliases/networking.sh
+log "Sourcing SSL aliases"
+. "${cur_path}"/aliases/ssl.sh
+
 
 ########################################################
 ########################################################

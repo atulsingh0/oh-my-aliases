@@ -331,6 +331,14 @@ git_get_team_members() {
     https://api.github.com/orgs/$ORG/teams/$TEAM/members | jq '.[].login' 
 }
 
+grebase() {
+  BR="$1"
+  [ -z "$BR" ] && BR="$(git_default_branch)"
+
+  gsync
+  git rebase -i "$BR"
+}
+
 git_fetch_remote() {
   echo "aa"
 }

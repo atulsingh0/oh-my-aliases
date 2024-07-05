@@ -287,7 +287,7 @@ gsync() {
 }
 
 git_get_user() {
-    TOKENS="$1"
+    GITHUB_TOKENS="$1"
     HOST="$2"
 
     # setting up hosts
@@ -301,10 +301,10 @@ git_get_user() {
     # calling Github API in loop
     echo ""
     echo "------------------------------------------------------------------------------"
-    echo "$TOKENS" | tr "," "\n" | while IFS=',' read -r TOKEN; do
+    echo "$GITHUB_TOKENS" | tr "," "\n" | while IFS=',' read -r GITHUB_TOKEN; do
         CODE=$(curl -sL \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $TOKEN" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -o "$HOME/response-g.txt" -w "%{http_code}" \
             "$API_ENDPOINT/user")
@@ -317,6 +317,18 @@ git_get_user() {
         fi
         rm "$HOME/response-g.txt"
     done
+}
+
+
+git_get_team_members() {
+    ORG="$1"
+    TEAM="$2"
+
+    curl -L \
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer $GITHUB_TOKEN" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    https://api.github.com/orgs/$ORG/teams/$TEAM/members | jq '.[].login' 
 }
 
 git_fetch_remote() {

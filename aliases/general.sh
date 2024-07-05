@@ -88,9 +88,21 @@ mask() {
     printf "%s%s\n" "${a//?/*}" "$b" # substitute a with asterisks
 }
 
+# generate htpassword
 htpass(){
   out=$(mktemp)
   htpasswd -b -c "${out}" "$1" "$2" && cat "${out}"
+}
+
+# standard msg
+stdmsg() {
+    local IFS=' '
+    printf '%s\n' "$*"
+}
+
+# standard error
+errmsg() {
+    stdmsg "$*" 1>&2
 }
 
 

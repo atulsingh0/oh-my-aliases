@@ -4,8 +4,8 @@
 #            Docker Alias
 ########################################################
 
-alias d='docker $*'
-alias d-c='docker-compose $*'
+alias d='docker'
+alias d-c='docker-compose'
 alias dc='docker ps'
 alias dcommit='docker commit'
 alias dcopy='docker cp'

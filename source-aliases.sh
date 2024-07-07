@@ -162,9 +162,13 @@ log "Sourcing letsencrypt aliases"
 log "Sourcing PGP (gnupg) aliases"
 [ -f "${cur_path}"/aliases/pgp.sh ] && . "${cur_path}"/aliases/pgp.sh && log " - done"
 
-# Pass - Password Stpre
+# Pass - Password Store
 log "Sourcing pass aliases"
 [ -f "${cur_path}"/aliases/pass.sh ] && . "${cur_path}"/aliases/pass.sh && log " - done"
+
+# Golang
+log "Sourcing golang aliases"
+[ -f "${cur_path}"/aliases/golang.sh ] && . "${cur_path}"/aliases/golang.sh && log " - done"
 
 # General
 log "Sourcing Networking aliases"

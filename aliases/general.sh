@@ -81,6 +81,10 @@ fonts() {
   fc-list | awk '{$1=""}1' | cut -d: -f1 | sort | uniq
 }
 
+curl1() {
+  curl -w "time_namelookup: %{time_namelookup}s\ntime_connect: %{time_connect}s\ntime_appconnect: %{time_appconnect}s\ntime_pretransfer: %{time_pretransfer}s\ntime_redirect: %{time_redirect}s\ntime_starttransfer: %{time_starttransfer}s\n----------\ntime_total: %{time_total}s\n" $@
+}
+
 mask() {
     local n=5                        # number of chars to leave
     local a="${1:0:${#1}-n}"         # take all but the last n chars

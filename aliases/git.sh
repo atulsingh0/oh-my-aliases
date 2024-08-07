@@ -85,7 +85,7 @@ alias gremote='git remote set-url origin'
 alias groot='cd $(git rev-parse --show-toplevel)'
 alias gcignore='git check-ignore -v'
 alias gclone='git clone'
-
+alias gtags='git ls-remote -t'
 gsend() {
     git commit -m "$@" && git push
 }

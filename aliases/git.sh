@@ -83,7 +83,7 @@ alias gaa='git add --all'
 alias gpatch='git format-patch'
 alias gremote='git remote set-url origin'
 alias groot='cd $(git rev-parse --show-toplevel)'
-alias gcignore='git check-ignore -v'
+alias gchkignore='git check-ignore -v' # check which gitignore files are causing a file to be ignored
 alias gclone='git clone'
 alias gtags='git ls-remote -t'
 gsend() {

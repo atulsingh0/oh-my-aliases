@@ -1,8 +1,8 @@
 #!/bin/sh
 
-
 alias pubip='dig ANY +short @resolver2.opendns.com myip.opendns.com'
 alias pubip2="curl ifconfig.me"
+alias pubipv4="curl -s https://api.ipify.org"
 
 list_open_sockets() {
   find / -type s
@@ -19,11 +19,11 @@ list_port() {
 }
 
 kill_port() {
-	if [[ ${#1} -eq 0 ]]; then
-		echo "Provide a port number whose PID you'd like to kill"
+  if [[ ${#1} -eq 0 ]]; then
+    echo "Provide a port number whose PID you'd like to kill"
     echo "kill_port <PORT>"
-		return 64
-	fi
+    return 64
+  fi
 
   list_port $1 | awk 'NR > 1 {print $2}' | xargs kill -15
 }

@@ -64,6 +64,7 @@ alias gcmaa='git commit --amend --no-edit'
 alias gcf='git commit --fixup'
 alias gdif='git diff'
 alias gdiff='git diff --cached'
+#alias glog="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(green)|%cr,%Creset %ci %C(green)|<%an>%Creset' --abbrev-commit -30"
 alias glog="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(green)<%an>%Creset' --abbrev-commit -30"
 alias glogrep="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(green)<%an>%Creset' --abbrev-commit -30 --grep="
 alias glg="git log --pretty=format:'%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(green)(%cr) %C(green)<%an>%Creset' --abbrev-commit"
@@ -228,7 +229,7 @@ gbren() {
 
 gcopy() {
   # Copy File from one branch to another
-  echo "Copying ${@:2} from branch $1"
+  echo "Copying ${*:2} from branch $1"
   git checkout "$1" -- "${@:2}"
 }
 
@@ -272,8 +273,9 @@ git_default_branch() {
 }
 
 
+# shellcheck disable=SC2120
 gsync() {
-  [ -n "$1" ] && cd "$1"
+  [ -n "$1" ] && cd "$1" || exit
   cur=$(git branch --show-current)
   needStash="$(git status -s)"
   [ -n "${needStash}" ] && git stash

@@ -95,7 +95,8 @@ mask() {
 # generate htpassword
 htpass(){
   out=$(mktemp)
-  htpasswd -b -c "${out}" "$1" "$2" && cat "${out}"
+  [ $# -lt 1 ] && echo "Usage: htpass <user>" && return 1
+  htpasswd -b -c "${out}" "$1" "$2" && cat "${out}" && rm "${out}"
 }
 
 # standard msg

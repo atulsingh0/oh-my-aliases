@@ -5,6 +5,9 @@ alias pubip="curl -s ipinfo.io"
 # alias pubip2="curl ifconfig.me"
 alias pubipv4="curl -s https://api.ipify.org"
 alias pubipv6="curl -s https://api6.ipify.org"
+#alias pubipv4='curl https://ipv4.icanhazip.com/'
+#alias pubip='dig ANY +short @resolver2.opendns.com myip.opendns.com'
+alias pubip2="curl ifconfig.me"
 
 list_open_sockets() {
   find / -type s

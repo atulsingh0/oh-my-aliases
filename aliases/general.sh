@@ -73,7 +73,7 @@ alias -g W='| wc -l'
 
 # take 
 take() {
-  mkdir -p "$1" && cd "$1" || return
+  mkdir "$1" && cd "$1" || return
 }
 
 # List font

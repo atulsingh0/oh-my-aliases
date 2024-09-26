@@ -18,9 +18,11 @@ list_open_sockets() {
 alias open_ports='lsof -nP -iTCP -sTCP:LISTEN'
 alias list_all_ports='lsof -i -P -n'
 
-list_port() {
+get_port() {
   [ -z "$1" ] && echo "Usage: list_port <PORT>" && return
-  lsof -i :$1 -sTCP:LISTEN
+  out=$(lsof -i :$1 -sTCP:LISTEN)
+
+  netstate -t -p $1
 }
 
 kill_port() {

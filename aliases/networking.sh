@@ -22,8 +22,7 @@ get_port() {
   [ -z "$1" ] && echo "Usage: list_port <PORT>" && return
   out=$(lsof -i :"$1" -sTCP:LISTEN)
   echo "$out"
-  ps -ef | grep "$(awk '{print $2}' <<< "$out" | grep "[0-9]" | sort -u)"
-  
+  ps -ef | grep "$(awk ' NR > 1 {print $2}' <<< "$out" | sort -u)"
 }
 
 kill_port() {
@@ -33,5 +32,5 @@ kill_port() {
     return 64
   fi
 
-  list_port $1 | awk 'NR > 1 {print $2}' | xargs kill -15
+  list_port "$1" | awk 'NR > 1 {print $2}' | xargs kill -15
 }

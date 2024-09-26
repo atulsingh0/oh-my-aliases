@@ -20,9 +20,10 @@ alias list_all_ports='lsof -i -P -n'
 
 get_port() {
   [ -z "$1" ] && echo "Usage: list_port <PORT>" && return
-  out=$(lsof -i :$1 -sTCP:LISTEN)
-
-  netstate -t -p $1
+  out=$(lsof -i :"$1" -sTCP:LISTEN)
+  echo "$out"
+  ps -ef | grep "$(awk '{print $2}' <<< "$out" | grep "[0-9]" | sort -u)"
+  
 }
 
 kill_port() {

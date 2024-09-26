@@ -19,7 +19,7 @@ alias open_ports='lsof -nP -iTCP -sTCP:LISTEN'
 alias list_all_ports='lsof -i -P -n'
 
 list_port() {
-  [ -z "$1" ] && echo "Usage: list_port <PORT>" && exit
+  [ -z "$1" ] && echo "Usage: list_port <PORT>" && return
   lsof -i :$1 -sTCP:LISTEN
 }
 

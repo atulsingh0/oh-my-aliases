@@ -49,6 +49,10 @@ dbash() {
   docker exec -it "$1" bash
 }
 
+dzsh() {
+  docker exec -it "$1" zsh
+}
+
 dshu() {
   docker exec -it -u "$1" "$2" /bin/sh
 }

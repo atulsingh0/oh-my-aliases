@@ -29,6 +29,16 @@ gpgexps() {
   gpg -ao "$1.secret-key.gpg" --export-secret-key "$1"
 }
 
+gpgrevokecert() {
+  gpg --output "$1.revoke.asc" --gen-revoke "$1"
+}
+
+gpgsend() {
+  gpg --keyserver https://keys.openpgp.org --send-keys "$1"
+  gpg --keyserver https://keyserver.ubuntu.com --send-key "$1"
+  gpg --keyserver https://pgp.mit.edu --send-key "$1"
+}
+
 
 get_gpg_algorithm_name() {
    local n="${1}"

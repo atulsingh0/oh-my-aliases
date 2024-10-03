@@ -54,9 +54,7 @@ alias kcpu='kubectl get po -o custom-columns="Name:metadata.name,CPU-limit:spec.
 alias kmem='kubectl get po -o custom-columns="Name:metadata.name,Memory-limit:spec.containers[*].resources.limits.memory, Memory-Request:spec.containers[*].resources.requests.memory"'
 
 
-kscale() {
-  kubectl scale --replicas=
-}
+alias kscale='kubectl scale --replicas='
 
 kscaleup() {
   kubectl scale --replicas=1 "$@"

@@ -17,6 +17,8 @@ alias gpgdel="gpg --delete-key"
 alias gpgdels="gpg --delete-secret-key"
 alias cgpg='gpg-connect-agent reloadagent /bye'
 
+alias gpgadd='keychain --agents gpg --eval'
+
 gpgverbose() {
   gpg --export "$1" | gpg --list-packets --verbose
 }

@@ -6,7 +6,21 @@
 alias sshkey='ssh-keygen -b 4096 -t ed25519'
 alias readssh='ssh-keygen -l -f'
 
-alias sshadd='keychain --agents ssh --eval'
+sshadd() {
+  eval $(keychain --agents ssh --eval $*)
+}
+
+sshkill() {
+  keychain -k all
+}
+
+sshclear(){
+  keychain --clear
+}
+
+sshlist() {
+  keychain --list
+}
 
 genpubssh() {
   # generate public key from private key

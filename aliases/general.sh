@@ -92,6 +92,10 @@ mask() {
     printf "%s%s\n" "${a//?/*}" "$b" # substitute a with asterisks
 }
 
+dirsize() {
+  ( du -hs --  $1/* $1/.[^.]* | sort -hr ) 2>/dev/null
+}
+
 # generate htpassword
 htpass(){
   out=$(mktemp)

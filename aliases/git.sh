@@ -25,14 +25,14 @@ alias grss='git restore --staged'
 alias grv='git revert'
 alias gss='git status --short'
 gp1() {
-  sts=0
+  sts=false
   if [ -n "$(git status -s)" ]; then
     git stash
-    sts=1
+    sts=true
   fi
   git fetch origin
-  git pull origin $(git branch --show-current)
-  if [ $sts -gt 0 ]; then 
+  git pull --rebase origin $(git branch --show-current)
+  if [ $sts ]; then 
      echo "Un-stashing files..."
      git stash pop
   fi

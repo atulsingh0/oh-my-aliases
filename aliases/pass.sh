@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 ##############################
 # Pass Command aliases - https://www.passwordstore.org/

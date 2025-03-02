@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 ## To store your env variables
 ## Do not store any password/creds in this file

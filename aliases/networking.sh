@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 alias pubip="curl -s ipinfo.io"
 # alias pubip='dig ANY +short @resolver2.opendns.com myip.opendns.com'

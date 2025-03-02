@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 cur_path="$(cd "$(dirname "$0")" && pwd)"
 

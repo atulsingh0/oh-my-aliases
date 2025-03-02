@@ -1,9 +1,6 @@
-alias plz='sudo'
+#!/usr/bin/env sh
+
 alias version='lsb_release -a'
-
-
-
-
 
 
 ucgroups() {

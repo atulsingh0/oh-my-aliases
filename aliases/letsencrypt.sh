@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 gcp_lets() {
 
   if [ $# -lt 2 ]; then

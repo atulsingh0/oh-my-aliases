@@ -1,5 +1,4 @@
-#!/bin/sh
-
+#!/usr/bin/env sh
 
 get_cci_user() {
     TOKEN="$1"

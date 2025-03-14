@@ -84,4 +84,13 @@ dstop() {
 dtag() {
   docker tag "$1" "$2"
 }
+
+ddebug() {
+  netw="$1"
+  if [ -z $netw ]; then 
+    echo "Usage: ddebug <docker_network_name>"
+  else 
+    docker run --rm -i --tty --network "$netw" nicolaka/netshoot  
+  fi
+}
 #################################

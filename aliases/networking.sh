@@ -19,8 +19,9 @@ alias open_ports='lsof -nP -iTCP -sTCP:LISTEN'
 alias list_all_ports='lsof -i -P -n'
 
 get_port() {
-  [ -z "$1" ] && echo "Usage: list_port <PORT>" && return
+  [ -z "$1" ] && echo "Usage: get_port <PORT>" && return
   out=$(lsof -i :"$1" -sTCP:LISTEN)
+  [ -z "$out" ] && return
   echo "$out"
   ps -ef | grep "$(awk ' NR > 1 {print $2}' <<< "$out" | sort -u)"
 }
@@ -32,5 +33,6 @@ kill_port() {
     return 64
   fi
 
-  list_port "$1" | awk 'NR > 1 {print $2}' | xargs kill -15
+  get_port "$1" | awk 'NR > 1 {print $2}' | sort -u | xargs kill -15
 }
+e

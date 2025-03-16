@@ -15,7 +15,7 @@ sshkill() {
   keychain -k all
 }
 
-sshclear(){
+sshclear() {
   keychain --clear
 }
 
@@ -25,17 +25,34 @@ sshlist() {
 
 genpubssh() {
   # generate public key from private key
-  ssh-keygen -f "$1" -N "" -y > "$1".pub
+  ssh-keygen -f "$1" -N "" -y >"$1".pub
+}
+
+gethtpass() {
+  # generate htpassword
+  openssl passwd $1
 }
 
 alias readcert='openssl x509 -noout -text -in'
 alias readcertdata='openssl x509 -noout -text'
 
 selfcert() {
-  # generate self-signed certificate 
+  # generate self-signed certificate
   openssl req -newkey rsa:4096 -x509 -sha256 -nodes -keyout "$1".key.pem -days 365 -out "$1".pem
 }
 
 chk_tls() {
-  nmap --script ssl-enum-ciphers -p 443 "$1"
+  if ! echo $1 | grep -q ":"; then
+    echo "using port 443"
+    port=443
+  fi
+  nmap --script ssl-enum-ciphers -p $port "$1"
+}
+
+get_tls() {
+  if ! echo $1 | grep -q ":"; then
+    echo "using port 443"
+    port=443
+  fi
+  openssl s_client -connect "$1:$port"
 }

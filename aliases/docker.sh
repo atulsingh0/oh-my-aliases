@@ -87,10 +87,22 @@ dtag() {
 
 ddebug() {
   netw="$1"
-  if [ -z $netw ]; then 
+  if [ -z $netw ]; then
     echo "Usage: ddebug <docker_network_name>"
-  else 
-    docker run --rm -i --tty --network "$netw" nicolaka/netshoot  
+  else
+    docker run --rm -i --tty --network "$netw" nicolaka/netshoot
   fi
+}
+
+diexport() {
+  docker image save $1 -o "$(echo $1 | sed 's_/_-_g').tar"
+}
+
+dcexport() {
+  docker export $1 -o "$(echo $1 | sed 's_/_-_g').tar"
+}
+
+dimport() {
+  docker import "$1"
 }
 #################################

@@ -35,4 +35,3 @@ kill_port() {
 
   get_port "$1" | awk 'NR > 1 {print $2}' | sort -u | xargs kill -15
 }
-e

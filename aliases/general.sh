@@ -30,7 +30,6 @@ alias fgrep='fgrep --color=auto'
 alias grep='egrep --color=auto'
 alias grepc='egrep --color=always'
 alias less='less -R'
-alias fs='echo FY$(date -v+11m +%Y) q$((($(date +%m|sed s/^0//)+10)%12/3+1))'
 alias randstr="cat /dev/urandom | env LC_ALL=C tr -dc 'A-Za-z0-9' | head -c"
 alias diff='diff --color'
 alias mkdir='mkdir -p'

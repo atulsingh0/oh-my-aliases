@@ -85,8 +85,8 @@ alias gcmee='git commit --allow-empty -m "Trigger Build, Empty commit" && git pu
 alias gaa='git add --all'
 alias gpatch='git format-patch'
 alias gremote='git remote set-url origin'
-alias groot='echo $(git rev-parse --show-toplevel)'
-alias gchkignore='git check-ignore -v' # check which gitignore files are causing a file to be ignored
+alias groot='cd $(git rev-parse --show-toplevel)'
+alias groote='echo $(git rev-parse --show-toplevel)'
 alias gclone='git clone'
 alias gtags='git ls-remote -t'
 gsend() {
@@ -233,6 +233,11 @@ gcopy() {
   # Copy File from one branch to another
   echo "Copying ${*:2} from branch $1"
   git checkout "$1" -- "${@:2}"
+}
+
+chk_gitignore(){
+  # check which gitignore files are causing a file to be ignored
+  git check-ignore -v $@
 }
 
 fix_gitignore(){

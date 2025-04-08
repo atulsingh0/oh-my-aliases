@@ -90,7 +90,7 @@ alias groote='echo $(git rev-parse --show-toplevel)'
 alias gclone='git clone'
 alias gtags='git ls-remote -t'
 gsend() {
-    git commit -m "$@" && git push
+    git commit -m "${*}" && git push
 }
 
 gs1() {

@@ -75,6 +75,13 @@ take() {
   mkdir "$1" && cd "$1" || return
 }
 
+# forever
+forever() {
+  while true; do
+    "$@"
+  done
+}
+
 # List font
 fonts() {
   fc-list | awk '{$1=""}1' | cut -d: -f1 | sort | uniq

@@ -25,6 +25,10 @@ alias grs='git restore'
 alias grss='git restore --staged'
 alias grv='git revert'
 alias gss='git status --short'
+alias gcpc='git cherry-pick --continue'
+alias gcpa='git cherry-pick --abort'
+alias gcps='git cherry-pick --skip'
+
 gp1() {
   sts=false
   if [ -n "$(git status -s)" ]; then

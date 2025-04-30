@@ -30,10 +30,11 @@ gp1() {
   if [ -n "$(git status -s)" ]; then
     git stash
     sts=true
+    echo "stash: $sts"
   fi
   git fetch origin
-  git pull --rebase origin $(git branch --show-current)
-  if [ $sts ]; then 
+  # git pull --rebase origin $(git branch --show-current)
+  if $sts; then 
      echo "Un-stashing files..."
      git stash pop
   fi

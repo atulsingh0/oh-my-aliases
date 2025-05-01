@@ -37,7 +37,7 @@ gp1() {
     echo "stash: $sts"
   fi
   git fetch origin
-  # git pull --rebase origin $(git branch --show-current)
+  git pull --rebase origin $(git branch --show-current)
   if $sts; then 
      echo "Un-stashing files..."
      git stash pop

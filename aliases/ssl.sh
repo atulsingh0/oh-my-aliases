@@ -8,7 +8,7 @@ alias sshkey='ssh-keygen -b 4096 -t ed25519'
 alias readssh='ssh-keygen -l -f'
 
 sshadd() {
-  eval $(keychain --agents ssh --eval $*)
+  eval $(keychain --eval $*)
 }
 
 sshkill() {
@@ -28,7 +28,7 @@ genpubssh() {
   ssh-keygen -f "$1" -N "" -y >"$1".pub
 }
 
-gethtpass() {
+genhtpass() {
   # generate htpassword
   openssl passwd $1
 }

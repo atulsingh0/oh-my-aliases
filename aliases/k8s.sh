@@ -110,6 +110,7 @@ kdebugshell() {
 
  kenv() {
   #kubectl get pod/$1 -o json | jq '.spec.containers[].name + " " + .spec.containers[].env[].name' | column -t
+  [ -z $1 ] && echo "Provide the Pod Name" && return
   kubectl describe pod/"$1" | sed -n '/Environment:/,/Mounts:/p' | sed "s/Mounts:/------------------------------------------/"
 }
 
@@ -154,7 +155,8 @@ kdelps() {
 }
 
  kgsecret() {
-  kubectl get secret "$1" -o "jsonpath={.data['${2/./\\.}']}" | base64 -d
+   [ -z $2 ] && echo "Provide Secret Key" && return
+   kubectl get secret "$1" -o "jsonpath={.data['${2/./\\.}']}" | base64 -d
 }
 
  kexec() {

@@ -16,14 +16,6 @@ tfaa() {
   fi
 }
 
-tfda() {
-  if [ -z "$1" ]; then
-    terraform destroy --auto-approve
-  else
-    terraform destroy --auto-approve -var-file="$1"
-  fi
-}
-
 tfd() {
   if [ -z "$1" ]; then
     terraform destroy

@@ -240,7 +240,7 @@ gcopy() {
   git checkout "$1" -- "${@:2}"
 }
 
-chk_gitignore(){
+which_gitignore(){
   # check which gitignore files are causing a file to be ignored
   git check-ignore -v $@
 }

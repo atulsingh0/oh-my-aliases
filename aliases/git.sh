@@ -285,21 +285,6 @@ git_default_branch() {
 }
 
 
-# shellcheck disable=SC2120
-gsync() {
-  [ -n "$1" ] && cd "$1" || exit
-  cur=$(git branch --show-current)
-  needStash="$(git status -s)"
-  [ -n "${needStash}" ] && git stash
-  git checkout "$(git_default_branch)"
-  git fetch origin --prune
-  git fetch "$(git_remote)" --prune
-  git pull "$(git_remote)" "$(git_default_branch)"
-  git checkout "${cur}"
-  [ -n "${needStash}" ] && git stash pop
-  # git push origin $(git_default_branch)
-}
-
 git_get_user() {
     GITHUB_TOKENS="$1"
     HOST="$2"
@@ -344,6 +329,26 @@ git_get_team_members() {
     -H "X-GitHub-Api-Version: 2022-11-28" \
     https://api.github.com/orgs/$ORG/teams/$TEAM/members | jq '.[].login' 
 }
+
+# shellcheck disable=SC2120
+gsync() {
+  [ -n "$1" ] && cd "$1" || exit
+  echo ""
+  echo "---------------------------------------------"
+  echo "Syncing $(pwd)"
+  echo "---------------------------------------------"
+  cur=$(git branch --show-current)
+  needStash="$(git status -s)"
+  [ -n "${needStash}" ] && git stash
+  git checkout "$(git_default_branch)"
+  git fetch origin --prune
+  git fetch "$(git_remote)" --prune
+  git pull "$(git_remote)" "$(git_default_branch)"
+  git checkout "${cur}"
+  [ -n "${needStash}" ] && git stash pop
+  # git push origin $(git_default_branch)
+}
+
 
 grebase() {
   BR="$1"

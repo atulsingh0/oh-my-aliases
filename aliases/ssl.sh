@@ -44,17 +44,21 @@ selfcert() {
 }
 
 chk_tls() {
-  if ! echo $1 | grep -q ":"; then
+  if [[ $2 -le 0 ]]; then
     echo "using port 443"
     port=443
+  else 
+    port=$2
   fi
   nmap --script ssl-enum-ciphers -p $port "$1"
 }
 
 get_tls() {
-  if ! echo $1 | grep -q ":"; then
+  if [[ $2 -le 0 ]]; then
     echo "using port 443"
     port=443
+  else 
+    port=$2
   fi
-  openssl s_client -connect "$1:$port"
+  openssl s_client -servername "$1" -connect "$1:$port"
 }

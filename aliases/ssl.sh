@@ -7,10 +7,10 @@
 alias sshkey='ssh-keygen -b 4096 -t ed25519'
 alias readssh='ssh-keygen -l -f'
 
-# [ hash keychain ] && isKeychain=true || isKeychain=false
+hash keychain && isKeychain=true || isKeychain=false
 
 sshadd() {
-   eval $(keychain --eval $*)
+  eval $(keychain --eval $*)
 }
 
 sshkill() {
@@ -47,7 +47,7 @@ chk_tls() {
   if [[ $2 -le 0 ]]; then
     echo "using port 443"
     port=443
-  else 
+  else
     port=$2
   fi
   nmap --script ssl-enum-ciphers -p $port "$1"
@@ -57,7 +57,7 @@ get_tls() {
   if [[ $2 -le 0 ]]; then
     echo "using port 443"
     port=443
-  else 
+  else
     port=$2
   fi
   openssl s_client -servername "$1" -connect "$1:$port"

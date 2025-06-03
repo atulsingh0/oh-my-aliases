@@ -105,7 +105,7 @@ dirsize() {
 # generate htpassword
 htpass(){
   out=$(mktemp)
-  [ $# -lt 1 ] && echo "Usage: htpass <user>" && return 1
+  [ $# -lt 2 ] && echo "Usage: htpass <user> <pass>" && return 1
   htpasswd -b -c "${out}" "$1" "$2" && cat "${out}" && rm "${out}"
 }
 

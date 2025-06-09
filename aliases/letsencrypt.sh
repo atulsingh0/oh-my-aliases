@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-gcp_lets() {
+gcp_acme_cert() {
 
   if [ $# -lt 2 ]; then
     echo "Usgae: gcp_lets <email> <fqdn> [fqdn|fqdn]"

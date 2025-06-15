@@ -7,6 +7,9 @@ else
   DEBUG=false
 fi
 
+#cd "$(dirname "$0")"
+#cur_path="$(pwd)"
+
 cur_path="$(cd "$(dirname "$0")" && pwd)"
 echo "Loading Aliases from : ${cur_path}"
 echo "Debug: $DEBUG"

@@ -6,6 +6,7 @@
 
 alias sshkey='ssh-keygen -b 4096 -t ed25519'
 alias readssh='ssh-keygen -l -f'
+#alias ssh-keyscan=readssh
 
 hash keychain && isKeychain=true || isKeychain=false
 

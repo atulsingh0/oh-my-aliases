@@ -1,12 +1,12 @@
 #!/usr/bin/env sh
 
-alias li='limactl'
-alias listart='limactl start'
-alias listop='limactl stop'
-alias lishell='limactl shell'
-alias lils='limactl list'
+alias lc='limactl'
+alias lcstart='limactl start'
+alias lcstop='limactl stop'
+alias lcshell='limactl shell'
+alias lcls='limactl list'
 
-lirestart() {
+lcrestart() {
     limactl stop $1 \
     && limactl start $1
 }

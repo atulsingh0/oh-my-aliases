@@ -157,6 +157,12 @@ if enable_plugin asciinema; then
   . "${cur_path}"/aliases/asciinema.sh && log " - done"
 fi
 
+# limactl
+if enable_plugin lima; then
+  log "Sourcing limactl aliases"
+  . "${cur_path}"/aliases/lima.sh && log " - done"
+fi
+
 # Letsencrypt
 log "Sourcing letsencrypt aliases"
 [ -f "${cur_path}"/aliases/letsencrypt.sh ] && . "${cur_path}"/aliases/letsencrypt.sh && log " - done"

@@ -7,6 +7,7 @@ alias lcshell='limactl shell'
 alias lcls='limactl list'
 alias lcssh=lcshell 
 alias lcshow='limactl show-ssh'
+alias lcedit='limactl edit'
 
 lcreboot() {
     [ -z $1 ] && echo "Usage: lcreboot <lima_vm_name>" && return;

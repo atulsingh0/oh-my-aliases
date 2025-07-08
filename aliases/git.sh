@@ -288,14 +288,14 @@ git_default_branch() {
 
 git_get_user() {
     GITHUB_TOKENS="$1"
-    HOST="$2"
+    HOSTN="$2"
 
     # setting up hosts
-    if [ -z "$HOST" ]; then
+    if [ -z "${HOSTN}" ]; then
         API_ENDPOINT="https://api.github.com"
         echo "Hostname defaulted to github"
     else
-        API_ENDPOINT="$HOST/api/v3"
+        API_ENDPOINT="${HOSTN}/api/v3"
     fi
 
     # calling Github API in loop
@@ -311,11 +311,11 @@ git_get_user() {
         if [ $CODE != "200" ]; then 
           echo "Either Token Or Git Host is incorrect"
         else
-          USER=$(awk -F: '/login/ {print $2}' $HOME/response-g.txt | tr -d "," | tr -d '"')
+          USER=$(awk -F: '/login/ {print $2}' "$HOME/response-g.txt" | tr -d "," | tr -d '"')
           MASKED_TOKEN=$(mask $TOKEN)
           echo "$MASKED_TOKEN\t|\t$USER"
         fi
-        rm "$HOME/response-g.txt"
+        rm "$HOME/response-g.txt" >/dev/null 2>&1
     done
 }
 

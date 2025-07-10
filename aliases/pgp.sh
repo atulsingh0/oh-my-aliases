@@ -6,7 +6,7 @@
 
 
 alias gpgl="gpg --list-keys --keyid-format=long"
-alias gpgsl="gpg --list-secret-keys --keyid-format=long"
+alias gpgls="gpg --list-secret-keys --keyid-format=long"
 alias gpgv="gpg --verify"
 alias gpgc="gpg --clearsign"
 alias gpgenc="gpg --encrypt"
@@ -15,7 +15,7 @@ alias gpgimp="gpg --import"
 alias gpgimps="gpg --allow-secret-key-import --import"
 alias gpgdel="gpg --delete-key"
 alias gpgdels="gpg --delete-secret-key"
-alias cgpg='gpg-connect-agent reloadagent /bye'
+alias gpgclear='gpg-connect-agent reloadagent /bye'
 
 alias gpgadd='keychain --agents gpg --eval'
 
@@ -23,15 +23,37 @@ gpgverbose() {
   gpg --export "$1" | gpg --list-packets --verbose
 }
 
-gpgexp() {
+gpgexp(){
+  [ -z "$1" ] && echo "Usage: gpgexp KEYID" && return
   gpg -ao "$1.pub.gpg" --export "$1" 
 }
 
-gpgexps() {
+gpgexps(){
+  [ -z "$1" ] && echo "Usage: gpgexps KEYID" && return
   gpg -ao "$1.secret-key.gpg" --export-secret-key "$1"
 }
 
-gpgrevokecert() {
+gpgshow(){
+  [ -z "$1" ] && echo "Usage: gpgshow KEYID" && return
+  gpg -a --export "$1"
+}
+
+gpgshows(){
+  [ -z "$1" ] && echo "Usage: gpgshows KEYID" && return
+  gpg -a --export-secret-key "$1"
+}
+
+gpgsignature(){
+  [ -z "$1" ] && echo "Usage: gpgsignature KEYID" && return
+  gpg --list-signatures "$1"
+}
+
+gpgfinger(){
+  [ -z "$1" ] && echo "Usage: gpgfinger KEYID" && return
+  gpg --fingerprint "$1"
+}
+
+gpgrevokecert(){
   gpg --output "$1.revoke.asc" --gen-revoke "$1"
 }
 

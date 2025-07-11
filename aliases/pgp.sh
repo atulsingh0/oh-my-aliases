@@ -16,51 +16,60 @@ alias gpgimps="gpg --allow-secret-key-import --import"
 alias gpgdel="gpg --delete-key"
 alias gpgdels="gpg --delete-secret-key"
 alias gpgclear='gpg-connect-agent reloadagent /bye'
-
 alias gpgadd='keychain --agents gpg --eval'
 
 gpgverbose() {
+  [ -z "$1" ] && echo "Usage: $0 KEYID" && return
   gpg --export "$1" | gpg --list-packets --verbose
 }
 
 gpgexp(){
-  [ -z "$1" ] && echo "Usage: gpgexp KEYID" && return
+  [ -z "$1" ] && echo "Usage: $0 KEYID" && return
   gpg -ao "$1.pub.gpg" --export "$1" 
 }
 
 gpgexps(){
-  [ -z "$1" ] && echo "Usage: gpgexps KEYID" && return
+  [ -z "$1" ] && echo "Usage: $0 KEYID" && return
   gpg -ao "$1.secret-key.gpg" --export-secret-key "$1"
 }
 
 gpgshow(){
-  [ -z "$1" ] && echo "Usage: gpgshow KEYID" && return
+  [ -z "$1" ] && echo "Usage: $0 KEYID" && return
   gpg -a --export "$1"
 }
 
 gpgshows(){
-  [ -z "$1" ] && echo "Usage: gpgshows KEYID" && return
+  [ -z "$1" ] && echo "Usage: $0 KEYID" && return
   gpg -a --export-secret-key "$1"
 }
 
 gpgsignature(){
-  [ -z "$1" ] && echo "Usage: gpgsignature KEYID" && return
+  [ -z "$1" ] && echo "Usage: $0 KEYID" && return
   gpg --list-signatures "$1"
 }
 
 gpgfinger(){
-  [ -z "$1" ] && echo "Usage: gpgfinger KEYID" && return
+  [ -z "$1" ] && echo "Usage: $0 KEYID" && return
   gpg --fingerprint "$1"
 }
 
 gpgrevokecert(){
+  [ -z "$1" ] && echo "Usage: $0 KEYID" && return
   gpg --output "$1.revoke.asc" --gen-revoke "$1"
 }
 
 gpgsend() {
+  [ -z "$1" ] && echo "Usage: $0 KEYID" && return
   gpg --keyserver https://keys.openpgp.org --send-keys "$1"
   gpg --keyserver https://keyserver.ubuntu.com --send-key "$1"
   gpg --keyserver https://pgp.mit.edu --send-key "$1"
+}
+
+gpgsearch(){
+  [ -z "$1" ] && echo "Usage: $0 KEYID" && return
+  gpg --keyserver https://keys.openpgp.org --search-key "$1"
+  gpg --keyserver https://keyserver.ubuntu.com --search-key "$1"
+  gpg --keyserver https://pgp.mit.edu --search-key "$1"
 }
 
 

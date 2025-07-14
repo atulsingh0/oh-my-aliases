@@ -98,7 +98,7 @@ alias gtags='git ls-remote -t'
 gco() {
   git fetch origin 
   git checkout "$1"
-  [ $1 == "main" ] && git pull
+  [ $1 = "main" ] && git pull
 }
 
 gsend() {

@@ -64,7 +64,6 @@ alias gp3='git push origin $(git branch --show-current) --force-with-lease'
 alias gb="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative), %(committerdate:short)) [%(authorname)]' --sort=-committerdate"
 alias gbc='git branch --show-current'
 alias gbr="git branch --remote --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative))(%(committerdate:short)) [%(authorname)]' --sort=-committerdate"
-alias gco='git fetch origin && git checkout'
 alias gcma='git commit --amend'
 alias gcmaa='git commit --amend --no-edit'
 alias gcf='git commit --fixup'
@@ -95,6 +94,13 @@ alias groot='cd $(git rev-parse --show-toplevel)'
 alias groote='echo $(git rev-parse --show-toplevel)'
 alias gclone='git clone'
 alias gtags='git ls-remote -t'
+
+gco() {
+  git fetch origin 
+  git checkout "$1"
+  [ $1 == "main" ] && git pull
+}
+
 gsend() {
     git commit -m "${*}" && git push
 }

@@ -36,17 +36,6 @@ log() {
 . "${cur_path}/env.sh"
 
 
-## Loading aliases from a folder
-if [ -n "${CUSTOM_ALIAS_FOLDER}" ]; then
-  echo "CUSTOM_ALIAS_FOLDER is set: $CUSTOM_ALIAS_FOLDER"
-  find "${CUSTOM_ALIAS_FOLDER}" -maxdepth 1 -type f -name "*.sh" 2>/dev/null | while read -r file; do
-    log "Sourcing $(basename "${file}") aliases"
-    # shellcheck source=/dev/null
-    . "${file}" && log " - done "
-  done
-else
-  echo "env variable CUSTOM_ALIAS_FOLDER is not set."
-fi
 ########################################################
 ########################################################
 
@@ -197,6 +186,24 @@ find "${cur_path}"/aliases -maxdepth 1 -type f -name "private*.sh" 2>/dev/null |
   # shellcheck source=/dev/null
   . "${file}" && log " - done "
 done
+
+
+########################################################
+########################################################
+
+## Loading aliases from a folder
+## this will override any aliases set by oh-my-aliases
+if [ -n "${CUSTOM_ALIAS_FOLDER}" ]; then
+  echo "CUSTOM_ALIAS_FOLDER is set: $CUSTOM_ALIAS_FOLDER"
+  find "${CUSTOM_ALIAS_FOLDER}" -maxdepth 1 -type f -name "*.sh" 2>/dev/null | while read -r file; do
+    log "Sourcing $(basename "${file}") aliases"
+    # shellcheck source=/dev/null
+    . "${file}" && log " - done "
+  done
+else
+  echo "env variable CUSTOM_ALIAS_FOLDER is not set."
+fi
+
 
 ########################################################
 ########################################################

@@ -96,8 +96,9 @@ alias gclone='git clone'
 alias gtags='git ls-remote -t'
 
 gco() {
+  gbranch="${@:-1}"
   git fetch origin 
-  git checkout "$1"
+  git checkout "$gbranch"
   [ $1 = "main" ] && git pull
 }
 

@@ -144,7 +144,7 @@ aws_s3_list_empty() {
 ##     done
 ##     IFS="${oldIFS}";
 ##   fi
-list_ec2_instances() {
+aws_list_ec2_instances() {
   local -i rescode=1
   local profile="${1}"
 
@@ -155,6 +155,7 @@ list_ec2_instances() {
 
   if [ ${rescode} -eq 0 ]; then
     export RESULT="${result}"
+    echo $RESULT
   fi
 
   return ${rescode}
@@ -171,7 +172,7 @@ list_ec2_instances() {
 ##   if retrieve-ec2-ip nginx prof1; then
 ##     echo "IP of nginx in prof1: ${RESULT}";
 ##   fi
-retrieve_ec2_ip() {
+aws_get_ec2_ip() {
   local -i rescode=1
   local resource="${1}"
   local profile="${2}"
@@ -184,6 +185,7 @@ retrieve_ec2_ip() {
 
   if [ ${rescode} -eq 0 ]; then
     export RESULT="${result}"
+    echo $RESULT
   else
     export RESULT=""
   fi

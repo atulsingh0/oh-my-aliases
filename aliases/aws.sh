@@ -133,7 +133,7 @@ aws_s3_list_empty() {
 ## - 0 If the EC2 instances could be listed; 1 Otherwise.
 ## - RESULT: A space-separated list with the names of the EC2 instances.
 ## Example:
-##   if list-ec2-instances "prof1"; then
+##   if aws_ec2_list_instances "prof1"; then
 ##     local oldIFS="${IFS}";
 ##     IFS=$' \t\n';
 ##     if [ ${ZSH_VERSION} ]; then
@@ -144,11 +144,11 @@ aws_s3_list_empty() {
 ##     done
 ##     IFS="${oldIFS}";
 ##   fi
-aws_list_ec2_instances() {
+aws_ec2_list_instances() {
   local -i rescode=1
   local profile="${1}"
 
-  [ -z "${profile}" ] && echo "Usage: list-ec2-instances [aws-profile]" && return ${rescode}
+  [ -z "${profile}" ] && echo "Usage: aws_ec2_list_instances [aws-profile]" && return ${rescode}
 
   local result="$(aws --profile ${profile} ec2 describe-instances --query "Reservations[].Instances[]" 2>/dev/null | jq ".[] | select(.State.Name = \"running\") | .Tags[] | select(.Key == \"Name\") | .Value" | tr -d '"')"
   rescode=$?
@@ -161,6 +161,24 @@ aws_list_ec2_instances() {
   return ${rescode}
 }
 
+
+aws_ec2_terminate() {
+  local -i rescode=1
+  local profile="${1}"
+  local instance="${2}"
+
+  [ -z "${profile}" ] && echo "Usage: aws_ec2_terminate [aws-profile] [instance_name]" && return ${rescode}
+  [ -z "${instance}" ] && echo "Usage: aws_ec2_terminate [aws-profile] [instance_name]" && return ${rescode}
+
+  instanceID=$(aws --profile ${profile} ec2 describe-instances --filters "Name=tag:Name,Values=${instance}" "Name=instance-state-name,Values=running" --query 'Reservations[].Instances[].[InstanceId]' --output text)
+  echo "$instanceID"
+  aws --profile ${profile} ec2 terminate-instances --instance-ids ${instanceID}
+  rescode=$?
+
+  return ${rescode}
+}
+
+
 ## Retrieves the IP of given EC2 instance.
 ## Parameters:
 ## - 1: The instance name.
@@ -169,16 +187,16 @@ aws_list_ec2_instances() {
 ##   0: If the IP was found;
 ##   1: Otherwise
 ## Example:
-##   if retrieve-ec2-ip nginx prof1; then
+##   if aws_ec2_get_ip nginx prof1; then
 ##     echo "IP of nginx in prof1: ${RESULT}";
 ##   fi
-aws_get_ec2_ip() {
+aws_ec2_get_ip() {
   local -i rescode=1
   local resource="${1}"
   local profile="${2}"
 
-  [ -z "${resource}" ] && echo "Usage: retrieve-ec2-ip [resource] [aws-profile]" && return ${rescode}
-  [ -z "${profile}" ] && echo "Usage: retrieve-ec2-ip [resource] [aws-profile]" && return ${rescode}
+  [ -z "${resource}" ] && echo "Usage: aws_ec2_get_ip [resource] [aws-profile]" && return ${rescode}
+  [ -z "${profile}" ] && echo "Usage: aws_ec2_get_ip [resource] [aws-profile]" && return ${rescode}
 
   local result="$(aws --profile ${profile} ec2 describe-instances --query "Reservations[].Instances[]" 2>/dev/null | jq ".[] | select(.Tags[].Value | test(\"^${resource}$\"; \"i\")) | .PublicIpAddress" | sort | uniq | grep -v null | tr -d '"' | head -n 1)"
   rescode=$?
@@ -241,14 +259,14 @@ add_route_to_host() {
 ##   if update-ec2-ssh nginx clientX; then
 ##     echo "SSH configuration for nginx (pre) in clientX account updated successfully";
 ##   fi
-update_ec2_ssh() {
+aws_ec2_update_ssh() {
   local -i rescode=1
   local resource="${1}"
   local profile="${2}"
   local ip="${3}"
 
-  [ -z "${resource}" ] && echo "Usage: update-ec2-ssh [resource] [aws-profile]" && return ${rescode}
-  [ -z "${profile}" ] && echo "Usage: update-ec2-ssh [resource] [aws-profile]" && return ${rescode}
+  [ -z "${resource}" ] && echo "Usage: aws_ec2_update_ssh [resource] [aws-profile]" && return ${rescode}
+  [ -z "${profile}" ] && echo "Usage: aws_ec2_update_ssh [resource] [aws-profile]" && return ${rescode}
   for s in jq ssh-keygen ssh-keyscan; do
     which ${s} 2>/dev/null >/dev/null
     rescode=$?
@@ -261,7 +279,7 @@ update_ec2_ssh() {
   local file="${HOME}/.ssh/${profile}-${resource}.config"
   if [ -z "${ip}" ]; then
     echo -n "Retrieving ${resource}'s IP ... "
-    if retrieve-ec2-ip "${resource}" "${profile}"; then
+    if aws_ec2_get_ip "${resource}" "${profile}"; then
       ip="${RESULT}"
       echo "${ip}"
       rescode=0
@@ -330,7 +348,7 @@ generate_ec2_ssh_aliases_for_profile() {
   fi
 
   echo -n "Retrieving the list of EC2 instances for profile ${profile} ... "
-  if list-ec2-instances "${profile}"; then
+  if aws_ec2_list_instances "${profile}"; then
     echo "done"
     local oldIFS="${IFS}"
     IFS=$' \t\n'
@@ -339,7 +357,7 @@ generate_ec2_ssh_aliases_for_profile() {
     fi
     for i in ${RESULT}; do
       echo -n "Retrieving IP for ${i}: "
-      if retrieve-ec2-ip ${i} ${profile}; then
+      if aws_ec2_get_ip ${i} ${profile}; then
         ip="${RESULT}"
         echo "${ip}"
         echo "alias ${profile}-${i}-ip=\"echo -n ${ip} | xclip 2> /dev/null; echo ${ip}\";" >>${file}
@@ -403,7 +421,7 @@ aws_decode_msg() {
   aws sts decode-authorization-message --encoded-message "$1"  | jq -r '.DecodedMessage' | jq
 }
 
-aws_instances_key() {
+aws_ec2_instances_key() {
   aws ec2 describe-instances --query "Reservations[].Instances[].[KeyName,InstanceId]" --output text | grep -v None | column -t
 }
 

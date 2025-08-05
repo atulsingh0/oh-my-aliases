@@ -150,7 +150,7 @@ aws_ec2_list_instances() {
 
   [ -z "${profile}" ] && echo "Usage: aws_ec2_list_instances [aws-profile]" && return ${rescode}
 
-  local result="$(aws --profile ${profile} ec2 describe-instances --query "Reservations[].Instances[]" 2>/dev/null | jq ".[] | select(.State.Name = \"running\") | .Tags[] | select(.Key == \"Name\") | .Value" | tr -d '"')"
+  local result="$(aws --profile ${profile} ec2 describe-instances  --filters "Name=instance-state-name,Values=running" --query "Reservations[].Instances[]" 2>/dev/null | jq ".[] | select(.State.Name = \"running\") | .Tags[] | select(.Key == \"Name\") | .Value" | tr -d '"')"
   rescode=$?
 
   if [ ${rescode} -eq 0 ]; then
@@ -192,11 +192,11 @@ aws_ec2_terminate() {
 ##   fi
 aws_ec2_get_ip() {
   local -i rescode=1
-  local resource="${1}"
-  local profile="${2}"
+  local profile="${1}"
+  local resource="${2}"
 
-  [ -z "${resource}" ] && echo "Usage: aws_ec2_get_ip [resource] [aws-profile]" && return ${rescode}
-  [ -z "${profile}" ] && echo "Usage: aws_ec2_get_ip [resource] [aws-profile]" && return ${rescode}
+  [ -z "${resource}" ] && echo "Usage: aws_ec2_get_ip [aws-profile] [resource]" && return ${rescode}
+  [ -z "${profile}" ] && echo "Usage: aws_ec2_get_ip [aws-profile] [resource]" && return ${rescode}
 
   local result="$(aws --profile ${profile} ec2 describe-instances --query "Reservations[].Instances[]" 2>/dev/null | jq ".[] | select(.Tags[].Value | test(\"^${resource}$\"; \"i\")) | .PublicIpAddress" | sort | uniq | grep -v null | tr -d '"' | head -n 1)"
   rescode=$?

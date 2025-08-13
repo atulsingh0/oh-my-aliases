@@ -32,12 +32,14 @@ sshlist() {
 
 genpubssh() {
   # generate public key from private key
+  [ -z "$1" ] && echo "Uage: genpubssh <PRIVATE_KEY>" && return
   ssh-keygen -f "$1" -N "" -y >"$1".pub
 }
 
 genhtpass() {
   # generate htpassword
-  openssl passwd $1
+  [ -z "$1" ] && echo "Usage: genhtpass <PASSWORD>" && return
+  openssl passwd "$1"
 }
 
 alias readcert='openssl x509 -noout -text -in'
@@ -45,6 +47,7 @@ alias readcertdata='openssl x509 -noout -text'
 
 selfcert() {
   # generate self-signed certificate
+  [ -z "$1" ] && echo "Usage: selfcert <CERT_NAME>" && return
   openssl req -newkey rsa:4096 -x509 -sha256 -nodes -keyout "$1".key.pem -days 365 -out "$1".pem
 }
 

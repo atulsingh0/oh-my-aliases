@@ -23,7 +23,7 @@ sshkill() {
 }
 
 sshclear() {
-  ssh -D
+  ssh-add -D
 }
 
 sshlist() {

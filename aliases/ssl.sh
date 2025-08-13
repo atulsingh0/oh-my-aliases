@@ -11,7 +11,11 @@ alias ssh-fingerprint=readssh
 hash keychain && isKeychain=true || isKeychain=false
 
 sshadd() {
-  eval $(keychain --eval $*)
+  [ -f "$HOME/.ssh/$1" ] && ssh-add "$HOME/.ssh/$1" || ssh-add "$1"
+}
+
+sshdel() {
+  [ -f "$HOME/.ssh/$1" ] && ssh-add -d "$HOME/.ssh/$1" || ssh-add -d "$1"
 }
 
 sshkill() {
@@ -19,11 +23,11 @@ sshkill() {
 }
 
 sshclear() {
-  keychain --clear
+  ssh -D
 }
 
 sshlist() {
-  keychain --list
+  ssh-add -l
 }
 
 genpubssh() {

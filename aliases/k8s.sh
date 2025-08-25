@@ -56,6 +56,10 @@ alias kmem='kubectl get po -o custom-columns="Name:metadata.name,Memory-limit:sp
 
 alias kscale='kubectl scale --replicas='
 
+kexps() {
+  kubectl get -o json secret/$1 -o jsonpath='{.data}' | jq 'map_values(@base64d)'
+}
+
 kscaleup() {
   kubectl scale --replicas=1 "$@"
 }

@@ -32,7 +32,7 @@ alias kpl='kubectl get pods -l'
 alias kdep='kubectl get deployments'
 alias ksvc='kubectl get services'
 alias kingress='kubectl get ingress'
-alias ksecrets='kubectl get secrets'
+alias ksec='kubectl get secrets'
 alias kcm='kubectl get cm'
 alias kds='kubectl get ds'
 alias ksvcl='kubectl get services | grep "Load"'
@@ -55,10 +55,6 @@ alias kmem='kubectl get po -o custom-columns="Name:metadata.name,Memory-limit:sp
 
 
 alias kscale='kubectl scale --replicas='
-
-kexps() {
-  kubectl get -o json secret/$1 -o jsonpath='{.data}' | jq 'map_values(@base64d)'
-}
 
 kscaleup() {
   kubectl scale --replicas=1 "$@"
@@ -112,6 +108,11 @@ kdebugshell() {
   kubectl config use-context "$1"
 }
 
+ksetns(){
+  echo "Setting Namespace $1"
+  kubectl config set-context --current --namespace="$1"
+}
+
  kenv() {
   #kubectl get pod/$1 -o json | jq '.spec.containers[].name + " " + .spec.containers[].env[].name' | column -t
   [ -z $1 ] && echo "Provide the Pod Name" && return
@@ -159,8 +160,10 @@ kdelps() {
 }
 
  kgsecret() {
-   [ -z $2 ] && echo "Provide Secret Key" && return
-   kubectl get secret "$1" -o "jsonpath={.data['${2/./\\.}']}" | base64 -d
+   [ -z $1 ] && echo "Usage: kgsecret <secret_name>" && return
+   #kubectl get secret "$1" -o "jsonpath={.data['${2/./\\.}']}" | base64 -d
+   kubectl get secret "$1" -o jsonpath='{.data}' | jq 'map_values(@base64d)'
+
 }
 
  kexec() {

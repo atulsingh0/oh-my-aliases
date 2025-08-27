@@ -90,7 +90,7 @@ ddebug() {
   if [ -z $netw ]; then
     echo "Usage: ddebug <docker_network_name>"
   else
-    docker run --rm -i --tty --network "$netw" nicolaka/netshoot
+    docker run --rm -i --tty --network "$netw" datagenx/netshoot
   fi
 }
 

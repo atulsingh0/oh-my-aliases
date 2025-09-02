@@ -72,8 +72,12 @@ gpgsearch(){
   gpg --keyserver https://pgp.mit.edu --search-key "$1"
 }
 
+gpgrenew() {
+  [ $# -lt 2 ] && echo "Usage: gpgrenew <key-id> <days>" && return
+  gpg --quick-set-expire $(gpg --list-secret-keys $1 | grep $1) $2 '*'
+}
 
-get_gpg_algorithm_name() {
+gpg_get_algorithm_name() {
    local n="${1}"
    local xml=$(curl -X GET -o - -L -s "https://www.iana.org/assignments/openpgp/openpgp.xml")
    if [ "$?" != "0" ]; then

@@ -6,9 +6,11 @@
 
 alias padd='pass insert -m'
 alias prm='pass rm'
+alias pmv='pass mv'
 alias pcp='pass -c'
 alias pgen='pass generate dummy/pass'
-
+alias pp1='pass git pull'
+alias pp2='pass git push -u --all'
 
 # https://github.com/roddhjav/pass-update
 alias pupdate='pass update -m'
@@ -17,10 +19,6 @@ alias pupdate='pass update -m'
 alias pfadd='pass file add'
 alias pfsave='pass file save'
 
+alias pfind='pass find'
 
-pgrep() {
-  [ -n "${PASSWORD_STORE_DIR}" ] && PASS_DIR="${PASSWORD_STORE_DIR}" \
-    || PASS_DIR="$HOME/.password-store/"
 
-  tree -P '*'$1'*' "${PASS_DIR}" --prune | grep -v "directories|$PASS_DIR"
-}

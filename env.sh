@@ -7,3 +7,8 @@
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 setopt HIST_IGNORE_SPACE
 
+SEDOPTION="-i "
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  SEDOPTION="-i ''"
+fi
+

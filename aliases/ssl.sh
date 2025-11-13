@@ -4,7 +4,7 @@
 #        SSL/TLS/Cryptography
 #################################
 
-alias sshkey='ssh-keygen -b 4096 -t ed25519'
+alias gensshkey='ssh-keygen -b 4096 -t ed25519'
 alias readssh='ssh-keygen -l -f'
 alias ssh-fingerprint=readssh
 
@@ -50,6 +50,7 @@ selfcert() {
   [ -z "$1" ] && echo "Usage: selfcert <CERT_NAME>" && return
   openssl req -newkey rsa:4096 -x509 -sha256 -nodes -keyout "$1".key.pem -days 365 -out "$1".pem
 }
+
 
 chk_tls() {
   if [[ $2 -le 0 ]]; then

@@ -198,7 +198,7 @@ aws_ec2_get_ip() {
   [ -z "${resource}" ] && echo "Usage: aws_ec2_get_ip [aws-profile] [resource]" && return ${rescode}
   [ -z "${profile}" ] && echo "Usage: aws_ec2_get_ip [aws-profile] [resource]" && return ${rescode}
 
-  local result="$(aws --profile ${profile} ec2 describe-instances --query "Reservations[].Instances[]" 2>/dev/null | jq ".[] | select(.Tags[].Value | test(\"^${resource}$\"; \"i\")) | .PublicIpAddress" | sort | uniq | grep -v null | tr -d '"' | head -n 1)"
+  local result="$(aws --profile ${profile} ec2 describe-instances --query "Reservations[].Instances[]" 2>/dev/null | jq ".[] | select(.Tags[].Value | test(\"^${resource}$\"; \"i\")) | .PublicIpAddress" | sort | uniq | grep -v null | tr -d '"' )"
   rescode=$?
 
   if [ ${rescode} -eq 0 ]; then

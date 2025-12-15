@@ -69,5 +69,5 @@ get_tls() {
   else
     port=$2
   fi
-  openssl s_client -servername "$1" -connect "$1:$port"
+  openssl s_client -servername "$1" -connect "$1:$port" < /dev/null
 }

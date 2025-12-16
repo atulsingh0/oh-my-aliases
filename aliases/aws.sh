@@ -170,7 +170,7 @@ aws_ec2_terminate() {
   [ -z "${profile}" ] && echo "Usage: aws_ec2_terminate [aws-profile] [instance_name]" && return ${rescode}
   [ -z "${instance}" ] && echo "Usage: aws_ec2_terminate [aws-profile] [instance_name]" && return ${rescode}
 
-  instanceID=$(aws --profile ${profile} ec2 describe-instances --filters "Name=tag:Name,Values=${instance}" "Name=instance-state-name,Values=running" --query 'Reservations[].Instances[].[InstanceId]' --output text)
+  instanceID=$(aws --profile ${profile} ec2 describe-instances --filters "Name=tag:Name,Values=${instance}" "Name=instance-state-name,Values=running" --query 'Reservations[].Instances[].[InstanceId]' --output text | tr "\n" ' ' | sed "s/ $//")
   echo "$instanceID"
   aws --profile ${profile} ec2 terminate-instances --instance-ids ${instanceID}
   rescode=$?

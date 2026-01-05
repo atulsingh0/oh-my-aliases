@@ -259,6 +259,12 @@ fix_gitignore(){
   git commit -m ".fixing gitignore"
 }
 
+add_gitignore(){
+  for data in $*; do 
+    echo $data >> .gitignore 
+  done
+}
+
 gfilec() {
   if [ ${#1} -eq 0 ]; then
 		echo "Provide a file name for commit history"

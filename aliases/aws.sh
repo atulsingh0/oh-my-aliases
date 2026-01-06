@@ -150,15 +150,20 @@ aws_ec2_list_instances() {
 
   [ -z "${profile}" ] && echo "Usage: aws_ec2_list_instances [aws-profile]" && return ${rescode}
 
-  local result="$(aws --profile ${profile} ec2 describe-instances  --filters "Name=instance-state-name,Values=running" --query "Reservations[].Instances[]" 2>/dev/null | jq ".[] | select(.State.Name = \"running\") | .Tags[] | select(.Key == \"Name\") | .Value" | tr -d '"')"
-  rescode=$?
+  # local result="$(aws --profile ${profile} ec2 describe-instances  --filters "Name=instance-state-name,Values=running" --query "Reservations[].Instances[]" 2>/dev/null | jq ".[] | select(.State.Name = \"running\") | .Tags[] | select(.Key == \"Name\") | .Value" | tr -d '"')"
+  # rescode=$?
 
-  if [ ${rescode} -eq 0 ]; then
-    export RESULT="${result}"
-    echo $RESULT
-  fi
+  # if [ ${rescode} -eq 0 ]; then
+  #   export RESULT="${result}"
+  #   echo $RESULT
+  # fi
 
-  return ${rescode}
+  aws --profile ${profile} ec2 describe-instances \
+  --filters "Name=instance-state-name,Values=running" \
+  --query 'Reservations[].Instances[].[InstanceId,Tags[?Key==`Name`].Value|[0],PublicIpAddress,PrivateIpAddress]' \
+  --output table
+
+  return $?
 }
 
 
@@ -170,9 +175,7 @@ aws_ec2_terminate() {
   [ -z "${profile}" ] && echo "Usage: aws_ec2_terminate [aws-profile] [instance_name]" && return ${rescode}
   [ -z "${instance}" ] && echo "Usage: aws_ec2_terminate [aws-profile] [instance_name]" && return ${rescode}
 
-  instanceID=$(aws --profile ${profile} ec2 describe-instances --filters "Name=tag:Name,Values=${instance}" "Name=instance-state-name,Values=running" --query 'Reservations[].Instances[].[InstanceId]' --output text | tr "\n" ' ' | sed "s/ $//")
-  echo "$instanceID"
-  aws --profile ${profile} ec2 terminate-instances --instance-ids ${instanceID}
+  aws --profile ${profile} ec2 describe-instances --filters "Name=tag:Name,Values=${instance}" "Name=instance-state-name,Values=running" --query 'Reservations[].Instances[].[InstanceId]' --output text | xargs -r aws --profile ${profile} ec2 terminate-instances --instance-ids 
   rescode=$?
 
   return ${rescode}

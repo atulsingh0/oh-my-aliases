@@ -148,7 +148,7 @@ aws_ec2_list_instances() {
   local -i rescode=1
   local profile="${1}"
 
-  [ -z "${profile}" ] && echo "Usage: aws_ec2_list_instances [aws-profile]" && return ${rescode}
+  [ -z "${profile}" ] && echo "Usage: aws_ec2_list_instances <aws-profile>" && return ${rescode}
 
   # local result="$(aws --profile ${profile} ec2 describe-instances  --filters "Name=instance-state-name,Values=running" --query "Reservations[].Instances[]" 2>/dev/null | jq ".[] | select(.State.Name = \"running\") | .Tags[] | select(.Key == \"Name\") | .Value" | tr -d '"')"
   # rescode=$?
@@ -168,17 +168,32 @@ aws_ec2_list_instances() {
 
 
 aws_ec2_terminate() {
-  local -i rescode=1
   local profile="${1}"
-  local instance="${2}"
+  local instanceName="${2}"
 
-  [ -z "${profile}" ] && echo "Usage: aws_ec2_terminate [aws-profile] [instance_name]" && return ${rescode}
-  [ -z "${instance}" ] && echo "Usage: aws_ec2_terminate [aws-profile] [instance_name]" && return ${rescode}
+  [ -z "${profile}" ] && echo "Usage: aws_ec2_terminate <aws-profile> <instance_name>" && return ${rescode}
+  [ -z "${instanceName}" ] && echo "Usage: aws_ec2_terminate <aws-profile> <instance_name>" && return ${rescode}
 
-  aws --profile ${profile} ec2 describe-instances --filters "Name=tag:Name,Values=${instance}" "Name=instance-state-name,Values=running" --query 'Reservations[].Instances[].[InstanceId]' --output text | xargs -r aws --profile ${profile} ec2 terminate-instances --instance-ids 
-  rescode=$?
+  aws --profile ${profile} ec2 describe-instances \
+  --filters "Name=tag:Name,Values=${instanceName}" "Name=instance-state-name,Values=running" \
+  --query 'Reservations[].Instances[].[InstanceId]' --output text \
+  | xargs -r aws --profile ${profile} ec2 terminate-instances --instance-ids 
+  #rescode=$?
 
-  return ${rescode}
+  #return ${rescode}
+}
+
+aws_ec2_terminate_ids() {
+  local profile="${1}"
+  local instanceIds="${*:2}"
+
+  [ -z "${profile}" ] && echo "Usage: aws_ec2_terminate <aws-profile> <instance_ids>" && return ${rescode}
+  [ -z "${instanceIds}" ] && echo "Usage: aws_ec2_terminate <aws-profile> <instance_ids>" && return ${rescode}
+
+  aws --profile ${profile} ec2 terminate-instances --instance-ids ${instanceIds}
+  #rescode=$?
+
+  #return ${rescode}
 }
 
 
@@ -198,8 +213,8 @@ aws_ec2_get_ip() {
   local profile="${1}"
   local resource="${2}"
 
-  [ -z "${resource}" ] && echo "Usage: aws_ec2_get_ip [aws-profile] [resource]" && return ${rescode}
-  [ -z "${profile}" ] && echo "Usage: aws_ec2_get_ip [aws-profile] [resource]" && return ${rescode}
+  [ -z "${resource}" ] && echo "Usage: aws_ec2_get_ip <aws-profile> [resource]" && return ${rescode}
+  [ -z "${profile}" ] && echo "Usage: aws_ec2_get_ip <aws-profile> [resource]" && return ${rescode}
 
   local result="$(aws --profile ${profile} ec2 describe-instances --query "Reservations[].Instances[]" 2>/dev/null | jq ".[] | select(.Tags[].Value | test(\"^${resource}$\"; \"i\")) | .PublicIpAddress" | sort | uniq | grep -v null | tr -d '"' )"
   rescode=$?
@@ -268,8 +283,8 @@ aws_ec2_update_ssh() {
   local profile="${2}"
   local ip="${3}"
 
-  [ -z "${resource}" ] && echo "Usage: aws_ec2_update_ssh [resource] [aws-profile]" && return ${rescode}
-  [ -z "${profile}" ] && echo "Usage: aws_ec2_update_ssh [resource] [aws-profile]" && return ${rescode}
+  [ -z "${resource}" ] && echo "Usage: aws_ec2_update_ssh [resource] <aws-profile>" && return ${rescode}
+  [ -z "${profile}" ] && echo "Usage: aws_ec2_update_ssh [resource] <aws-profile>" && return ${rescode}
   for s in jq ssh-keygen ssh-keyscan; do
     which ${s} 2>/dev/null >/dev/null
     rescode=$?
@@ -339,13 +354,13 @@ generate_ec2_ssh_aliases_for_profile() {
   local i
   local ip
 
-  [ -z "${profile}" ] && echo "Usage: generate-ec2-ssh-aliases-for-profile [aws-profile] [file]" && return ${rescode}
-  [ -z "${file}" ] && echo "Usage: generate-ec2-ssh-aliases-for-profile [aws-profile] [file]" && return ${rescode}
+  [ -z "${profile}" ] && echo "Usage: generate-ec2-ssh-aliases-for-profile <aws-profile> [file]" && return ${rescode}
+  [ -z "${file}" ] && echo "Usage: generate-ec2-ssh-aliases-for-profile <aws-profile> [file]" && return ${rescode}
   if [ ! -e "${file}" ]; then
     echo -n >"${file}"
     if [ $? -ne 0 ]; then
       echo "Error: Cannot write to ${file}"
-      echo "Usage: generate-ec2-ssh-aliases-for-profile [aws-profile] [file]"
+      echo "Usage: generate-ec2-ssh-aliases-for-profile <aws-profile> [file]"
       return ${rescode}
     fi
   fi

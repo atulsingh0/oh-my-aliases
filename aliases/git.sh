@@ -346,7 +346,7 @@ git_get_team_members() {
 
 # shellcheck disable=SC2120
 gsync() {
-  [ -n "$1" ] && cd "$1" || exit
+  [ -n "$1" ] && cd "$1" || return
   echo ""
   echo "---------------------------------------------"
   echo "Syncing $(pwd)"

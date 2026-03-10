@@ -152,6 +152,12 @@ if enable_plugin lima; then
   . "${cur_path}"/aliases/lima.sh && log " - done"
 fi
 
+# tmux
+if enable_plugin tmux; then
+  log "Sourcing tmux aliases"
+  . "${cur_path}"/aliases/tmux.sh && log " - done"
+fi
+
 # Letsencrypt
 log "Sourcing letsencrypt aliases"
 [ -f "${cur_path}"/aliases/letsencrypt.sh ] && . "${cur_path}"/aliases/letsencrypt.sh && log " - done"

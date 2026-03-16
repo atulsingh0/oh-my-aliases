@@ -70,6 +70,11 @@ alias -g S='| sort'
 alias -g T='tail -f'
 alias -g W='| wc -l'
 
+# please as root
+please() {
+    sudo $(fc -ln -1)
+}
+
 # take 
 take() {
   mkdir "$1" && cd "$1" || return

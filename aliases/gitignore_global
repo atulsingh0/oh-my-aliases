@@ -37,6 +37,12 @@ ehthumbs.db
 Thumbs.db
 
 
+# LLMs
+#####################
+**/.claude/settings.local.json
+**/CLAUDE.local.md
+
+
 # Private
 ######################
 **/aliases/private_*.sh
